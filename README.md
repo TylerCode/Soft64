@@ -5,8 +5,7 @@ Project Website: http://bryanperris.github.io/Soft64-Bryan/
 This is my pet project, a hobby to learn about emulation at the hardware level.  Progress may have delays and will be slow, but that has to do with my limited time, and the amount of things I have to teach myself.  With the lack of documentation, I like to determine the best solution rather than hacking the code "to make things work."  I am willing for any feedback on docs and code snippets that show accurate details on how the hardware works.  I hope, no matter the time it takes, to produce clean and friendly code to makeup for the messy N64 emulation past.  I think its time that N64 emulation gets respect as some of the top emulators active in development today, and thus I chose C# to bring out the logcal concepts behind N64 rather than hacking away at platform specific code.  I truly believe N64 can run at 100% performence (minimized glithces and bugs) with the right structure and technique and have a friendly source.  
   
 Also this is the only emualator I want to write, since its my favorite system of all.  I like to support  
-the normal HLE plugins, and write my own C# versions of basic HLE stuff, and spend time to research and understand the  
-the depth about the RDP graphics subsystem, and make docs on it.  I hope to use a software rasterizer first to directly simulate
+the normal HLE plugins, and write my own C# versions of basic HLE stuff, and spend time to research and understand the depth about the RDP graphics subsystem, and make docs on it.  I hope to use a software rasterizer first to directly simulate
 each RDP function.  Then convert that all to modern graphics system with exensive all avaiable GPU and computing APIs.  
   
 # Disclaimer #
