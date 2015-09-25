@@ -171,19 +171,13 @@ namespace Soft64.MipsR4300
             /* If we branched, execute the delay slot */
             if (MipsState.BranchEnabled)
             {
-                if (MipsState.BranchDelaySlotOffset >= 3)
-                    MipsState.BranchDelaySlotOffset = 0;
-
                 if (!MipsState.NullifyEnabled)
                 {
                     MipsState.BranchPC = MipsState.BranchDelaySlot;
                     MipsInstruction bsdInst = FetchInstruction(MipsState.BranchDelaySlot);
                     TraceOp(MipsState.BranchDelaySlot, bsdInst);
                     CallInstruction(bsdInst);
-                    MipsState.BranchDelaySlotOffset++;
-
-                   // if (MipsState.BranchDelaySlotOffset >= 3)
-                        MipsState.BranchEnabled = false;
+                    MipsState.BranchEnabled = false;
                 }
                 else
                 {
