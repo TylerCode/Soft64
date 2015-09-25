@@ -27,6 +27,7 @@ namespace Soft64Binding.WPF
             for (Int32 i = 0; i < 32; i++)
             {
                 GPRegisters[i].RegValue = m_State.GPRRegs[i];
+                FPRegisters[i].RegValue = m_State.Fpr.ReadFPRDouble(i);
             }
         }
 
@@ -39,6 +40,7 @@ namespace Soft64Binding.WPF
             for (Int32 i = 0; i < 32; i++)
             {
                 m_State.GPRRegs[i] = GPRegisters[i].RegValue;
+                m_State.Fpr.WriteFPRDouble(i, FPRegisters[i].RegValue);
             }
         }
 
@@ -115,6 +117,51 @@ namespace Soft64Binding.WPF
         public RegisterValue[] GPRegisters
         {
             get { return (RegisterValue[])GetValue(GPRegistersProperty); }
+        }
+
+        public static readonly DependencyPropertyKey FPRegistersPropertyKey =
+        DependencyProperty.RegisterReadOnly("FPRegisters", typeof(RegisterFloatValue[]), typeof(EmulatorEngineViewModel),
+        new PropertyMetadata(new RegisterFloatValue[32] {
+                new RegisterFloatValue(),
+                new RegisterFloatValue(),
+                new RegisterFloatValue(),
+                new RegisterFloatValue(),
+                new RegisterFloatValue(),
+                new RegisterFloatValue(),
+                new RegisterFloatValue(),
+                new RegisterFloatValue(),
+                new RegisterFloatValue(),
+                new RegisterFloatValue(),
+                new RegisterFloatValue(),
+                new RegisterFloatValue(),
+                new RegisterFloatValue(),
+                new RegisterFloatValue(),
+                new RegisterFloatValue(),
+                new RegisterFloatValue(),
+                new RegisterFloatValue(),
+                new RegisterFloatValue(),
+                new RegisterFloatValue(),
+                new RegisterFloatValue(),
+                new RegisterFloatValue(),
+                new RegisterFloatValue(),
+                new RegisterFloatValue(),
+                new RegisterFloatValue(),
+                new RegisterFloatValue(),
+                new RegisterFloatValue(),
+                new RegisterFloatValue(),
+                new RegisterFloatValue(),
+                new RegisterFloatValue(),
+                new RegisterFloatValue(),
+                new RegisterFloatValue(),
+                new RegisterFloatValue(),
+         }));
+
+        public static readonly DependencyProperty FPRegistersProperty =
+            FPRegistersPropertyKey.DependencyProperty;
+
+        public RegisterFloatValue[] FPRegisters
+        {
+            get { return (RegisterFloatValue[])GetValue(FPRegistersProperty); }
         }
     }
 }

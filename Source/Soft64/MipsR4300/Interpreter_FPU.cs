@@ -136,7 +136,7 @@ namespace Soft64.MipsR4300
                 return;
             }
 
-            Int64 address = ComputeAddress64(inst);
+            Int64 address = ComputeAddress(inst);
             UInt64 value = DataManipulator.LoadDoublewordUnsigned(address);
 
             if (MipsState.CP0Regs.StatusReg.AdditionalFPR)
@@ -165,7 +165,7 @@ namespace Soft64.MipsR4300
                 return;
             }
 
-            Int64 address = ComputeAddress64(inst);
+            Int64 address = ComputeAddress(inst);
             UInt32 value = DataManipulator.LoadWordUnsigned(address);
 
             if (MipsState.CP0Regs.StatusReg.AdditionalFPR)
@@ -232,7 +232,7 @@ namespace Soft64.MipsR4300
                 return;
             }
 
-            Int64 address = ComputeAddress64(inst);
+            Int64 address = ComputeAddress(inst);
             UInt64 dword = 0;
 
             if (MipsState.CP0Regs.StatusReg.AdditionalFPR)
@@ -262,7 +262,7 @@ namespace Soft64.MipsR4300
                 return;
             }
 
-            Int64 address = ComputeAddress64(inst);
+            Int64 address = ComputeAddress(inst);
             UInt32 word = 0;
 
             if (MipsState.CP0Regs.StatusReg.AdditionalFPR)

@@ -61,7 +61,7 @@ namespace Soft64.MipsR4300
         [OpcodeHook("LW")]
         private void Inst_Lw(MipsInstruction inst)
         {
-            Int64 address = ComputeAddress64(inst);
+            Int64 address = ComputeAddress(inst);
 
             if ((address & 3) != 0)
             {
@@ -70,7 +70,7 @@ namespace Soft64.MipsR4300
             else
             {
                 if (!MipsState.Operating64BitMode)
-                    MipsState.WriteGPR32Unsigned(inst.Rt, DataManipulator.LoadWordUnsigned(address));
+                    MipsState.WriteGPR32Signed(inst.Rt, DataManipulator.LoadWordSigned(address));
                 else
                     MipsState.WriteGPRSigned(inst.Rt, DataManipulator.LoadWordSigned(address));
             }
@@ -85,7 +85,7 @@ namespace Soft64.MipsR4300
                 return;
             }
 
-            Int64 address = ComputeAddress64(inst);
+            Int64 address = ComputeAddress(inst);
 
             if ((address & 3) != 0)
             {
@@ -106,7 +106,7 @@ namespace Soft64.MipsR4300
             }
             else
             {
-                Int64 address = ComputeAddress64(inst);
+                Int64 address = ComputeAddress(inst);
 
                 if ((address & 3) != 0)
                 {
@@ -126,11 +126,11 @@ namespace Soft64.MipsR4300
             {
                 if (!MipsState.Operating64BitMode)
                 {
-                    MipsState.WriteGPR32Signed(inst.Rt, DataManipulator.LoadByteSigned(ComputeAddress32(inst)));
+                    MipsState.WriteGPR32Signed(inst.Rt, DataManipulator.LoadByteSigned(ComputeAddress(inst)));
                 }
                 else
                 {
-                    MipsState.WriteGPRSigned(inst.Rt, DataManipulator.LoadByteSigned(ComputeAddress64(inst)));
+                    MipsState.WriteGPRSigned(inst.Rt, DataManipulator.LoadByteSigned(ComputeAddress(inst)));
                 }
             }
             catch (TLBException tlbe)
@@ -152,11 +152,11 @@ namespace Soft64.MipsR4300
             {
                 if (!MipsState.Operating64BitMode)
                 {
-                    MipsState.WriteGPR32Signed(inst.Rt, DataManipulator.LoadByteUnsigned(ComputeAddress32(inst)));
+                    MipsState.WriteGPR32Signed(inst.Rt, DataManipulator.LoadByteUnsigned(ComputeAddress(inst)));
                 }
                 else
                 {
-                    MipsState.WriteGPRSigned(inst.Rt, DataManipulator.LoadByteUnsigned(ComputeAddress64(inst)));
+                    MipsState.WriteGPRSigned(inst.Rt, DataManipulator.LoadByteUnsigned(ComputeAddress(inst)));
                 }
             }
             catch (TLBException tlbe)
@@ -177,7 +177,7 @@ namespace Soft64.MipsR4300
             if (MipsState.Operating64BitMode)
             {
                 /* Thanks to PJ64 Implementation */
-                Int64 address = ComputeAddress64(inst);
+                Int64 address = ComputeAddress(inst);
                 Int32 offset = (Int32)(address & 7);
                 UInt64 value = DataManipulator.LoadDoublewordUnsigned(address & ~7);
                 MipsState.WriteGPRUnsigned(inst.Rt, MipsState.ReadGPRUnsigned(inst.Rt) & LDLMask[offset]);
@@ -195,7 +195,7 @@ namespace Soft64.MipsR4300
             if (MipsState.Operating64BitMode)
             {
                 /* Thanks to PJ64 Implementation */
-                Int64 address = ComputeAddress64(inst);
+                Int64 address = ComputeAddress(inst);
                 Int32 offset = (Int32)(address & 7);
                 UInt64 value = DataManipulator.LoadDoublewordUnsigned(address & ~7);
                 MipsState.WriteGPRUnsigned(inst.Rt, MipsState.ReadGPRUnsigned(inst.Rt) & LDRMask[offset]);
@@ -212,7 +212,7 @@ namespace Soft64.MipsR4300
         {
             try
             {
-                Int64 address = ComputeAddress64(inst);
+                Int64 address = ComputeAddress(inst);
 
                 if ((address & 3) != 0)
                 {
@@ -246,7 +246,7 @@ namespace Soft64.MipsR4300
         {
             try
             {
-                Int64 address = ComputeAddress64(inst);
+                Int64 address = ComputeAddress(inst);
 
                 if ((address & 1) != 0)
                 {
@@ -309,7 +309,7 @@ namespace Soft64.MipsR4300
         private void Inst_Lwl(MipsInstruction inst)
         {
             /* Thanks to PJ64 implementation */
-            Int64 address = ComputeAddress64(inst);
+            Int64 address = ComputeAddress(inst);
             Int32 offset = (Int32)(address & 3);
             UInt32 value = DataManipulator.LoadWordUnsigned(address & ~3);
             value &= SWLMask[offset];
@@ -321,7 +321,7 @@ namespace Soft64.MipsR4300
         private void Inst_Lwr(MipsInstruction inst)
         {
             /* Thanks to PJ64 implementation */
-            Int64 address = ComputeAddress64(inst);
+            Int64 address = ComputeAddress(inst);
             Int32 offset = (Int32)(address & 3);
             UInt32 value = DataManipulator.LoadWordUnsigned(address & ~3);
             value &= SWRMask[offset];

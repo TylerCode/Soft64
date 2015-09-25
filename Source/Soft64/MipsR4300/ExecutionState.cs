@@ -144,6 +144,8 @@ namespace Soft64.MipsR4300
 
         public Int64 BranchDelaySlot { get; set; }
 
+        public Int32 BranchDelaySlotOffset { get; set; }
+
         public CoreClock Clock { get; set; }
 
         public Int64 BranchPC

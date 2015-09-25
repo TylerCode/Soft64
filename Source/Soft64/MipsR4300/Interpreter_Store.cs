@@ -62,7 +62,7 @@ namespace Soft64.MipsR4300
         [OpcodeHook("SW")]
         private void Inst_Sw(MipsInstruction inst)
         {
-            Int64 address = ComputeAddress64(inst);
+            Int64 address = ComputeAddress(inst);
 
             if ((address & 3) != 0)
             {
@@ -96,7 +96,7 @@ namespace Soft64.MipsR4300
         [OpcodeHook("SB")]
         private void Inst_Sb(MipsInstruction inst)
         {
-            Int64 address = ComputeAddress64(inst);
+            Int64 address = ComputeAddress(inst);
             DataManipulator.Store(address, MipsState.ReadGPRUnsigned(inst.Rt) & 0xFF);
         }
 
@@ -122,7 +122,7 @@ namespace Soft64.MipsR4300
             if (MipsState.Operating64BitMode)
             {
                 /* Thanks to PJ64 implementation */
-                Int64 address = ComputeAddress64(inst);
+                Int64 address = ComputeAddress(inst);
                 Int32 offset = (Int32)(address & 7);
                 UInt64 value = DataManipulator.LoadDoublewordUnsigned(address & ~7);
                 value &= SDLMask[offset];
@@ -141,7 +141,7 @@ namespace Soft64.MipsR4300
             if (MipsState.Operating64BitMode)
             {
                 /* Thanks to PJ64 implementation */
-                Int64 address = ComputeAddress64(inst);
+                Int64 address = ComputeAddress(inst);
                 Int32 offset = (Int32)(address & 7);
                 UInt64 value = DataManipulator.LoadDoublewordUnsigned(address & ~7);
                 value &= SDRMask[offset];
@@ -157,7 +157,7 @@ namespace Soft64.MipsR4300
         [OpcodeHook("SH")]
         private void Inst_Sh(MipsInstruction inst)
         {
-            Int64 address = ComputeAddress64(inst);
+            Int64 address = ComputeAddress(inst);
 
             if ((address & 1) != 0)
             {
@@ -172,7 +172,7 @@ namespace Soft64.MipsR4300
         private void Inst_Swl(MipsInstruction inst)
         {
             /* Thanks to PJ64 */
-            Int64 address = ComputeAddress64(inst);
+            Int64 address = ComputeAddress(inst);
             Int32 offset = (Int32)(address & 3);
             UInt32 value = DataManipulator.LoadWordUnsigned(address & ~3);
             value &= SWLMask[offset];
@@ -184,7 +184,7 @@ namespace Soft64.MipsR4300
         private void Inst_Swr(MipsInstruction inst)
         {
             /* Thanks to PJ64 */
-            Int64 address = ComputeAddress64(inst);
+            Int64 address = ComputeAddress(inst);
             Int32 offset = (Int32)(address & 3);
             UInt32 value = DataManipulator.LoadWordUnsigned(address & ~3);
             value &= SWRMask[offset];

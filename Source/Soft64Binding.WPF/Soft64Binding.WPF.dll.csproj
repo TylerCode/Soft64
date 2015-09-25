@@ -79,6 +79,7 @@
     <Compile Include="RcpViewModel.cs" />
     <Compile Include="MachineComponentViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RegisterFloatValue.cs" />
     <Compile Include="RegisterValue.cs" />
     <Compile Include="TlbCacheViewModel.cs" />
   </ItemGroup>

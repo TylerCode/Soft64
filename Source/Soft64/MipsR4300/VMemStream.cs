@@ -103,7 +103,7 @@ namespace Soft64.MipsR4300
 
             set
             {
-                m_Position = value;
+                m_Position = MapAddress(value);
             }
         }
 
@@ -133,8 +133,6 @@ namespace Soft64.MipsR4300
 
         public override int Read(byte[] buffer, int offset, int count)
         {
-            base.Position = MapAddress(m_Position);
-
             try
             {
                 return ReadOperationHandler(buffer, offset, count);
@@ -153,8 +151,6 @@ namespace Soft64.MipsR4300
 
         public override void Write(byte[] buffer, int offset, int count)
         {
-            base.Position = MapAddress(m_Position);
-
             try
             {
                 WriteOperationHandler(buffer, offset, count);
@@ -177,7 +173,7 @@ namespace Soft64.MipsR4300
             }
             else
             {
-                return (UInt32)address;
+                return (Int64)(UInt32)address;
             }
         }
 

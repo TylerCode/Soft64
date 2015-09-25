@@ -171,13 +171,19 @@ namespace Soft64.MipsR4300
             /* If we branched, execute the delay slot */
             if (MipsState.BranchEnabled)
             {
+                if (MipsState.BranchDelaySlotOffset >= 3)
+                    MipsState.BranchDelaySlotOffset = 0;
+
                 if (!MipsState.NullifyEnabled)
                 {
                     MipsState.BranchPC = MipsState.BranchDelaySlot;
                     MipsInstruction bsdInst = FetchInstruction(MipsState.BranchDelaySlot);
                     TraceOp(MipsState.BranchDelaySlot, bsdInst);
                     CallInstruction(bsdInst);
-                    MipsState.BranchEnabled = false;
+                    MipsState.BranchDelaySlotOffset++;
+
+                   // if (MipsState.BranchDelaySlotOffset >= 3)
+                        MipsState.BranchEnabled = false;
                 }
                 else
                 {
@@ -275,7 +281,7 @@ namespace Soft64.MipsR4300
         {
             MipsState.BranchEnabled = true;
             MipsState.BranchDelaySlot = MipsState.PC + 4;
-            MipsState.BranchTarget = condition ? BranchComputeTargetAddress(inst.Address, inst.Immediate): MipsState.PC + 8;
+            MipsState.BranchTarget = condition ? MapAddress(BranchComputeTargetAddress(inst.Address, inst.Immediate)) : MipsState.PC + 8;
         }
 
         protected void DoBranchLikely(Boolean condition, MipsInstruction inst)
@@ -286,17 +292,13 @@ namespace Soft64.MipsR4300
 
         protected void DoJump(Int64 addressTarget)
         {
+
             MipsState.BranchEnabled = true;
             MipsState.BranchDelaySlot = MipsState.PC + 4;
-            MipsState.BranchTarget = addressTarget;
+            MipsState.BranchTarget = MapAddress(addressTarget);
         }
 
-        protected Int64 ComputeAddress32(MipsInstruction inst)
-        {
-            return ((Int32)(Int16)inst.Immediate) + MipsState.ReadGPR32Signed(inst.Rs);
-        }
-
-        protected Int64 ComputeAddress64(MipsInstruction inst)
+        protected Int64 ComputeAddress(MipsInstruction inst)
         {
             return (((Int64)(Int16)inst.Immediate) + MipsState.ReadGPRSigned(inst.Rs));
         }
@@ -304,6 +306,18 @@ namespace Soft64.MipsR4300
         private Boolean CheckCop1Usable()
         {
             return MipsState.CP0Regs.StatusReg.CopUsable1;
+        }
+
+        private Int64 MapAddress(Int64 address)
+        {
+            if (MipsState.Addressing64BitMode)
+            {
+                return address;
+            }
+            else
+            {
+                return (Int64)(UInt32)address;
+            }
         }
 
         private Boolean CheckEvenOddAllowed(MipsInstruction inst)
