@@ -50,7 +50,7 @@ using NLog;
 using Soft64.RCP;
 using Soft64.MipsR4300;
 
-namespace Soft64.RCP
+namespace Soft64
 {
     public class RcpProcessor : MipsR4300Core, IDisposable
     {
@@ -61,6 +61,7 @@ namespace Soft64.RCP
         private PerpherialInterface m_PIInterface;
         private PIRegisters m_PIRegs;
         private RdramRegisters m_RdramRegs;
+        private MipsInterface m_MIInterface;
 
         /* Memory Devices */
         private RCPBusStream m_RcpMemoryBus;
@@ -88,6 +89,7 @@ namespace Soft64.RCP
             m_RcpMemoryBus.Add(0x00000000, m_RdRam);
             m_RcpMemoryBus.Add(0x03F00000, m_RdramRegs);
             m_RcpMemoryBus.Add(0x04000000, m_SPMemory);
+            m_RcpMemoryBus.Add(0x04300000, m_MIInterface);
             m_RcpMemoryBus.Add(0x04600000, m_PIRegs);
             m_RcpMemoryBus.Add(0x05000000, m_PIInterface);
 
@@ -122,6 +124,8 @@ namespace Soft64.RCP
         {
             get { return m_RdramRegs; }
         }
+
+        public MipsInterface MMIO_MI => m_MIInterface;
 
         internal RCPBusStream PhysicalMemoryStream
         {
