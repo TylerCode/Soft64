@@ -321,6 +321,153 @@ namespace Soft64.MipsR4300
             return (m_Q.First == null) ? 0 : m_Q.First.Data.Type;
         }
 
+        public void RaiseMaskableInterrupt(UInt32 cause)
+        {
+            CP0_CAUSE_REG = (CP0_CAUSE_REG | cause) & 0xFFFFFF83;
+
+            if ((CP0_STATUS_REG & CP0_CAUSE_REG & 0xFF00) <= 0)
+                return;
+
+            if ((CP0_STATUS_REG & 7) != 1)
+                return;
+
+            ExceptionGeneral();
+        }
+
+        public void SpecialIntHandler()
+        {
+            if (CP0_COUNT_REG > 0x10000000)
+                return;
+
+            m_SpecialDone = true;
+            RemoveInterruptEvent();
+            AddInterruptEventCount(SPECIAL_INT, 0);
+        }
+
+        public void CompareIntInterrupt()
+        {
+            RemoveInterruptEvent();
+            CP0_COUNT_REG += CountPerOp;
+            AddInterruptEventCount(COMPARE_INT, CP0_COMPARE_REG);
+            CP0_COUNT_REG -= CountPerOp;
+            RaiseMaskableInterrupt(0x8000);
+        }
+
+        public void Hw2IntHandler()
+        {
+            RemoveInterruptEvent();
+            CP0_STATUS_REG = (CP0_STATUS_REG & ~0x00380000UL) | 0x1000;
+            CP0_CAUSE_REG = (CP0_CAUSE_REG | 0x10000) & 0xFFFFFF83UL;
+            ExceptionGeneral();
+        }
+
+        public void NmiIntHandler()
+        {
+            RemoveInterruptEvent();
+            CP0_STATUS_REG = (CP0_STATUS_REG & ~0x00380000UL) | 0x00500004;
+            CP0_CAUSE_REG = 0;
+
+            /* R4300 Software Reset */
+            SoftBootManager.SetupExecutionState(BootMode.HLE_IPL);
+
+            CP0_COUNT_REG = 0;
+            /* TODO: VI Counter = 0 */
+            InitInterrupt();
+
+            /* TODO: AI Status reg */
+            CP0_ERROREPC_REG = (UInt64)m_Core.State.PC;
+
+            if (m_Core.State.BranchEnabled)
+            {
+                CP0_ERROREPC_REG -= 4;
+            }
+
+            m_Core.State.BranchEnabled = false;
+            LastPc = 0xA4000040;
+            m_Core.State.PC = 0xA40000040;
+        }
+
+        public void GenInterrupt()
+        {
+            if (SkipJump > 0)
+            {
+                Int64 dest = SkipJump;
+                SkipJump = 0;
+
+                NextInterrupt =
+                    (m_Q.First.Data.Count > CP0_CAUSE_REG) || ((CP0_COUNT_REG - m_Q.First.Data.Count) < 0x80000000)
+                    ? m_Q.First.Data.Count : 0;
+
+                LastPc = dest;
+                m_Core.State.PC = dest;
+                return;
+            }
+
+            switch (m_Q.First.Data.Type)
+            {
+                case SPECIAL_INT:
+                    SpecialIntHandler();
+                    break;
+
+                case VI_INT:
+                    RemoveInterruptEvent();
+                    /* TODO: VI Vertuical interrupt event */
+                    break;
+
+                case COMPARE_INT:
+                    CompareIntInterrupt();
+                    break;
+
+                case CHECK_INT:
+                    RemoveInterruptEvent();
+                    ExceptionGeneral();
+                    break;
+
+                case SI_INT:
+                    RemoveInterruptEvent();
+                    /* TODO: SI End DMA event */
+                    break;
+
+                case PI_INT:
+                    RemoveInterruptEvent();
+                    /* TODO: PI end of DMA event */
+                    break;
+
+                case AI_INT:
+                    RemoveInterruptEvent();
+                    /* TODO: AI End of DMA event */
+                    break;
+
+                case SP_INT:
+                    RemoveInterruptEvent();
+                    /* TODO: RSP interrupt event */
+                    break;
+
+                case DP_INT:
+                    RemoveInterruptEvent();
+                    /* TODO: RDP Interrupt event */
+                    break;
+
+                case HW2_INT:
+                    NmiIntHandler();
+                    break;
+
+                case NMI_INT:
+                    NmiIntHandler();
+                    break;
+
+
+                default:
+                    {
+                        logger.Debug("Mupen Msg: Unknown interrupt in event queue");
+                        RemoveInterruptEvent();
+                        ExceptionGeneral();
+                        break;
+                    }
+
+            }
+        }
+
         public Int64 LastPc
         {
             get;
@@ -341,7 +488,12 @@ namespace Soft64.MipsR4300
 
         public UInt32 CountPerOp { get; set; } = 2;
 
-        private UInt32 CP0_COUNT_REG => m_Core.State.CP0Regs.Count;
+        private UInt32 CP0_COUNT_REG
+        {
+            get { return m_Core.State.CP0Regs.Count; }
+            set { m_Core.State.CP0Regs.Count = value; }
+        }
+
         private UInt32 CP0_COMPARE_REG => m_Core.State.CP0Regs.Compare;
 
         private UInt64 CP0_CAUSE_REG
@@ -355,6 +507,13 @@ namespace Soft64.MipsR4300
             get { return m_Core.State.CP0Regs.Status; }
             set { m_Core.State.CP0Regs.Status = value; }
         }
+
+        private UInt64 CP0_ERROREPC_REG
+        {
+            get { return m_Core.State.CP0Regs.ErrorEPC; }
+            set { m_Core.State.CP0Regs.ErrorEPC = value; }
+        }
+
         private UInt64 MI_INTR_REG => Machine.Current.DeviceRCP.MMIO_MI.Interrupts;
         private UInt64 MI_INTR_MASK_REG => Machine.Current.DeviceRCP.MMIO_MI.InterruptMask;
 
