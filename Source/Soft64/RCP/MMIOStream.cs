@@ -16,6 +16,8 @@ namespace Soft64.RCP
         private IntPtr m_BufferPtr;
         private GCHandle m_PtrHandle;
         private Boolean m_Disposed;
+
+        public event EventHandler<MmioWriteEventArgs> IoWrite;
         
 
         protected MmioStream(Int32 memorySize)
@@ -88,6 +90,16 @@ namespace Soft64.RCP
             Write(offset, (UInt16)value);
         }
 
+        protected virtual void OnWrite(Int32 offset)
+        {
+            var e = IoWrite;
+
+            if (e != null)
+            {
+                e(this, new MmioWriteEventArgs(offset));
+            }
+        }
+
         public override bool CanRead
         {
             get { return true; }
@@ -146,10 +158,14 @@ namespace Soft64.RCP
 
         public override void Write(byte[] buffer, int offset, int count)
         {
+            Int32 o = (Int32)Position;
+
             for (Int32 i = 0; i < count; i++)
             {
                 m_Buffer[(Int32)Position++] = buffer[offset + i];
             }
+
+            OnWrite(o);
         }
 
         protected override void Dispose(Boolean disposing)
@@ -165,6 +181,16 @@ namespace Soft64.RCP
 
                 m_Disposed = true;
             }
+        }
+    }
+
+    public sealed class MmioWriteEventArgs : EventArgs
+    {
+        public Int32 Offset { get; private set; }
+
+        public MmioWriteEventArgs(Int32 offset)
+        {
+            Offset = offset;
         }
     }
 }

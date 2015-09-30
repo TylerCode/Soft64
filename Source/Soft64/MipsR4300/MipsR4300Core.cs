@@ -32,6 +32,7 @@ namespace Soft64.MipsR4300
         private IOMonitor m_IOMonitor;
         private SychronizedStream m_SyncMMU;
         private Boolean m_DebugMemAccess;
+        private Stream m_SysADBus;
 
         public MipsR4300Core()
         {
@@ -133,35 +134,6 @@ namespace Soft64.MipsR4300
             set { m_DebugMemAccess = value; m_MMU.SetupOperations(value); }
         }
 
-        public void CP0_GeneralException()
-        {
-            State.CP0Regs.StatusReg.RegisterValue64 |= 2;
-            State.CP0Regs.EPC = (UInt64)State.PC;
-
-            if (State.BranchEnabled)
-            {
-                State.CP0Regs.Cause |= 0x80000000;
-                State.CP0Regs.EPC -= 4;
-            }
-            else
-            {
-                State.CP0Regs.Cause &= 0x7FFFFFFF;
-            }
-
-            State.PC = 0x80000180;
-        }
-
-        public void RaiseMaskableInterrupt(UInt32 cause)
-        {
-            State.CP0Regs.Cause = (State.CP0Regs.Cause | cause) & 0xFFFFFF83;
-
-            if ((State.CP0Regs.Status & State.CP0Regs.Cause & 0xFF00) == 0)
-                return;
-
-            if ((State.CP0Regs.Status & 7) != 1)
-                return;
-
-            CP0_GeneralException();
-        }
+        public Stream SysAdBus { get; set; }
     }
 }

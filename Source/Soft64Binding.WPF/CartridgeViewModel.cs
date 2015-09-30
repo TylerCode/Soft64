@@ -31,8 +31,8 @@ namespace Soft64Binding.WPF
         {
             Machine machine = (Machine)currentModel.TargetMachine;
 
-            WeakEventManager<PerpherialInterface, CartridgeChangedEventArgs>
-                .AddHandler(machine.DeviceRCP.DevicePI, "CartridgeChanged", DevicePI_CartridgeChanged);
+            WeakEventManager<ParallelInterface, CartridgeChangedEventArgs>
+                .AddHandler(machine.DeviceRCP.Interface_Parallel, "CartridgeChanged", DevicePI_CartridgeChanged);
         }
 
         private void DevicePI_CartridgeChanged(object sender, CartridgeChangedEventArgs e)

@@ -84,6 +84,8 @@
     <Compile Include="MipsR4300\MipsDataManipulator.cs" />
     <Compile Include="MipsR4300\MupenHelper.cs" />
     <Compile Include="MipsR4300\OpcodeHookAttribute.cs" />
+    <Compile Include="RCP\CartridgeChangedEventArgs.cs" />
+    <Compile Include="RCP\DmaEngine.cs" />
     <Compile Include="RCP\MipsInterface.cs" />
     <Compile Include="RCP\RdramRegisters.cs" />
     <Compile Include="RCP\PIRegisters.cs" />
@@ -112,9 +114,9 @@
     <Compile Include="MipsR4300\InstructionReader.cs" />
     <Compile Include="MipsR4300\MipsSnapshot.cs" />
     <Compile Include="N64MemRegions.cs" />
-    <Compile Include="RCP\PerpherialInterface.cs" />
-    <Compile Include="RCP\PIStream.cs" />
-    <Compile Include="RCP\RCPBusStream.cs" />
+    <Compile Include="RCP\ParallelInterface.cs" />
+    <Compile Include="RCP\ParallelStream.cs" />
+    <Compile Include="RCP\SysADBusStream.cs" />
     <Compile Include="RCP\RdramStream.cs" />
     <Compile Include="RCP\SPMemory.cs" />
     <Compile Include="DiskDrive.cs" />
@@ -162,7 +164,7 @@
     <Compile Include="MipsR4300\Interpreter_Main.cs" />
     <Compile Include="MipsR4300\Interpreter_Store.cs" />
     <Compile Include="MipsR4300\Interpreter_TLB.cs" />
-    <Compile Include="MipsR4300\PhysicalMapStream.cs" />
+    <Compile Include="MipsR4300\ADBusMapStream.cs" />
     <Compile Include="MipsR4300\VMemStream.cs" />
     <Compile Include="MipsR4300\MipsInstruction.cs" />
     <Compile Include="MipsR4300\MipsR4300Core.cs" />

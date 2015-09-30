@@ -66,8 +66,9 @@ namespace Soft64
             m_CurrentEngine = new SimpleEngine();
             m_CurrentEngine.EngineStatusChanged += m_CurrentEngine_EngineStatusChanged;
 
-            m_N64Memory = new SychronizedStream(DeviceRCP.PhysicalMemoryStream);
-            m_SafeMemory = new SychronizedStream(DeviceRCP.PhysicalMemoryStream.GetSafeStream());
+            m_N64Memory = new SychronizedStream(DeviceRCP.ADBusStream);
+            m_SafeMemory = new SychronizedStream(DeviceRCP.ADBusStream.GetSafeStream());
+            DeviceCPU.SysAdBus = m_SafeMemory;
         }
 
         void m_CurrentEngine_EngineStatusChanged(object sender, EngineStatusChangedArgs e)
@@ -340,20 +341,20 @@ namespace Soft64
         /* Short handed API */
         public void CartridgeInsert(Cartridge cartridge)
         {
-            DeviceRCP.DevicePI.MountCartridge(cartridge);
+            DeviceRCP.Interface_Parallel.MountCartridge(cartridge);
         }
 
         public void CartridgeEject()
         {
-            DeviceRCP.DevicePI.ReleaseCartridge();
+            DeviceRCP.Interface_Parallel.ReleaseCartridge();
         }
 
         public void CartridgeInsertFile(String filepath)
         {
             FileStream fs = File.OpenRead(filepath);
             VirtualCartridge cart = new VirtualCartridge(fs);
-            Machine.Current.DeviceRCP.DevicePI.ReleaseCartridge();
-            Machine.Current.DeviceRCP.DevicePI.MountCartridge(cart);
+            Machine.Current.DeviceRCP.Interface_Parallel.ReleaseCartridge();
+            Machine.Current.DeviceRCP.Interface_Parallel.MountCartridge(cart);
         }
     }
 }

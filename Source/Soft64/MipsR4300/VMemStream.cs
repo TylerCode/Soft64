@@ -114,8 +114,8 @@ namespace Soft64.MipsR4300
 
             /* 32bit kernel map */
             Add(0x00000000, new TLBMapStream(m_TLBCache, 0x80000000));
-            Add(0x80000000, new PhysicalMapStream());
-            Add(0xA0000000, new PhysicalMapStream());
+            Add(0x80000000, new ADBusMapStream(m_Core));
+            Add(0xA0000000, new ADBusMapStream(m_Core));
             Add(0xC0000000, new TLBMapStream(m_TLBCache, 0x20000000));
             Add(0xE0000000, new TLBMapStream(m_TLBCache, 0x20000000));
             logger.Trace("VMap Initialized");

@@ -26,9 +26,9 @@ using Soft64.IO;
 namespace Soft64.RCP
 {
     /// <summary>
-    /// Simulates the Reality-Coprocessor unified memory bus.
+    /// Simulates the RCP A/D Bus stream
     /// </summary>
-    internal sealed class RCPBusStream : UnifiedStream
+    public sealed class SysADBusStream : UnifiedStream
     {
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
 

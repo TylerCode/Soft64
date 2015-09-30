@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>
 using System;
 using Soft64.IO;
 
-/* Memory layout notes for the parellel interface bus:
+/* Memory layout notes for the parellel bus:
  * [0x00000000] Nothing?
  * [0x01000000] N64 Disk Drive (First 0x0100 bytes of the N64DD stream)
  * [0x02000000] N64 Disk Drive
@@ -32,9 +32,10 @@ using Soft64.IO;
 
 namespace Soft64.RCP
 {
-    /* For future: this class might be used to implement a cartridge domain system once we understand more about how it is used */
-
-    internal sealed class PIStream : UnifiedStream
+    /// <summary>
+    /// Stream based class implementing the bus logic for the diskdrive / cartridge
+    /// </summary>
+    internal sealed class ParallelStream : UnifiedStream
     {
         private const Int64 c_CartAddress = 0x0B000000;
         private Int64 m_CartSize;

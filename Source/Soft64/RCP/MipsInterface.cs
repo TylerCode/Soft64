@@ -25,17 +25,30 @@ namespace Soft64.RCP
 
         public MipsInterface() : base(0xFFFFF)
         {
-            
+            IoWrite += MipsInterface_IoWrite;
+        }
+
+        private void MipsInterface_IoWrite(object sender, MmioWriteEventArgs e)
+        {
+            switch (e.Offset)
+            {
+                default: break;
+                case OFFSET_MI_MODE_REG:
+                    {
+
+                        break;
+                    }
+            }
         }
 
         public void RaiseInterrupt(UInt32 interrupt)
         {
-            Interrupts |= interrupt;
+            //Interrupts |= interrupt;
 
-            if ((Interrupts & InterruptMask) != 0)
-            {
-                Machine.Current.DeviceCPU.RaiseMaskableInterrupt(0x400);
-            }
+            //if ((Interrupts & InterruptMask) != 0)
+            //{
+            //    Machine.Current.DeviceCPU.RaiseMaskableInterrupt(0x400);
+            //}
         }
 
         public UInt32 Mode

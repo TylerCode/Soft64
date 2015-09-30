@@ -514,8 +514,8 @@ namespace Soft64.MipsR4300
             set { m_Core.State.CP0Regs.ErrorEPC = value; }
         }
 
-        private UInt64 MI_INTR_REG => Machine.Current.DeviceRCP.MMIO_MI.Interrupts;
-        private UInt64 MI_INTR_MASK_REG => Machine.Current.DeviceRCP.MMIO_MI.InterruptMask;
+        private UInt64 MI_INTR_REG => Machine.Current.DeviceRCP.Interface_MIPS.Interrupts;
+        private UInt64 MI_INTR_MASK_REG => Machine.Current.DeviceRCP.Interface_MIPS.InterruptMask;
 
         private class InterruptEvent
         {

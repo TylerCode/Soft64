@@ -38,10 +38,10 @@ namespace Soft64.MipsR4300.Debugging
 
         private void BuildMap()
         {
-            var pMap = new PhysicalMapStream();
+            var pMap = new ADBusMapStream(Machine.Current.DeviceCPU);
 
-            Add(0x80000000, new PhysicalMapStream());
-            Add(0xA0000000, new PhysicalMapStream());
+            Add(0x80000000, new ADBusMapStream(Machine.Current.DeviceCPU));
+            Add(0xA0000000, new ADBusMapStream(Machine.Current.DeviceCPU));
 
             /* Query all the valid entries in the TLB */
             var entries =

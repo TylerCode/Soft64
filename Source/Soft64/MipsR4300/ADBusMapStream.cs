@@ -22,12 +22,14 @@ using System.IO;
 
 namespace Soft64.MipsR4300
 {
-    internal sealed class PhysicalMapStream : Stream
+    internal sealed class ADBusMapStream : Stream
     {
         private Int64 m_Position;
+        private MipsR4300Core m_Core;
 
-        public PhysicalMapStream()
+        public ADBusMapStream(MipsR4300Core core)
         {
+            m_Core = core;
         }
 
         public override bool CanRead
@@ -47,7 +49,7 @@ namespace Soft64.MipsR4300
 
         public override void Flush()
         {
-            Machine.Current.N64MemorySafe.Flush();
+            m_Core.SysAdBus.Flush();
         }
 
         public override long Length
@@ -64,15 +66,15 @@ namespace Soft64.MipsR4300
         public override int Read(byte[] buffer, int offset, int count)
         {
             Int32 read = 0;
-            Machine.Current.N64MemorySafe.Position = m_Position;
-            read = Machine.Current.N64MemorySafe.Read(buffer, offset, count);
+            m_Core.SysAdBus.Position = m_Position;
+            read = m_Core.SysAdBus.Read(buffer, offset, count);
             return read;
         }
 
         public override long Seek(long offset, SeekOrigin origin)
         {
             Int64 pos = 0;
-            pos = Machine.Current.N64MemorySafe.Seek(offset, origin);
+            pos = m_Core.SysAdBus.Seek(offset, origin);
             return pos;
         }
 
@@ -83,8 +85,8 @@ namespace Soft64.MipsR4300
 
         public override void Write(byte[] buffer, int offset, int count)
         {
-            Machine.Current.N64MemorySafe.Position = m_Position;
-            Machine.Current.N64MemorySafe.Write(buffer, offset, count);
+            m_Core.SysAdBus.Position = m_Position;
+            m_Core.SysAdBus.Write(buffer, offset, count);
         }
     }
 }

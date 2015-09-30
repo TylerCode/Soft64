@@ -65,20 +65,20 @@ namespace Soft64
             }
             else if (bootMode == BootMode.HLE_IPL)
             {
-                if (Machine.Current.DeviceRCP.DevicePI.InsertedCartridge != null)
+                if (Machine.Current.DeviceRCP.Interface_Parallel.InsertedCartridge != null)
                 {
                     /* Code taken from mupen64plus-core on github */
                     ExecutionState state = Machine.Current.DeviceCPU.State;
                     state.PC = 0xA4000040;
 
                     /* PI Setup */
-                    PIRegisters piRegs = Machine.Current.DeviceRCP.MMIO_PI;
+                    var pi = Machine.Current.DeviceRCP.Interface_Parallel;
                     PiBusSpeedConfig config = Cartridge.Current.RomImage.BusConfig;
-                    piRegs.Domain1Latency = (UInt32)config.DeviceLatency;
-                    piRegs.Domain1PageSize = (UInt32)config.PageSize;
-                    piRegs.Domain1PulseWidth = (UInt32)config.PulseWidth;
-                    piRegs.Domain1Release = (UInt32)config.ReleaseTime;
-                    piRegs.Status = 0;
+                    pi.Domain1Latency = (UInt32)config.DeviceLatency;
+                    pi.Domain1PageSize = (UInt32)config.PageSize;
+                    pi.Domain1PulseWidth = (UInt32)config.PulseWidth;
+                    pi.Domain1Release = (UInt32)config.ReleaseTime;
+                    pi.Status = 0;
                     
                     
 
@@ -96,7 +96,7 @@ namespace Soft64
 
                     logger.Debug("PIF HLE: Copying cartridge bootrom into DMEM + 0x40");
                     Machine.Current.N64MemorySafe.Position = N64MemRegions.SPDMem.ToRegionAddress() + 0x40;
-                    Machine.Current.DeviceRCP.DevicePI.InsertedCartridge.RomImage.BootRomInformation.CopyCode(Machine.Current.N64MemorySafe);
+                    Machine.Current.DeviceRCP.Interface_Parallel.InsertedCartridge.RomImage.BootRomInformation.CopyCode(Machine.Current.N64MemorySafe);
 
                     state.GPRRegs[19] = 0; /* 0: Cart, 1: DiskDrive */
                     state.GPRRegs[20] = (UInt64)((Int32)Cartridge.Current.RomImage.Region) - 1;
@@ -131,7 +131,7 @@ namespace Soft64
             }
             else if (bootMode == BootMode.HLE_IPL_OLD)
             {
-                if (Machine.Current.DeviceRCP.DevicePI.InsertedCartridge != null)
+                if (Machine.Current.DeviceRCP.Interface_Parallel.InsertedCartridge != null)
                 {
                     /* This is the older method of booting the emulator */
 
@@ -143,7 +143,7 @@ namespace Soft64
 
                     logger.Debug("PIF HLE: Copying cartridge bootrom into DMEM + 0x40");
                     Machine.Current.N64MemorySafe.Position = N64MemRegions.SPDMem.ToRegionAddress() + 0x40;
-                    Machine.Current.DeviceRCP.DevicePI.InsertedCartridge.RomImage.BootRomInformation.CopyCode(Machine.Current.N64MemorySafe);
+                    Machine.Current.DeviceRCP.Interface_Parallel.InsertedCartridge.RomImage.BootRomInformation.CopyCode(Machine.Current.N64MemorySafe);
 
                     using (Stream stream = typeof(SoftBootManager).Assembly.GetManifestResourceStream("Soft64.BootStateSnapshots.xml"))
                     {

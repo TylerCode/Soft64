@@ -52,84 +52,54 @@ using Soft64.MipsR4300;
 
 namespace Soft64
 {
-    public class RcpProcessor : MipsR4300Core, IDisposable
+    public class RcpProcessor : IDisposable
     {
         private Boolean m_Disposed;
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
 
         /* IO Interfaces */
-        private PerpherialInterface m_PIInterface;
-        private PIRegisters m_PIRegs;
+        private ParallelInterface m_PIInterface;
         private RdramRegisters m_RdramRegs;
         private MipsInterface m_MIInterface;
-
-        /* Memory Devices */
-        private RCPBusStream m_RcpMemoryBus;
+        private SysADBusStream m_MemoryBus;
         private N64MemoryStream m_MemoryStream;
         private RdramStream m_RdRam;
         private SPMemory m_SPMemory;
 
+        /* Processor Devices */
+        /* TODO: RSP Processor */
+        /* TODO: RDP Processor */
+
         public RcpProcessor()
         {
-            /* Setup the memory bus stream */
-            m_RcpMemoryBus = new RCPBusStream();
-            m_MemoryStream = new N64MemoryStream(m_RcpMemoryBus);
-
-            /* Initailize interfaces of the RCP */
-            m_PIInterface = new PerpherialInterface();
-            m_PIRegs = new PIRegisters();
+            m_MemoryBus = new SysADBusStream();
+            m_MemoryStream = new N64MemoryStream(m_MemoryBus);
+            m_PIInterface = new ParallelInterface(m_MemoryBus);
             m_RdramRegs = new RdramRegisters();
+            m_MIInterface = new MipsInterface();
         }
 
-        public override void Initialize()
+        public void Initialize()
         {
             m_RdRam = new RdramStream();
             m_SPMemory = new SPMemory();
 
-            m_RcpMemoryBus.Add(0x00000000, m_RdRam);
-            m_RcpMemoryBus.Add(0x03F00000, m_RdramRegs);
-            m_RcpMemoryBus.Add(0x04000000, m_SPMemory);
-            m_RcpMemoryBus.Add(0x04300000, m_MIInterface);
-            m_RcpMemoryBus.Add(0x04600000, m_PIRegs);
-            m_RcpMemoryBus.Add(0x05000000, m_PIInterface);
+            m_MemoryBus.Add(0x00000000, m_RdRam);
+            m_MemoryBus.Add(0x03F00000, m_RdramRegs);
+            m_MemoryBus.Add(0x04000000, m_SPMemory);
+            m_MemoryBus.Add(0x04300000, m_MIInterface);
+            m_MemoryBus.Add(0x04600000, m_PIInterface.ParellelRegisters);
+            m_MemoryBus.Add(0x05000000, m_PIInterface.ParallelBusStream);
 
             if (Machine.Current.DevicePIF.RomStream != null)
-                m_RcpMemoryBus.Add(0x1FC00000, Machine.Current.DevicePIF.RomStream);
+                m_MemoryBus.Add(0x1FC00000, Machine.Current.DevicePIF.RomStream);
 
-            m_RcpMemoryBus.Add(0x1FC007C0, Machine.Current.DevicePIF.RamStream);
-
-            base.Initialize();
+            m_MemoryBus.Add(0x1FC007C0, Machine.Current.DevicePIF.RamStream);
         }
 
         public void Shutdown()
         {
             throw new NotImplementedException();
-        }
-
-        public void SoftBoot()
-        {
-        }
-
-        public PerpherialInterface DevicePI
-        {
-            get { return m_PIInterface; }
-        }
-
-        public PIRegisters MMIO_PI
-        {
-            get { return m_PIRegs; }
-        }
-
-        public RdramRegisters MMIO_RI
-        {
-            get { return m_RdramRegs; }
-        }
-
-        public MipsInterface MMIO_MI => m_MIInterface;
-
-        internal RCPBusStream PhysicalMemoryStream
-        {
-            get { return m_RcpMemoryBus; }
         }
 
         private void Dispose(Boolean disposing)
@@ -138,9 +108,8 @@ namespace Soft64
             {
                 if (disposing)
                 {
-                    m_PIInterface.Dispose();
                     m_MemoryStream.Dispose();
-                    m_RcpMemoryBus.Dispose();
+                    m_MemoryBus.Dispose();
                 }
 
                 m_Disposed = true;
@@ -157,5 +126,19 @@ namespace Soft64
         {
             get { return m_Disposed; }
         }
+
+
+        /* ///////////////////////////////////
+           Reality CoProcessor A/D Bus
+           /////////////////////////////////// */
+        internal SysADBusStream ADBusStream => m_MemoryBus;
+
+        /* //////////////////////////////////
+           Reality CoProcessor Interfaces
+           ////////////////////////////////// */
+
+        public ParallelInterface Interface_Parallel => m_PIInterface;
+        public RdramRegisters Interface_RDRAM => m_RdramRegs;
+        public MipsInterface Interface_MIPS => m_MIInterface;
     }
 }
