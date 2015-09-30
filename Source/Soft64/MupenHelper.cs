@@ -1,11 +1,13 @@
 ﻿using NLog;
+using Soft64.MipsR4300;
+using Soft64.RCP;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Soft64.MipsR4300
+namespace Soft64
 {
     public sealed class MupenHelper
     {
@@ -555,5 +557,124 @@ namespace Soft64.MipsR4300
         public const Int32 DP_INT = 0x100;
         public const Int32 HW2_INT = 0x200;
         public const Int32 NMI_INT = 0x400;
+
+        public const UInt32 MI_INTR_DP = 32;
+
+
+        public Boolean MipsInterface_UpdateInitMode(MipsInterface mi, UInt32 write)
+        {
+            Boolean clearDp = false;
+
+            /* Set Init Length */
+            mi.Mode &= ~0x7FU;
+            mi.Mode |= write & 0x7F;
+
+            /* Clear / Set Init Mode */
+            if ((write & 0x80U) != 0) mi.Mode &= ~0x80U;
+            if ((write & 0x100U) != 0) mi.Mode |= 0x80;
+
+            /* Clear / Set EBus Test Mode */
+            if ((write & 0x200) != 0) mi.Mode &= ~0x100U;
+            if ((write & 0x400) != 0) mi.Mode |= 0x100;
+
+            /* Clear DP Intrrupt */
+            if ((write & 0x800) != 0) clearDp = true;
+
+            /* Clear / Set RDRAM Reg Mode */
+            if ((write & 0x1000) != 0) mi.Mode &= ~0x200U;
+            if ((write & 0x2000) != 0) mi.Mode |= 0x200;
+
+            return clearDp;
+        }
+
+        public void MipsInterface_UpdateInterruptMask(MipsInterface mi, UInt32 write)
+        {
+            /* Clear / Set SP Mask */
+            if ((write & 0x1) != 0) mi.InterruptMask &= ~0x1U;
+            if ((write & 0x2) != 0) mi.InterruptMask |= 0x1;
+
+            /* Clear / Set SI Mask */
+            if ((write & 0x4) != 0) mi.InterruptMask &= ~0x2U;
+            if ((write & 0x8) != 0) mi.InterruptMask |= 0x2;
+
+            /* Clear / Set AI Mask */
+            if ((write & 0x10) != 0) mi.InterruptMask &= ~0x4U;
+            if ((write & 0x20) != 0) mi.InterruptMask |= 0x4;
+
+            /* Clear / Set VI Mask */
+            if ((write & 0x40) != 0) mi.InterruptMask &= ~0x8U;
+            if ((write & 0x80) != 0) mi.InterruptMask |= 0x8;
+
+            /* Clear / Set PI Mask */
+            if ((write & 0x100) != 0) mi.InterruptMask &= ~0x10U;
+            if ((write & 0x200) != 0) mi.InterruptMask |= 0x10;
+
+            /* Clear / Set DP Mask */
+            if ((write & 0x400) != 0) mi.InterruptMask &= ~0x20U;
+            if ((write & 0x800) != 0) mi.InterruptMask |= 0x20;
+        }
+
+        public void MipsInterface_RaiseRcpException(MipsInterface mi, UInt32 intr)
+        {
+            mi.Interrupts |= intr;
+
+            if ((mi.Interrupts & mi.InterruptMask) == mi.InterruptMask)
+            {
+                RaiseMaskableInterrupt(0x400);
+            }
+        }
+
+        public void MipsInterface_SignalRcpInterrupt(MipsInterface mi, UInt32 intr)
+        {
+            mi.Interrupts |= intr;
+            CheckInterrupt();
+        }
+
+        public void MipsInterface_ClearRcpInterrupt(MipsInterface mi, UInt32 intr)
+        {
+            mi.Interrupts &= ~intr;
+            CheckInterrupt();
+        }
+
+        public void MipsInterface_RegWrite(MipsInterface mi, Int32 address, UInt32 value, UInt32 mask)
+        {
+            var reg = (mi_registers)address;
+
+            switch (reg)
+            {
+                default: break;
+                case mi_registers.MI_INIT_MODE_REG:
+                    {
+                        if (MipsInterface_UpdateInitMode(mi, value & mask))
+                        {
+                            MipsInterface_ClearRcpInterrupt(mi, MI_INTR_DP);
+                        }
+
+                        break;
+                    }
+
+                case mi_registers.MI_INTR_MASK_REG:
+                    {
+                        MipsInterface_UpdateInterruptMask(mi, value & mask);
+                        CheckInterrupt();
+                        UpdateCount();
+
+                        if (NextInterrupt < CP0_COUNT_REG)
+                            GenInterrupt();
+
+                        break;
+                    }
+            }
+        }
+
+
+        private enum mi_registers : uint
+        {
+            MI_INIT_MODE_REG,
+            MI_VERSION_REG,
+            MI_INTR_REG,
+            MI_INTR_MASK_REG,
+            MI_REGS_COUNT
+        };
     }
 }

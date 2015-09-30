@@ -79,8 +79,8 @@ namespace Soft64
                     pi.Domain1PulseWidth = (UInt32)config.PulseWidth;
                     pi.Domain1Release = (UInt32)config.ReleaseTime;
                     pi.Status = 0;
-                    
-                    
+
+
 
                     /* sp_register.sp_status_reg = 1;
                         rsp_register.rsp_pc = 0;
@@ -92,7 +92,10 @@ namespace Soft64
                         vi_register.vi_current = 0;
                         vi_register.vi_h_start = 0;
 
-                        MI_register.mi_intr_reg &= ~(0x10 | 0x8 | 0x4 | 0x1) */
+                    /* MI Setup */
+                    var mi = Machine.Current.DeviceRCP.Interface_MIPS;
+                    mi.Version = 0x02020102;
+                    mi.Interrupts &= ~(0x10U | 0x8U | 0x4U | 0x1U);
 
                     logger.Debug("PIF HLE: Copying cartridge bootrom into DMEM + 0x40");
                     Machine.Current.N64MemorySafe.Position = N64MemRegions.SPDMem.ToRegionAddress() + 0x40;

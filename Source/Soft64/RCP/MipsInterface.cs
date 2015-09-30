@@ -35,7 +35,15 @@ namespace Soft64.RCP
                 default: break;
                 case OFFSET_MI_MODE_REG:
                     {
+                        break;
+                    }
 
+                case OFFSET_MI_INTR_REG:
+                    {
+                        break;
+                    }
+                case OFFSET_MI_INTR_MASK_REG:
+                    {
                         break;
                     }
             }
