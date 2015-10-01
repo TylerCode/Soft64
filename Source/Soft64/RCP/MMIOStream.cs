@@ -90,13 +90,13 @@ namespace Soft64.RCP
             Write(offset, (UInt16)value);
         }
 
-        protected virtual void OnWrite(Int32 offset)
+        protected virtual void OnWrite(Int32 offset, Int32 length)
         {
             var e = IoWrite;
 
             if (e != null)
             {
-                e(this, new MmioWriteEventArgs(offset));
+                e(this, new MmioWriteEventArgs(offset, length));
             }
         }
 
@@ -165,7 +165,7 @@ namespace Soft64.RCP
                 m_Buffer[(Int32)Position++] = buffer[offset + i];
             }
 
-            OnWrite(o);
+            OnWrite(o, count);
         }
 
         protected override void Dispose(Boolean disposing)
@@ -187,10 +187,12 @@ namespace Soft64.RCP
     public sealed class MmioWriteEventArgs : EventArgs
     {
         public Int32 Offset { get; private set; }
+        public Int32 Length { get; private set; }
 
-        public MmioWriteEventArgs(Int32 offset)
+        public MmioWriteEventArgs(Int32 offset, Int32 length)
         {
             Offset = offset;
+            Length = length;
         }
     }
 }

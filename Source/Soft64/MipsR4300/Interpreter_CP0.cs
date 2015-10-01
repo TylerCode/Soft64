@@ -28,7 +28,51 @@ namespace Soft64.MipsR4300
         {
             if (MipsState.CP0Regs.StatusReg.CopUsable0)
             {
-                MipsState.CP0Regs[inst.Rd] = MipsState.ReadGPRUnsigned(inst.Rt);
+                var regType = (CP0RegName)inst.Rd;
+
+                switch (regType)
+                {
+                    default: MipsState.CP0Regs[inst.Rd] = MipsState.ReadGPRUnsigned(inst.Rt); break;
+
+                    case CP0RegName.Count:
+                        {
+                            UInt32 count = (UInt32)MipsState.CP0Regs[inst.Rd];
+                            UInt32 newCount = (UInt32)MipsState.ReadGPRUnsigned(inst.Rt);
+                            MipsState.CP0Regs.Count = newCount;
+                            MupenHelper.UpdateCount();
+
+                            if (MupenHelper.NextInterrupt <= count)
+                                MupenHelper.GenInterrupt();
+
+                            MupenHelper.TranslateEventQueue(newCount);
+                            break;
+                        }
+
+                    case CP0RegName.Compare:
+                        {
+                            UInt32 newCompare = (UInt32)MipsState.ReadGPRUnsigned(inst.Rt);
+                            MipsState.CP0Regs.Compare = newCompare;
+                            MupenHelper.UpdateCount();
+                            MupenHelper.RemoveEvent(MupenHelper.COMPARE_INT);
+                            MupenHelper.AddInterruptEventCount(MupenHelper.COMPARE_INT, newCompare);
+                            MipsState.CP0Regs.Cause &= 0xFFFF7FFFU;
+                            break;
+                        }
+
+                    case CP0RegName.SR:
+                        {
+                            UInt32 newStatus = (UInt32)MipsState.ReadGPRUnsigned(inst.Rt);
+                            MipsState.CP0Regs.Status = newStatus;
+
+                            MupenHelper.UpdateCount();
+                            MupenHelper.CheckInterrupt();
+
+                            if (MupenHelper.NextInterrupt <= MipsState.CP0Regs.Count)
+                                MupenHelper.GenInterrupt();
+
+                            break;
+                        }
+                }
             }
             else
             {
@@ -70,6 +114,12 @@ namespace Soft64.MipsR4300
                 if (!MipsState.Operating64BitMode)
                 {
                     MipsState.WriteGPR32Unsigned(inst.Rt, (UInt32)MipsState.CP0Regs[inst.Rd]);
+
+                    /* Count register */
+                    if (inst.Rt == 9)
+                    {
+                        MupenHelper.UpdateCount();
+                    }
                 }
                 else
                 {

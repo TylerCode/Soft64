@@ -37,6 +37,11 @@ namespace Soft64.RCP
         public RdramRegisters()
             : base(0xFFFFF)
         {
+            IoWrite += RdramRegisters_IoWrite;
+        }
+
+        private void RdramRegisters_IoWrite(object sender, MmioWriteEventArgs e)
+        {
 
         }
 

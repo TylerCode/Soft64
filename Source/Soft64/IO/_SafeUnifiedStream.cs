@@ -17,6 +17,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>
 */
 
+using System;
 using System.IO;
 using System.Runtime.CompilerServices;
 
@@ -71,9 +72,10 @@ namespace Soft64.IO
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override int Read(byte[] buffer, int offset, int count)
         {
+            Boolean mode = m_UnifiedStream.UseCompiler;
             m_UnifiedStream.UseCompiler = false;
             var read = m_UnifiedStream.Read(buffer, offset, count);
-            m_UnifiedStream.UseCompiler = true;
+            m_UnifiedStream.UseCompiler = mode;
             return read;
         }
 
@@ -92,9 +94,10 @@ namespace Soft64.IO
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override void Write(byte[] buffer, int offset, int count)
         {
+            Boolean mode = m_UnifiedStream.UseCompiler;
             m_UnifiedStream.UseCompiler = false;
             m_UnifiedStream.Write(buffer, offset, count);
-            m_UnifiedStream.UseCompiler = true;
+            m_UnifiedStream.UseCompiler = mode;
         }
     }
 }

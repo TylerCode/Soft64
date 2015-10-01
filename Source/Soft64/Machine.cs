@@ -62,6 +62,7 @@ namespace Soft64
             DeviceRCP = new RcpProcessor();
             DeviceCPU = new CPUProcessor();
             DevicePIF = new PIFModule();
+            MupenHelper.SetMipsCore(DeviceCPU);
 
             m_CurrentEngine = new SimpleEngine();
             m_CurrentEngine.EngineStatusChanged += m_CurrentEngine_EngineStatusChanged;

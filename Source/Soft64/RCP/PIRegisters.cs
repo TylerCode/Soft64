@@ -24,7 +24,12 @@ namespace Soft64.RCP
 
         public PIRegisters() : base(0xFFFFF)
         {
+            IoWrite += PIRegisters_IoWrite;
+        }
 
+        private void PIRegisters_IoWrite(object sender, MmioWriteEventArgs e)
+        {
+            
         }
 
         public UInt32 DramAddress

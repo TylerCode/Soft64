@@ -30,33 +30,13 @@ namespace Soft64.RCP
 
         private void MipsInterface_IoWrite(object sender, MmioWriteEventArgs e)
         {
-            switch (e.Offset)
+            switch (e.Length)
             {
                 default: break;
-                case OFFSET_MI_MODE_REG:
-                    {
-                        break;
-                    }
-
-                case OFFSET_MI_INTR_REG:
-                    {
-                        break;
-                    }
-                case OFFSET_MI_INTR_MASK_REG:
-                    {
-                        break;
-                    }
+                case 1: MupenHelper.MipsInterface_RegWrite(this, e.Offset, ReadByte(e.Offset), 0xFF); break;
+                case 2: MupenHelper.MipsInterface_RegWrite(this, e.Offset, ReadUInt16(e.Offset), 0xFFFF); break;
+                case 4: MupenHelper.MipsInterface_RegWrite(this, e.Offset, ReadUInt32(e.Offset), 0xFFFFFFFF); break;
             }
-        }
-
-        public void RaiseInterrupt(UInt32 interrupt)
-        {
-            //Interrupts |= interrupt;
-
-            //if ((Interrupts & InterruptMask) != 0)
-            //{
-            //    Machine.Current.DeviceCPU.RaiseMaskableInterrupt(0x400);
-            //}
         }
 
         public UInt32 Mode

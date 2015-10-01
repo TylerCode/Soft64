@@ -9,22 +9,27 @@ using System.Threading.Tasks;
 
 namespace Soft64
 {
-    public sealed class MupenHelper
+    public static class MupenHelper
     {
-        private MipsR4300Core m_Core;
-        private InterruptQueue m_Q;
-        private Boolean m_SpecialDone;
+        private static MipsR4300Core m_Core;
+        private static InterruptQueue m_Q = new InterruptQueue();
+        private static Boolean m_SpecialDone;
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
 
-        public MupenHelper(MipsR4300Core core)
+
+        public static void SetMipsCore(MipsR4300Core core)
         {
             m_Core = core;
+
+            LastPc = 0xa4000040;
+            NextInterrupt = 624999;
+            InitInterrupt();
         }
 
         /// <summary>
         /// Mupen's way of updating the Count timer register, it is a hack
         /// </summary>
-        public void UpdateCount()
+        public static void UpdateCount()
         {
             m_Core.State.CP0Regs.Count =
                 (UInt32)((m_Core.State.PC - LastPc) >> 2) *
@@ -33,7 +38,7 @@ namespace Soft64
             LastPc = m_Core.State.PC;
         }
 
-        public void ExceptionGeneral()
+        public static void ExceptionGeneral()
         {
             m_Core.State.CP0Regs.Status |= 2;
             m_Core.State.CP0Regs.EPC = (UInt64)m_Core.State.PC;
@@ -60,7 +65,7 @@ namespace Soft64
 
         }
 
-        private Node AllocNode(Pool pool)
+        private static Node AllocNode(Pool pool)
         {
             if (pool.Index >= PoolCapacity)
                 return null;
@@ -68,7 +73,7 @@ namespace Soft64
             return pool.Stack[pool.Index++];
         }
 
-        private void FreeNode(Pool pool, Node node)
+        private static void FreeNode(Pool pool, Node node)
         {
             if (pool.Index == 0 || node == null)
                 return;
@@ -76,7 +81,7 @@ namespace Soft64
             pool.Stack[--pool.Index] = node;
         }
 
-        private void ClearPool(Pool pool)
+        private static void ClearPool(Pool pool)
         {
             for (Int32 i = 0; i < PoolCapacity; ++i)
                 pool.Stack[i] = pool.Nodes[i];
@@ -84,13 +89,13 @@ namespace Soft64
             pool.Index = 0;
         }
 
-        private void ClearQueue()
+        private static void ClearQueue()
         {
             m_Q.First = null;
             ClearPool(m_Q.Pool);
         }
 
-        public Boolean BeforeEvent(UInt32 evt1, UInt32 evt2, Int32 type2)
+        public static Boolean BeforeEvent(UInt32 evt1, UInt32 evt2, Int32 type2)
         {
             if (evt1 - CP0_COUNT_REG < 0x80000000)
             {
@@ -126,12 +131,12 @@ namespace Soft64
             }
         }
 
-        public void AddInterruptEvent(Int32 type, UInt32 delay)
+        public static void AddInterruptEvent(Int32 type, UInt32 delay)
         {
             AddInterruptEventCount(type, CP0_COUNT_REG + delay);
         }
 
-        public UInt32 GetEvent(Int32 type)
+        public static UInt32 GetEvent(Int32 type)
         {
             Node e = m_Q.First;
 
@@ -146,7 +151,7 @@ namespace Soft64
             return (e.Next != null) ? e.Next.Data.Count : 0;
         }
 
-        public void RemoveEvent(Int32 type)
+        public static void RemoveEvent(Int32 type)
         {
             Node to_del;
             Node e = m_Q.First;
@@ -169,7 +174,7 @@ namespace Soft64
             }
         }
 
-        public void AddInterruptEventCount(Int32 type, UInt32 count)
+        public static void AddInterruptEventCount(Int32 type, UInt32 count)
         {
             Node evt;
             Node e;
@@ -231,7 +236,7 @@ namespace Soft64
 
         }
 
-        public void RemoveInterruptEvent()
+        public static void RemoveInterruptEvent()
         {
             Node e;
 
@@ -239,15 +244,13 @@ namespace Soft64
             m_Q.First = e.Next;
             FreeNode(m_Q.Pool, e);
 
-            NextInterrupt = (
-                (m_Q.First != null) &&
-                (m_Q.First.Data.Count > CP0_COUNT_REG) ||
-                ((CP0_COUNT_REG - m_Q.First.Data.Count) < 0x80000000)) ?
+            NextInterrupt = 
+                ((m_Q.First != null) && ((m_Q.First.Data.Count > CP0_COUNT_REG) || ((CP0_COUNT_REG - m_Q.First.Data.Count) < 0x80000000))) ?
                 m_Q.First.Data.Count :
                 0;
         }
 
-        public void TranslateEventQueue(UInt32 b)
+        public static void TranslateEventQueue(UInt32 b)
         {
             Node e;
 
@@ -263,7 +266,7 @@ namespace Soft64
             AddInterruptEventCount(SPECIAL_INT, 0);
         }
 
-        public void InitInterrupt()
+        public static void InitInterrupt()
         {
             m_SpecialDone = true;
 
@@ -274,7 +277,7 @@ namespace Soft64
             AddInterruptEventCount(SPECIAL_INT, 0);
         }
 
-        public void CheckInterrupt()
+        public static void CheckInterrupt()
         {
             Node evt;
 
@@ -318,12 +321,12 @@ namespace Soft64
             }
         }
 
-        public Int32 GetNextEventType()
+        public static Int32 GetNextEventType()
         {
             return (m_Q.First == null) ? 0 : m_Q.First.Data.Type;
         }
 
-        public void RaiseMaskableInterrupt(UInt32 cause)
+        public static void RaiseMaskableInterrupt(UInt32 cause)
         {
             CP0_CAUSE_REG = (CP0_CAUSE_REG | cause) & 0xFFFFFF83;
 
@@ -336,7 +339,7 @@ namespace Soft64
             ExceptionGeneral();
         }
 
-        public void SpecialIntHandler()
+        public static void SpecialIntHandler()
         {
             if (CP0_COUNT_REG > 0x10000000)
                 return;
@@ -346,7 +349,7 @@ namespace Soft64
             AddInterruptEventCount(SPECIAL_INT, 0);
         }
 
-        public void CompareIntInterrupt()
+        public static void CompareIntInterrupt()
         {
             RemoveInterruptEvent();
             CP0_COUNT_REG += CountPerOp;
@@ -355,7 +358,7 @@ namespace Soft64
             RaiseMaskableInterrupt(0x8000);
         }
 
-        public void Hw2IntHandler()
+        public static void Hw2IntHandler()
         {
             RemoveInterruptEvent();
             CP0_STATUS_REG = (CP0_STATUS_REG & ~0x00380000UL) | 0x1000;
@@ -363,7 +366,7 @@ namespace Soft64
             ExceptionGeneral();
         }
 
-        public void NmiIntHandler()
+        public static void NmiIntHandler()
         {
             RemoveInterruptEvent();
             CP0_STATUS_REG = (CP0_STATUS_REG & ~0x00380000UL) | 0x00500004;
@@ -389,7 +392,7 @@ namespace Soft64
             m_Core.State.PC = 0xA40000040;
         }
 
-        public void GenInterrupt()
+        public static void GenInterrupt()
         {
             if (SkipJump > 0)
             {
@@ -404,6 +407,8 @@ namespace Soft64
                 m_Core.State.PC = dest;
                 return;
             }
+
+            logger.Debug($"Mupen Gen Int: {m_Q.First.Data.Type.ToString("X3")}");
 
             switch (m_Q.First.Data.Type)
             {
@@ -470,54 +475,54 @@ namespace Soft64
             }
         }
 
-        public Int64 LastPc
+        public static Int64 LastPc
         {
             get;
             set;
         }
 
-        public UInt32 NextInterrupt
+        public static UInt32 NextInterrupt
         {
             get;
             set;
         }
 
-        public Int64 SkipJump
+        public static Int64 SkipJump
         {
             get;
             set;
         }
 
-        public UInt32 CountPerOp { get; set; } = 2;
+        public static UInt32 CountPerOp { get; set; } = 2;
 
-        private UInt32 CP0_COUNT_REG
+        private static UInt32 CP0_COUNT_REG
         {
             get { return m_Core.State.CP0Regs.Count; }
             set { m_Core.State.CP0Regs.Count = value; }
         }
 
-        private UInt32 CP0_COMPARE_REG => m_Core.State.CP0Regs.Compare;
+        private static UInt32 CP0_COMPARE_REG => m_Core.State.CP0Regs.Compare;
 
-        private UInt64 CP0_CAUSE_REG
+        private static UInt64 CP0_CAUSE_REG
         {
             get { return m_Core.State.CP0Regs.Cause; }
             set { m_Core.State.CP0Regs.Cause = value; }
         }
 
-        private UInt64 CP0_STATUS_REG
+        private static UInt64 CP0_STATUS_REG
         {
             get { return m_Core.State.CP0Regs.Status; }
             set { m_Core.State.CP0Regs.Status = value; }
         }
 
-        private UInt64 CP0_ERROREPC_REG
+        private static UInt64 CP0_ERROREPC_REG
         {
             get { return m_Core.State.CP0Regs.ErrorEPC; }
             set { m_Core.State.CP0Regs.ErrorEPC = value; }
         }
 
-        private UInt64 MI_INTR_REG => Machine.Current.DeviceRCP.Interface_MIPS.Interrupts;
-        private UInt64 MI_INTR_MASK_REG => Machine.Current.DeviceRCP.Interface_MIPS.InterruptMask;
+        private static UInt64 MI_INTR_REG => Machine.Current.DeviceRCP.Interface_MIPS.Interrupts;
+        private static UInt64 MI_INTR_MASK_REG => Machine.Current.DeviceRCP.Interface_MIPS.InterruptMask;
 
         private class InterruptEvent
         {
@@ -527,8 +532,8 @@ namespace Soft64
 
         private class Node
         {
-            public InterruptEvent Data { get; set; }
-            public Node Next { get; set; }
+            public InterruptEvent Data { get; set; } = new InterruptEvent();
+            public Node Next { get; set; } = null;
         }
 
         private class Pool
@@ -536,14 +541,20 @@ namespace Soft64
             public Node[] Nodes { get; set; } = new Node[PoolCapacity];
             public Node[] Stack { get; set; } = new Node[PoolCapacity];
             public Int32 Index { get; set; }
+
+            public Pool()
+            {
+                for (Int32 i = 0; i < Nodes.Length; i++)
+                    Nodes[i] = new Node();
+            }
         }
 
         private const Int32 PoolCapacity = 16;
 
         private class InterruptQueue
         {
-            public Pool Pool { get; set; }
-            public Node First { get; set; }
+            public Pool Pool { get; set; } = new Pool();
+            public Node First { get; set; } = null;
         }
 
         public const Int32 VI_INT = 0x001;
@@ -561,7 +572,7 @@ namespace Soft64
         public const UInt32 MI_INTR_DP = 32;
 
 
-        public Boolean MipsInterface_UpdateInitMode(MipsInterface mi, UInt32 write)
+        public static Boolean MipsInterface_UpdateInitMode(MipsInterface mi, UInt32 write)
         {
             Boolean clearDp = false;
 
@@ -587,7 +598,7 @@ namespace Soft64
             return clearDp;
         }
 
-        public void MipsInterface_UpdateInterruptMask(MipsInterface mi, UInt32 write)
+        public static void MipsInterface_UpdateInterruptMask(MipsInterface mi, UInt32 write)
         {
             /* Clear / Set SP Mask */
             if ((write & 0x1) != 0) mi.InterruptMask &= ~0x1U;
@@ -614,7 +625,7 @@ namespace Soft64
             if ((write & 0x800) != 0) mi.InterruptMask |= 0x20;
         }
 
-        public void MipsInterface_RaiseRcpException(MipsInterface mi, UInt32 intr)
+        public static void MipsInterface_RaiseRcpException(MipsInterface mi, UInt32 intr)
         {
             mi.Interrupts |= intr;
 
@@ -624,19 +635,19 @@ namespace Soft64
             }
         }
 
-        public void MipsInterface_SignalRcpInterrupt(MipsInterface mi, UInt32 intr)
+        public static void MipsInterface_SignalRcpInterrupt(MipsInterface mi, UInt32 intr)
         {
             mi.Interrupts |= intr;
             CheckInterrupt();
         }
 
-        public void MipsInterface_ClearRcpInterrupt(MipsInterface mi, UInt32 intr)
+        public static void MipsInterface_ClearRcpInterrupt(MipsInterface mi, UInt32 intr)
         {
             mi.Interrupts &= ~intr;
             CheckInterrupt();
         }
 
-        public void MipsInterface_RegWrite(MipsInterface mi, Int32 address, UInt32 value, UInt32 mask)
+        public static void MipsInterface_RegWrite(MipsInterface mi, Int32 address, UInt32 value, UInt32 mask)
         {
             var reg = (mi_registers)address;
 

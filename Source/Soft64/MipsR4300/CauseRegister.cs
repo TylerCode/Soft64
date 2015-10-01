@@ -98,7 +98,12 @@ namespace Soft64.MipsR4300
         public ExceptionCode ExceptionType
         {
             get { return TranslateFromReg(ExcCode); }
-            set { ExcCode = TranslateFromCode(value); }
+            set { ExcCode = TranslateFromCode(value);
+
+                /* Invoke Mupen helper */
+                MupenHelper.ExceptionGeneral();
+
+            }
         }
 
         private ExceptionCode TranslateFromReg(byte value)

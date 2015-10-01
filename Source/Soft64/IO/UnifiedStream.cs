@@ -33,7 +33,7 @@ namespace Soft64.IO
     {
         private Boolean m_Disposed;
         private Int64 m_Position;
-        private Boolean m_UseCompiler = true;
+        private Boolean m_UseCompiler = false;
         private _StreamLUT m_StreamLUT;
         private Object m_IOLock = new object();
         private _StreamIOCompiler m_OpCompiler;

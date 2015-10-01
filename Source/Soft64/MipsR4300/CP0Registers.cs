@@ -32,7 +32,7 @@ namespace Soft64.MipsR4300
         /// <summary>
         /// Programmable pointer into TLB array
         /// </summary>
-        Index,
+        Index = 1,
 
         /// <summary>
         /// Pseudorandom pointer into TLB array (read only)
@@ -210,8 +210,8 @@ namespace Soft64.MipsR4300
                     case 9: return m_Count;
                     case 10: return m_EntryHi;
                     case 11: return m_Compare;
-                    case 12: return m_SR.RegisterValue64;
-                    case 13: return m_CauseReg.RegisterValue64;
+                    case 12: return Status;
+                    case 13: return Cause;
                     case 14: return m_EPC;
                     case 15: return m_Prid;
                     case 16: return m_Config;
@@ -240,8 +240,8 @@ namespace Soft64.MipsR4300
                     case 9: m_Count = (UInt32)value; break;
                     case 10: m_EntryHi = value; break;
                     case 11: m_Compare = (UInt32)value; break;
-                    case 12: m_SR.RegisterValue64 = value; break;
-                    case 13: m_CauseReg.RegisterValue64 = value; break;
+                    case 12: Status = value; break;
+                    case 13: Cause = value; break;
                     case 14: m_EPC = value; break;
                     case 15: m_Prid = value; break;
                     case 16: m_Config = value; break;
@@ -331,7 +331,7 @@ namespace Soft64.MipsR4300
         public UInt32 Compare
         {
             get { return m_Compare; }
-            set { m_Compare = value; m_Count = 0; }
+            set { m_Compare = value; }
         }
 
         public UInt64 Cause
