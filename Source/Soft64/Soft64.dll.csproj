@@ -146,11 +146,6 @@
     <Compile Include="MipsR4300\VirtualPageNumber2.cs" />
     <Compile Include="MipsR4300\DataFormat.cs" />
     <Compile Include="MipsR4300\Debugging\Disassembler.cs" />
-    <Compile Include="MipsR4300\Debugging\Disassembler_LUT_CP0.cs" />
-    <Compile Include="MipsR4300\Debugging\Disassembler_LUT_FPU.cs" />
-    <Compile Include="MipsR4300\Debugging\Disassembler_LUT_Main.cs" />
-    <Compile Include="MipsR4300\Debugging\Disassembler_LUT_RegImm.cs" />
-    <Compile Include="MipsR4300\Debugging\Disassembler_LUT_Special.cs" />
     <Compile Include="MipsR4300\Debugging\OperandDictionary.cs" />
     <Compile Include="MipsR4300\ExecutionComparer.cs" />
     <Compile Include="MipsR4300\ExecutionEngine.cs" />

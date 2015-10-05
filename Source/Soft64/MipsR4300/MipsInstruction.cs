@@ -40,6 +40,8 @@ namespace Soft64.MipsR4300
         public Int32 Ft { get; private set; }
         public Int32 Fs { get; private set; }
         public Int32 Fd { get; private set; }
+        public Int32 FC { get; private set; }
+        public Int32 Cond { get; private set; }
 
         public MipsInstruction(Int64 address, UInt32 instruction)
         {
@@ -59,6 +61,8 @@ namespace Soft64.MipsR4300
             Fs = Rd;
             Fd = ShiftAmount;
             Format = Rs;
+            FC = (l >> 4) & 3;
+            Cond = l & 0xF;
         }
 
         public DataFormat DecodeDataFormat()
@@ -70,35 +74,6 @@ namespace Soft64.MipsR4300
                 case 20: return DataFormat.Word;
                 case 21: return DataFormat.Doubleword;
                 default: return DataFormat.Reserved;
-            }
-        }
-
-        public override string ToString()
-        {
-            try
-            {
-                if (Instruction == 0)
-                    return "nop";
-
-                String op = Disassembler.DecodeOpName(this);
-
-                if (op != null)
-                {
-                    return $"{op} {Disassembler.DecodeOperands(this, true)}";
-                }
-                else
-                {
-                    return "";
-                }
-            }
-            catch (IndexOutOfRangeException)
-            {
-                return "IndexOutOfRangeException Thrown";
-            }
-            catch (TypeInitializationException e)
-            {
-                /* Duplicate key in some dictionary based table */
-                return e.Message;
             }
         }
     }

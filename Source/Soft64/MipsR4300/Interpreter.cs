@@ -266,16 +266,21 @@ namespace Soft64.MipsR4300
             InitializeCallTables();
         }
 
-        public static Int64 BranchComputeTargetAddress(Int64 pc, UInt16 immediate)
+        public static Int64 BranchComputeTargetAddress(MipsInstruction inst)
         {
-            return (pc + 4) + (((Int64)(Int16)immediate) << 2);
+            return (inst.Address + 4) + (((Int64)(Int16)inst.Immediate) << 2);
+        }
+
+        public static Int64 JumpComputeTargetAddress(MipsInstruction inst)
+        {
+            return (inst.Target << 2) | ((inst.Address + 4) & 0xFFFF0000);
         }
 
         protected void DoBranch(Boolean condition, MipsInstruction inst)
         {
             MipsState.BranchEnabled = true;
             MipsState.BranchDelaySlot = MipsState.PC + 4;
-            MipsState.BranchTarget = condition ? MapAddress(BranchComputeTargetAddress(inst.Address, inst.Immediate)) : MipsState.PC + 8;
+            MipsState.BranchTarget = condition ? MapAddress(BranchComputeTargetAddress(inst)) : MipsState.PC + 8;
         }
 
         protected void DoBranchLikely(Boolean condition, MipsInstruction inst)
