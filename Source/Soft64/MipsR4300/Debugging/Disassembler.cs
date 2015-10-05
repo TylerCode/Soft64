@@ -19,6 +19,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>
 
 using System;
 using Soft64.MipsR4300;
+using System.Collections.Generic;
+using OF = System.Func<Soft64.MipsR4300.MipsInstruction, System.String>;
 
 namespace Soft64.MipsR4300.Debugging
 {
@@ -26,89 +28,74 @@ namespace Soft64.MipsR4300.Debugging
     {
         /* This is here to to make sure the compiler compiles in this table initialization before anything else */
 
+        private static Boolean m_O32;
+
         #region Format LUT
 
-        private static OperandFunc[] s_OperandFormatLUT =
+        public static String GPR(Int32 index)
         {
-            /* 0: Instructions using Sa operand */
-            (inst, o32) => { return String.Format("{0}, {1}, 0x{2:x2}", DecodeGprReg(inst.Rt, o32), DecodeGprReg(inst.Rd, o32), inst.ShiftAmount); },
+            return DecodeGprReg(index, m_O32);
+        }
 
-            /* 1: Instructions that do not use the Rd operand */
-            (inst, o32) => { return String.Format("{0}, {1}", DecodeGprReg(inst.Rs, o32),  DecodeGprReg(inst.Rt, o32)); },
+        public static String FPR(Int32 index)
+        {
+            return DecodeFpuReg(index);
+        }
 
-            /* 2: Instructions using only the Rd operand */
-            (inst, o32) => { return DecodeGprReg(inst.Rd, o32); },
+        public static String OpFormat(MipsInstruction inst)
+        {
+            switch (inst.DecodeDataFormat())
+            {
+                case DataFormat.Double: return ".d";
+                case DataFormat.Doubleword: return ".l";
+                case DataFormat.Word: return ".w";
+                case DataFormat.Single: return ".s";
+                default: return ".?";
+            }
+        }
 
-            /* 3: Instructions using only the Rs operand */
-            (inst, o32) => { return DecodeGprReg(inst.Rs, o32); },
+        private static Dictionary<String, OF> s_OperandFormatLUT = new Dictionary<String, OF>
+        {
+            ["RT,RD,SA"] = (x) => $"{GPR(x.Rt)}, {GPR(x.Rd)}, {x.ShiftAmount}",
+            ["RS,RT"] = (x) => $"{GPR(x.Rs)}, {GPR(x.Rt)}",
+            ["RD"] = (x) => $"{GPR(x.Rd)}",
+            ["RS"] = (x) => $"{GPR(x.Rs)}",
+            ["RS,RT,RD"] = (x) => $"{GPR(x.Rs)}, {GPR(x.Rt)}, {GPR(x.Rd)}",
+            ["RS,RT,RD,SA"] = (x) => $"{GPR(x.Rs)}, {GPR(x.Rt)}, {GPR(x.Rd)}, {x.ShiftAmount}",
+            ["RS,IMM"] = (x) => $"{GPR(x.Rs)}, {x.Immediate:X4}",
+            ["RT,IMM(RS)"] = (x) => $"{GPR(x.Rt)}, {x.Immediate:X4}({GPR(x.Rs)})",
+            [""] = (x) => $"",
+            ["RT,IMM"] = (x) => $"{GPR(x.Rt)}, {x.Immediate:X4}",
+            ["TARGET"] = (x) => $"{x.Target:X8}",
+            ["RS,RD"] = (x) => $"{GPR(x.Rs)}, {GPR(x.Rd)}",
+            ["RS,RT,IMM"] = (x) => $"{GPR(x.Rs)}, {GPR(x.Rt)}, {x.Immediate:X4}",
+            ["RT,FS"] = (x) => $"{OpFormat(x)} {GPR(x.Rt)}, {FPR(x.Fs)}",
+            ["FS,FD"] = (x) => $"{OpFormat(x)} {FPR(x.Fs)}, {FPR(x.Fd)}",
 
-            /* 4: Common Register format */
-            (inst, o32) => { return String.Format("{0}, {1}, {2}", DecodeGprReg(inst.Rs, o32),  DecodeGprReg(inst.Rt, o32),  DecodeGprReg(inst.Rd, o32));},
-
-            /* 5: Instructions that use Rt, Rd, Rs only */
-            (inst, o32) => { return String.Format("{0}, {1}, {2}", DecodeGprReg(inst.Rt, o32),  DecodeGprReg(inst.Rd, o32),  DecodeGprReg(inst.ShiftAmount, o32));},
-
-            /* 6: Instructions that use Rs and Immediate only */
-            (inst, o32) => { return String.Format("{0}, 0x{1:x4}", DecodeGprReg(inst.Rs, o32), inst.Immediate); },
-
-            /* 7: Instructions that use base, rt and offset */
-            (inst, o32) => { return String.Format("{0}, 0x{2:x8}({1})", DecodeGprReg(inst.Rt, o32), DecodeGprReg(inst.Rs, o32), inst.Immediate); },
-
-            /* 8: Sync instruction format */
-            (inst, o32) => { return inst.ShiftAmount.ToString(); },
-
-            /* 9: Immediate Instructions that only use rt operand */
-            (inst, o32) => { return String.Format("{0}, 0x{1:x4}", DecodeGprReg(inst.Rt, o32), inst.Immediate); },
-
-            /* 10: Immediate Instructions in RegImm that use only rs + offset */
-            (inst, o32) => { return String.Format("{0}, 0x{1:x4}", DecodeGprReg(inst.Rs, o32), inst.Immediate); },
-
-            /* 11: Common Jump Format */
-            (inst, o32) => { return "0x" + inst.Target.ToString("x8"); },
-
-            /* 12: Instructions that only use Rs and Rd */
-            (inst, o32) => { return String.Format("{0}, {1}", DecodeGprReg(inst.Rs, o32), DecodeGprReg(inst.Rd, o32)); },
-
-            /* 13: For break and syscall */
-            (inst, o32) => { return ((inst.Instruction & 0x3FFFFFF) >> 6).ToString("x8"); },
-
-            /* 14: For register based trap instructions */
-            (inst, o32) => { return String.Format("{0}, {1}, 0x{2:x4}", DecodeGprReg(inst.Rs, o32), DecodeGprReg(inst.Rt, o32), (inst.Instruction & 0xFFC0) >> 6); },
-
-            /* 15: Cache format (base | op | offset) */
-            (inst, o32) => { return String.Format("{0:x2}, {1:x2}, 0x{2:x4}", inst.Rs, inst.Rt, inst.Immediate); },
-
-            /* 16: Instructions use a CO bit */
-            (inst, o32) => { return Convert.ToBoolean((inst.Instruction & 0x3FFFFFF) >> 26).ToString(); },
-
-            /* 17: Instructions using rt and fs */
-            (inst, o32) => { return String.Format("{0}, {1}", DecodeGprReg(inst.Rt, o32), DecodeCop0Reg(inst.Rd)); },
-
-            /* 18: BC1T type instructions */
-            (inst, o32) => { return String.Format("ND:{0}, TF:{1}, 0x{2:x4}", Convert.ToBoolean((inst.Rt >> 1) & 1), Convert.ToBoolean(inst.Rt & 1), inst.Immediate); },
-
-            /* 19: FPU Instructions using fs, fd */
-            (inst, o32) => { return String.Format("{0}, {1}", DecodeFpuReg(inst.Rd), DecodeFpuReg(inst.ShiftAmount)); },
-
-            /* 20: FPU Instructions using ft, fs, fd */
-            (inst, o32) => { return String.Format("{0}, {1}, {2}", DecodeFpuReg(inst.Rt), DecodeFpuReg(inst.Rd), DecodeFpuReg(inst.ShiftAmount)); },
-
-            /* 21: FPU Instructions using ft, fs */
-            (inst, o32) => { return String.Format("{0}, {1}", DecodeFpuReg(inst.Rt), DecodeFpuReg(inst.ShiftAmount)); },
-
-            /* 22: FPU Instructions using rt, and fs */
-            (inst, o32) => { return String.Format("{0}, {1}", DecodeGprReg(inst.Rt, o32), DecodeFpuReg(inst.Rd)); },
-
-            /* 23: Immediate Instructions using FPR reg */
-            (inst, o32) => { return String.Format("{0:x2}, {1}, 0x{2:x4}", inst.Rs, DecodeFpuReg(inst.Rt), inst.Immediate); },
-
-            /* 24: Common Immediate format */
-            (inst, o32) => { return String.Format("{0}, {1}, 0x{2:x8}",  DecodeGprReg(inst.Rs, o32), DecodeGprReg(inst.Rt, o32), inst.Immediate); },
-
-            /* 25: Conditional Branch formats */
-            (inst, o32) => { return String.Format("{0}, {1}, 0x{2:x8} -->{3:X8}", DecodeGprReg(inst.Rs, o32), DecodeGprReg(inst.Rt, o32), inst.Immediate,
-                                        Interpreter.BranchComputeTargetAddress(inst.Address, inst.Immediate)); },
         };
+
+            ///* 18: BC1T type instructions */
+            //(inst, o32) => { return String.Format("ND:{0}, TF:{1}, 0x{2:x4}", Convert.ToBoolean((inst.Rt >> 1) & 1), Convert.ToBoolean(inst.Rt & 1), inst.Immediate); },
+
+            ///* 20: FPU Instructions using ft, fs, fd */
+            //(inst, o32) => { return String.Format("{0}, {1}, {2}", DecodeFpuReg(inst.Rt), DecodeFpuReg(inst.Rd), DecodeFpuReg(inst.ShiftAmount)); },
+
+            ///* 21: FPU Instructions using ft, fs */
+            //(inst, o32) => { return String.Format("{0}, {1}", DecodeFpuReg(inst.Rt), DecodeFpuReg(inst.ShiftAmount)); },
+
+            ///* 22: FPU Instructions using rt, and fs */
+            //(inst, o32) => { return String.Format("{0}, {1}", DecodeGprReg(inst.Rt, o32), DecodeFpuReg(inst.Rd)); },
+
+            ///* 23: Immediate Instructions using FPR reg */
+            //(inst, o32) => { return String.Format("{0:x2}, {1}, 0x{2:x4}", inst.Rs, DecodeFpuReg(inst.Rt), inst.Immediate); },
+
+            ///* 24: Common Immediate format */
+            //(inst, o32) => { return String.Format("{0}, {1}, 0x{2:x8}",  DecodeGprReg(inst.Rs, o32), DecodeGprReg(inst.Rt, o32), inst.Immediate); },
+
+            ///* 25: Conditional Branch formats */
+            //(inst, o32) => { return String.Format("{0}, {1}, 0x{2:x8} -->{3:X8}", DecodeGprReg(inst.Rs, o32), DecodeGprReg(inst.Rt, o32), inst.Immediate,
+            //                            Interpreter.BranchComputeTargetAddress(inst.Address, inst.Immediate)); },
+        //};
 
         #endregion Format LUT
 

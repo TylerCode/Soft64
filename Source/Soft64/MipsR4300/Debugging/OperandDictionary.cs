@@ -21,11 +21,9 @@ using System;
 using System.Collections.Generic;
 using Soft64.MipsR4300;
 
-internal delegate String OperandFunc(MipsInstruction inst, Boolean o32);
-
 namespace Soft64.MipsR4300.Debugging
 {
-    internal sealed class OperandDictionary : Dictionary<Int32, OperandFunc>
+    internal sealed class OperandDictionary : Dictionary<Int32, Func<MipsInstruction, String>>
     {
         public OperandDictionary()
             : base()
