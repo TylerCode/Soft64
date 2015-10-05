@@ -52,7 +52,7 @@ namespace Soft64.MipsR4300.Debugging
             ["FD,FS,FT"] = (x) => $"{OpFormat(x)} {FPR(x.Fd)}, {FPR(x.Fs)}, {FPR(x.Ft)}",
             ["COND"] = (x) => $"{Cond(x.FC)}.{OpFormat(x)} {FPR(x.Fs)}, {FPR(x.Ft)} {Convert.ToString(x.Cond, 2)}",
             ["JUMP"] = (x) => $"{x.Target:X8} ---> {JumpTarget(x):X16}",
-            ["BRANCH"] = (x) =>  $"{GPR(x.Rs)}, {GPR(x.Rt)} {x.Immediate:X4} ---> {BranchTarget(x):X16}",
+            ["BRANCH"] = (x) => $"{GPR(x.Rs)}, {GPR(x.Rt)} {x.Immediate:X4} ---> {BranchTarget(x):X16}",
             ["BRANCH_Z"] = (x) => $"{GPR(x.Rs)}, {x.Immediate:X4} ---> {BranchTarget(x):X16}",
             ["OFFSET"] = (x) => $"{x.Immediate:X4}",
         };

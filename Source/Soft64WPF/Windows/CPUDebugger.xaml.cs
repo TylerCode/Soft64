@@ -192,8 +192,16 @@ namespace Soft64WPF.Windows
 
         private void DiassembleCode()
         {
+            FormattedText text = new FormattedText("0", CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
+                new Typeface(FontFamily, FontStyle, FontWeight, FontStretch),
+                FontSize,
+                Foreground);
+
+            m_LineCount = (
+                (Int32)(xaml_DataGridDisassembly.ActualHeight / text.Height) - 
+                ((Int32)xaml_DataGridDisassembly.ActualHeight % 8)) - 1;
+
             Int64 pc = Machine.Current.DeviceCPU.State.PC;
-            m_LineCount = (Int32)(xaml_DataGridDisassembly.ActualHeight / (FontSize * 1.50));
             xaml_CodeScrollbar.ViewportSize = m_LineCount;
             Int32 byteCount = (4 * m_LineCount);
             Int64 offset = pc;
