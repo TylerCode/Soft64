@@ -52,7 +52,7 @@ namespace Soft64WPF.Windows
         private void xaml_ChkboxVAdressMode_Checked(object sender, RoutedEventArgs e)
         {
             CurrentAddress += 0xA0000000;
-            CurrentMemoryStream = ((MachineViewModel)DataContext).Cpu.DebugVirtualMemory;
+            CurrentMemoryStream = ((MachineViewModel)DataContext).DeviceCpu.DebugVirtualMemory;
         }
 
         private void xaml_HexScrollBar_Scroll(object sender, ScrollEventArgs e)

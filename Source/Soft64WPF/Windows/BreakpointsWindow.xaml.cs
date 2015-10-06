@@ -30,7 +30,7 @@ namespace Soft64WPF.Windows
             InitializeComponent();
 
             MachineViewModel model = (MachineViewModel)FindResource("machineVM");
-            m_Debugger = model.Cpu.Debugger.Debugger;
+            m_Debugger = model.DeviceCpu.Debugger.Debugger;
 
             WeakEventManager<MipsDebugger, PropertyChangedEventArgs>.AddHandler(m_Debugger, "PropertyChanged", MipsDebuggerPropertyChangedHandler);
 

@@ -4,39 +4,35 @@ using Soft64;
 
 namespace Soft64WPF.ViewModels
 {
-    public sealed class MachineViewModel : DependencyObject
+    public sealed class MachineViewModel : QuickDependencyObject
     {
-        private static readonly DependencyPropertyKey CurrentMachinePropertyKey =
-            DependencyProperty.RegisterReadOnly("CurrentMachine", typeof(Machine), typeof(MachineViewModel),
-            new PropertyMetadata());
+        #region DP - Current Machine
+        private static readonly DependencyPropertyKey CurrentMachinePK= RegDPKey<MachineViewModel, Machine>("CurrentMachine");
+        public static readonly DependencyProperty CurrentMachineProperty = CurrentMachinePK.DependencyProperty;
+        public Machine CurrentMachine => GetValue(CurrentMachineProperty);
+        #endregion
 
-        private static readonly DependencyPropertyKey CartridgePropertyKey =
-            DependencyProperty.RegisterReadOnly("Cartridge", typeof(CartridgeViewModel), typeof(MachineViewModel),
-            new PropertyMetadata());
+        #region DP - Cartridge
+        private static readonly DependencyPropertyKey CartridgePK = RegDPKey<MachineViewModel, CartridgeViewModel>("Cartridge");
+        public static readonly DependencyProperty CartridgeProperty = CartridgePK.DependencyProperty;
+        public CartridgeViewModel Cartridge => GetValue(CartridgeProperty);
+        #endregion
 
-        private static readonly DependencyPropertyKey RcpPropertyKey =
-            DependencyProperty.RegisterReadOnly("Rcp", typeof(RcpViewModel), typeof(MachineViewModel),
-            new PropertyMetadata());
+        #region DP - DeviceRCP
+        private static readonly DependencyPropertyKey DeviceRcpPK = RegDPKey<MachineViewModel, RcpViewModel>("DeviceRcp");
+        public static readonly DependencyProperty DeviceRcpProperty = DeviceRcpPK.DependencyProperty;
+        public RcpViewModel DeviceRcp => GetValue(DeviceRcpProperty);
+        #endregion
 
-        private static readonly DependencyPropertyKey CpuPropertyKey =
-            DependencyProperty.RegisterReadOnly("Cpu", typeof(CpuViewModel), typeof(MachineViewModel),
-            new PropertyMetadata());
+        #region DP - DeviceCPU
+        private static readonly DependencyPropertyKey DeviceCpuPK = RegDPKey<MachineViewModel, CpuViewModel>("DeviceCpu");
+        public static readonly DependencyProperty DeviceCpuProperty = DeviceCpuPK.DependencyProperty;
+        public RcpViewModel DeviceCpu => GetValue(DeviceCpuProperty);
+        #endregion
 
         private static readonly DependencyPropertyKey EnginePropertyKey =
             DependencyProperty.RegisterReadOnly("Engine", typeof(EmulatorEngineViewModel), typeof(MachineViewModel),
             new PropertyMetadata());
-
-        public static readonly DependencyProperty CurrentMachineProperty =
-            CurrentMachinePropertyKey.DependencyProperty;
-
-        public static readonly DependencyProperty CartridgeProperty =
-            CartridgePropertyKey.DependencyProperty;
-
-        public static readonly DependencyProperty RcpProperty =
-            RcpPropertyKey.DependencyProperty;
-
-        public static readonly DependencyProperty CpuProperty =
-            CpuPropertyKey.DependencyProperty;
 
         public static readonly DependencyProperty EngineProperty =
             EnginePropertyKey.DependencyProperty;
@@ -54,26 +50,6 @@ namespace Soft64WPF.ViewModels
             SetValue(EnginePropertyKey, new EmulatorEngineViewModel(this));
         }
 
-        public Machine TargetMachine
-        {
-            get { return (Machine)GetValue(CurrentMachineProperty); }
-        }
-
-        public CartridgeViewModel Cartridge
-        {
-            get { return (CartridgeViewModel)GetValue(CartridgeProperty); }
-        }
-
-        public RcpViewModel Rcp
-        {
-            get { return (RcpViewModel)GetValue(RcpProperty); }
-        }
-
-        public CpuViewModel Cpu
-        {
-            get { return (CpuViewModel)GetValue(CpuProperty); }
-        }
-
         public EmulatorEngineViewModel Engine
         {
             get { return (EmulatorEngineViewModel)GetValue(EngineProperty); }
@@ -83,12 +59,12 @@ namespace Soft64WPF.ViewModels
         {
             add
             {
-                WeakEventManager<Machine, MachineEventNotificationArgs>.AddHandler(TargetMachine,  "MachineEventNotification", value);
+                WeakEventManager<Machine, MachineEventNotificationArgs>.AddHandler(CurrentMachine,  "MachineEventNotification", value);
             }
 
             remove
             {
-                WeakEventManager<Machine, MachineEventNotificationArgs>.RemoveHandler(TargetMachine, "MachineEventNotification", value);
+                WeakEventManager<Machine, MachineEventNotificationArgs>.RemoveHandler(CurrentMachine, "MachineEventNotification", value);
             }
         }
     }

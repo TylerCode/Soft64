@@ -29,7 +29,7 @@ namespace Soft64WPF.ViewModels
         internal CartridgeViewModel(MachineViewModel currentModel)
             : base(currentModel)
         {
-            Machine machine = (Machine)currentModel.TargetMachine;
+            Machine machine = (Machine)currentModel.CurrentMachine;
 
             WeakEventManager<ParallelInterface, CartridgeChangedEventArgs>
                 .AddHandler(machine.DeviceRCP.Interface_Parallel, "CartridgeChanged", DevicePI_CartridgeChanged);

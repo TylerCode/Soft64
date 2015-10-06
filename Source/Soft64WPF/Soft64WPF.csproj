@@ -155,6 +155,7 @@
     <Compile Include="ViewModels\MachineViewModel.cs" />
     <Compile Include="ViewModels\MipsDebuggerViewModel.cs" />
     <Compile Include="ViewModels\N64StreamWrapper.cs" />
+    <Compile Include="ViewModels\QuickDependencyObject.cs" />
     <Compile Include="ViewModels\RcpViewModel.cs" />
     <Compile Include="ViewModels\RegisterFloatValue.cs" />
     <Compile Include="ViewModels\RegisterValue.cs" />

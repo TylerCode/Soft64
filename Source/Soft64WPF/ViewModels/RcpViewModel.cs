@@ -11,7 +11,7 @@ namespace Soft64WPF.ViewModels
             base(model)
         {
             m_MachineModel = model;
-            Machine machine = model.TargetMachine; ;
+            Machine machine = model.CurrentMachine; ;
         }
     }
 }

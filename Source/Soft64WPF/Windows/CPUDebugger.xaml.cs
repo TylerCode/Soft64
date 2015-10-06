@@ -42,7 +42,7 @@ namespace Soft64WPF.Windows
             m_MachineModel = (MachineViewModel)FindResource("machineVM");
             m_MachineModel.MachineEventNotification += m_MachineModel_MachineEventNotification;
 
-            m_Debugger = m_MachineModel.Cpu.Debugger.Debugger;
+            m_Debugger = m_MachineModel.DeviceCpu.Debugger.Debugger;
             WeakEventManager<MipsDebugger, PropertyChangedEventArgs>.AddHandler(m_Debugger, "PropertyChanged", MipsDebuggerPropertyChangedHandler);
             m_Debugger.Attach();
 
@@ -86,7 +86,7 @@ namespace Soft64WPF.Windows
 
         void CPUDebugger_Unloaded(object sender, RoutedEventArgs e)
         {
-            m_MachineModel.Cpu.Debugger.Finished -= Debugger_Finished;
+            m_MachineModel.DeviceCpu.Debugger.Finished -= Debugger_Finished;
         }
 
         void Debugger_Finished(object sender, EventArgs e)
@@ -108,18 +108,18 @@ namespace Soft64WPF.Windows
         void CPUDebugger_Loaded(object sender, RoutedEventArgs e)
         {
             ReadCpu();
-            m_MachineModel.Cpu.Debugger.Finished += Debugger_Finished;
+            m_MachineModel.DeviceCpu.Debugger.Finished += Debugger_Finished;
         }
 
         private void ReadCpu()
         {
             DiassembleCode();
-            m_MachineModel.Cpu.State.Load();
+            m_MachineModel.DeviceCpu.State.Load();
         }
 
         void xaml_MenuBtnSaveChanges_Click(object sender, RoutedEventArgs e)
         {
-            m_MachineModel.Cpu.State.Store();
+            m_MachineModel.DeviceCpu.State.Store();
             ReadCpu();
         }
 
@@ -238,7 +238,7 @@ namespace Soft64WPF.Windows
 
         private void xaml_BtnContinue_Click(object sender, RoutedEventArgs e)
         {
-            m_MachineModel.TargetMachine.Run();
+            m_MachineModel.CurrentMachine.Run();
         }
 
         private void BreakpointMenu_SetBreak(object sender, RoutedEventArgs e)

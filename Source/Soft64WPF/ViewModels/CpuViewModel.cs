@@ -9,12 +9,12 @@ namespace Soft64WPF.ViewModels
         public CpuViewModel(MachineViewModel machineViewModel)
             : base(machineViewModel)
         {
-            var cpu = machineViewModel.TargetMachine.DeviceCPU;
+            var cpu = machineViewModel.CurrentMachine.DeviceCPU;
 
             VirtualMemory = StreamViewModel.NewModelFromStream(cpu.VirtualMemoryStream);
             DebugVirtualMemory = StreamViewModel.NewModelFromStream(new VMemViewStream());
             TlbCache = new TlbCacheViewModel(machineViewModel);
-            State = new ExecutionStateViewModel(machineViewModel, machineViewModel.TargetMachine.DeviceCPU.State);
+            State = new ExecutionStateViewModel(machineViewModel, machineViewModel.CurrentMachine.DeviceCPU.State);
             Debugger = new MipsDebuggerViewModel(machineViewModel);
         }
 
