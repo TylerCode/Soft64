@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
 
-namespace Soft64.Toolkits.WPF
+namespace Soft64WPF
 {
     public class InvertColorEffect : ShaderEffect
     {
@@ -13,7 +13,7 @@ namespace Soft64.Toolkits.WPF
         public InvertColorEffect()
         {
             PixelShader pixelShader = new PixelShader();
-            pixelShader.UriSource = new Uri("/Soft64.Toolkits.WPF;component/InvertColorEffect.ps", UriKind.Relative);
+            pixelShader.UriSource = new Uri("/Soft64WPF;component/InvertColorEffect.ps", UriKind.Relative);
             this.PixelShader = pixelShader;
 
             this.UpdateShaderValue(InputProperty);

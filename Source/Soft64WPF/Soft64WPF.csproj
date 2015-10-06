@@ -127,6 +127,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BlockType.cs" />
     <Compile Include="Converters\BreakpointToVisibilityConverter.cs" />
     <Compile Include="Converters\Hex64Converter.cs" />
     <Compile Include="Converters\PcVisibilityConverter.cs" />
@@ -135,9 +136,29 @@
     <Compile Include="Helper\WpfRichTextBoxRowColoringRule.cs" />
     <Compile Include="Helper\WpfRichTextBoxTarget.cs" />
     <Compile Include="Helper\WpfRichTextBoxWordColoringRule.cs" />
+    <Compile Include="HexEditor.xaml.cs">
+      <DependentUpon>HexEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="HexEditorBlock.cs" />
+    <Compile Include="HexEditorCaret.cs" />
+    <Compile Include="HexEditorRow.cs" />
+    <Compile Include="InvertColorEffect.cs" />
     <Compile Include="ProgramCounterArrow.cs" />
     <Compile Include="RegisterObserver.cs" />
     <Compile Include="RegisterObserverCollection.cs" />
+    <Compile Include="StreamViewModel.cs" />
+    <Compile Include="ViewModels\CartridgeViewModel.cs" />
+    <Compile Include="ViewModels\CpuViewModel.cs" />
+    <Compile Include="ViewModels\EmulatorEngineViewModel.cs" />
+    <Compile Include="ViewModels\ExecutionStateViewModel.cs" />
+    <Compile Include="ViewModels\MachineComponentViewModel.cs" />
+    <Compile Include="ViewModels\MachineViewModel.cs" />
+    <Compile Include="ViewModels\MipsDebuggerViewModel.cs" />
+    <Compile Include="ViewModels\N64StreamWrapper.cs" />
+    <Compile Include="ViewModels\RcpViewModel.cs" />
+    <Compile Include="ViewModels\RegisterFloatValue.cs" />
+    <Compile Include="ViewModels\RegisterValue.cs" />
+    <Compile Include="ViewModels\TlbCacheViewModel.cs" />
     <Compile Include="Windows\BreakpointsWindow.xaml.cs">
       <DependentUpon>BreakpointsWindow.xaml</DependentUpon>
     </Compile>
@@ -158,6 +179,10 @@
     <Compile Include="Windows\ResourceDebugger.xaml.cs">
       <DependentUpon>ResourceDebugger.xaml</DependentUpon>
     </Compile>
+    <Page Include="HexEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="RegisterObserver.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -223,6 +248,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Resource Include="ViewModels\TODO.txt" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -233,6 +259,7 @@
     </None>
     <Resource Include="Fonts\emulogic.ttf" />
     <Resource Include="Fonts\DroidSansMono.ttf" />
+    <Resource Include="InvertColorEffect.ps" />
     <None Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -247,14 +274,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Soft64.Toolkits.WPF\Soft64.Toolkits.WPF.csproj">
-      <Project>{334c5b35-8fb0-4fd6-89d1-572c94acfd5e}</Project>
-      <Name>Soft64.Toolkits.WPF</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Soft64Binding.WPF\Soft64Binding.WPF.dll.csproj">
-      <Project>{1e6f2fee-6112-404c-868d-66ac7bf099e5}</Project>
-      <Name>Soft64Binding.WPF.dll</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Soft64\Soft64.dll.csproj">
       <Project>{44364805-1711-4454-a237-a4c4dfe2e1f6}</Project>
       <Name>Soft64.dll</Name>

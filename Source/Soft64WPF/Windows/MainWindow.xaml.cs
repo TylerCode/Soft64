@@ -30,7 +30,7 @@ using NLog.Targets.Wrappers;
 using Soft64;
 using Soft64.Debugging;
 using Soft64.MipsR4300;
-using Soft64Binding.WPF;
+using Soft64WPF.ViewModels;
 using Soft64WPF.Helper;
 
 namespace Soft64WPF.Windows

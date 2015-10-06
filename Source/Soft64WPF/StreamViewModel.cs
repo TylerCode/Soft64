@@ -4,7 +4,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Threading;
 
-namespace Soft64.Toolkits.WPF
+namespace Soft64WPF
 {
     /// <summary>
     /// ViewModel of a System.IO.Stream object

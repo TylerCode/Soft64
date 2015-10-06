@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 using Soft64;
 using Soft64.Engines;
 using Soft64.MipsR4300;
-using Soft64Binding.WPF;
+using Soft64WPF.ViewModels;
 
 namespace Soft64WPF.Windows
 {

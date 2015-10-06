@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:toolkit="clr-namespace:Soft64.Toolkits.WPF;assembly=Soft64.Toolkits.WPF">
+                    xmlns:toolkit="clr-namespace:Soft64WPF">
 
     <!-- Theme Accent Colors -->
     <SolidColorBrush x:Key="Theme_LightAccentColor_1" Color="#FFC5FFF5" />

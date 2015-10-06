@@ -2,7 +2,7 @@
 using System.IO;
 using Soft64;
 
-namespace Soft64Binding.WPF
+namespace Soft64WPF.ViewModels
 {
     public sealed class N64StreamWrapper : Stream
     {

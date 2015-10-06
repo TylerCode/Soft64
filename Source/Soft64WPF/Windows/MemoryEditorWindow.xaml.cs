@@ -3,8 +3,8 @@ using System.Globalization;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls.Primitives;
-using Soft64.Toolkits.WPF;
-using Soft64Binding.WPF;
+using Soft64WPF;
+using Soft64WPF.ViewModels;
 
 namespace Soft64WPF.Windows
 {

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace Soft64.Toolkits.WPF
+namespace Soft64WPF
 {
     internal class HexEditorRow : DependencyObject, INotifyPropertyChanged
     {

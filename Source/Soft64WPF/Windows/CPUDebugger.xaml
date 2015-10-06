@@ -3,18 +3,22 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:ae="clr-namespace:ICSharpCode.AvalonEdit;assembly=ICSharpCode.AvalonEdit"
         xmlns:core="clr-namespace:System;assembly=mscorlib"
-        xmlns:Soft64WPF="clr-namespace:Soft64WPF" x:Name="window" x:Class="Soft64WPF.Windows.CPUDebugger"
+        xmlns:Soft64WPF="clr-namespace:Soft64WPF"
         xmlns:c="clr-namespace:Soft64WPF.Converters"
         xmlns:om="clr-namespace:System.Collections.ObjectModel;assembly=System"
         xmlns:win="clr-namespace:System.Windows;assembly=PresentationFramework"
-        Title="CPU Debugger" Height="680.225" Width="785"
-        DataContext="{Binding ., Source={StaticResource machineVM}}" ResizeMode="NoResize">
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Name="window" x:Class="Soft64WPF.Windows.CPUDebugger"
+        Title="CPU Debugger" Height="711" Width="785"
+        ResizeMode="NoResize">
     <Window.Resources>
         <ContextMenu x:Key="breakpointMenu">
             <MenuItem Header="Set Breakpoint" Click="BreakpointMenu_SetBreak" />
             <MenuItem Header="Clear Breakpoint" Click="BreakpointMenu_ClearBreak" />
         </ContextMenu>
     </Window.Resources>
+    <Window.DataContext>
+        <Binding Path="." Source="{StaticResource machineVM}"/>
+    </Window.DataContext>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="501"/>
@@ -26,49 +30,50 @@
             <RowDefinition Height="23"/>
             <RowDefinition Height="29"/>
             <RowDefinition/>
+            <RowDefinition Height="56.225"/>
         </Grid.RowDefinitions>
-        <Menu Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4">
-            <MenuItem Header="Debugger">
-                <MenuItem x:Name="xaml_MenuBtnRefreshDisam" Header="Refresh Disassembly" />
-                <MenuItem x:Name="xaml_MenuBtnSaveChanges" Header="Write Modifications" />
+        <Menu Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin" d:IsLocked="True">
+            <MenuItem Header="Debugger" d:IsHidden="True">
+                <MenuItem x:Name="xaml_MenuBtnRefreshDisam" Header="Refresh Disassembly" d:IsHidden="True" />
+                <MenuItem x:Name="xaml_MenuBtnSaveChanges" Header="Write Modifications" d:IsHidden="True" />
             </MenuItem>
-            <MenuItem Header="Tools">
-                <MenuItem Header="Core Compare ..." x:Name="xaml_BtnCompare"/>
-                <MenuItem Header="Resources ..." x:Name="xaml_BtnResHooks"/>
-                <MenuItem Header="Breakpoints ..." x:Name="xaml_BtnBreakpoints" />
+            <MenuItem Header="Tools" d:IsHidden="True">
+                <MenuItem Header="Core Compare ..." x:Name="xaml_BtnCompare" d:IsHidden="True"/>
+                <MenuItem Header="Resources ..." x:Name="xaml_BtnResHooks" d:IsHidden="True"/>
+                <MenuItem Header="Breakpoints ..." x:Name="xaml_BtnBreakpoints" d:IsHidden="True" />
             </MenuItem>
         </Menu>
-        <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,5,0,0" Width="258" HorizontalAlignment="Left">
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,5,243,0" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin" d:IsLocked="True">
             <StackPanel.Resources>
-                <Style x:Name="Button" TargetType="Button">
+                <Style x:Name="Button" TargetType="{x:Type Button}">
                     <Setter Property="Margin" Value="10,5,0,0" />
                 </Style>
             </StackPanel.Resources>
-            <Button x:Name="xaml_BtnBreak" Content="Break" Width="76" Height="22" Margin="10,0,0,0" Click="xaml_BtnBreak_Click" VerticalAlignment="Top"/>
-            <Button x:Name="xaml_BtnContinue" Content="Continue" Width="76" Height="22" Margin="10,0,0,0" Click="xaml_BtnContinue_Click" VerticalAlignment="Top"/>
-            <Button x:Name="xaml_BtnStep" Content="Step" Width="76" Height="22" Click="xaml_BtnStep_Click" Margin="10,0,0,0" VerticalAlignment="Top"/>
+            <Button x:Name="xaml_BtnBreak" Content="Break" Width="76" Height="22" Margin="10,0,0,0" Click="xaml_BtnBreak_Click" VerticalAlignment="Top" d:IsHidden="True"/>
+            <Button x:Name="xaml_BtnContinue" Content="Continue" Width="76" Height="22" Margin="10,0,0,0" Click="xaml_BtnContinue_Click" VerticalAlignment="Top" d:IsHidden="True"/>
+            <Button x:Name="xaml_BtnStep" Content="Step" Width="76" Height="22" Click="xaml_BtnStep_Click" Margin="10,0,0,0" VerticalAlignment="Top" d:IsHidden="True"/>
         </StackPanel>
 
         <!-- Registers -->
-        <TabControl  Grid.RowSpan="2" Grid.Row="1" Grid.Column="2" Margin="10,3,0,0" Grid.ColumnSpan="2">
-            <TabItem Header="General">
-                <StackPanel Orientation="Vertical">
-                    <Grid>
+        <TabControl  Grid.RowSpan="2" Grid.Row="1" Grid.Column="2" Margin="10,3,0,0" Grid.ColumnSpan="2" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin" d:IsLocked="True">
+            <TabItem Header="General" d:IsHidden="True">
+                <StackPanel Orientation="Vertical" d:IsHidden="True">
+                    <Grid d:IsHidden="True">
                         <Grid.Resources>
                             <c:Hex64Converter x:Key="hex64converter" />
-                            <Style TargetType="TextBox" >
+                            <Style TargetType="{x:Type TextBox}" >
                                 <Setter Property="Width" Value="137" />
                                 <Setter Property="Margin" Value="5,0,0,0" />
                                 <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
 
                                 <Style.Triggers>
                                     <Trigger Property="Validation.HasError" Value="True">
-                                        <Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)[0].ErrorContent}"/>
+                                        <Setter Property="ToolTip" Value="{Binding (Validation.Errors)[0].ErrorContent, RelativeSource={x:Static RelativeSource.Self}}"/>
                                     </Trigger>
                                 </Style.Triggers>
                             </Style>
 
-                            <Style TargetType="TextBlock">
+                            <Style TargetType="{x:Type TextBlock}">
                                 <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
                                 <Setter Property="Foreground" Value="Black" />
                             </Style>
@@ -113,7 +118,7 @@
 
                         </Grid.Resources>
 
-                        <ItemsControl ItemsSource="{StaticResource registers}" FontFamily="Consolas" TextOptions.TextFormattingMode="Display" FontSize="11" Margin="0,0,0,7" Foreground="Black">
+                        <ItemsControl ItemsSource="{StaticResource registers}" FontFamily="Consolas" TextOptions.TextFormattingMode="Display" FontSize="11" Margin="0,0,0,7" Foreground="Black" d:IsHidden="True">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <StackPanel Orientation="Vertical" />
@@ -126,19 +131,18 @@
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                     </Grid>
-                    <TextBox HorizontalAlignment="Left" Width="92.333" />
                 </StackPanel>
             </TabItem>
-            <TabItem Header="Control" />
-            <TabItem Header="FPU" />
+            <TabItem Header="Control" d:IsHidden="True" />
+            <TabItem Header="FPU" d:IsHidden="True" />
         </TabControl>
-        <ListBox x:Name="xaml_DataGridDisassembly" ItemsSource="{Binding Cpu.Debugger.Disassembly}" Grid.Row="2" Background="#FF1F1425" FontFamily="Consolas" BorderBrush="{x:Null}" Grid.ColumnSpan="1" ScrollViewer.CanContentScroll="False" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" FontSize="13.333" Foreground="#FFFF78F9" TextOptions.TextFormattingMode="Display">
+        <ListBox x:Name="xaml_DataGridDisassembly" ItemsSource="{Binding Cpu.Debugger.Disassembly}" Grid.Row="2" Background="#FF1F1425" FontFamily="Consolas" BorderBrush="{x:Null}" Grid.ColumnSpan="1" ScrollViewer.CanContentScroll="False" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" FontSize="13.333" Foreground="#FFFF78F9" TextOptions.TextFormattingMode="Display" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin" d:IsLocked="True">
             <ListBox.ItemContainerStyle>
-                <Style TargetType="ListBoxItem">
+                <Style TargetType="{x:Type ListBoxItem}">
                     <Setter Property="Template">
                         <Setter.Value>
-                            <ControlTemplate TargetType="ListBoxItem">
-                                <Border Name="_Border" Padding="2" SnapsToDevicePixels="true">
+                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                <Border x:Name="_Border" Padding="2" SnapsToDevicePixels="true">
                                     <ContentPresenter />
                                 </Border>
                                 <ControlTemplate.Triggers>
@@ -180,6 +184,43 @@
                 </ItemContainerTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <ScrollBar x:Name="xaml_CodeScrollbar" Orientation="Vertical" Grid.Row="2" Grid.Column="1" Maximum="1073741823" LargeChange="10" SmallChange="1" Margin="4,0" />
+        <ScrollBar x:Name="xaml_CodeScrollbar" Orientation="Horizontal" Grid.Row="2" Grid.Column="1" Maximum="1073741823" LargeChange="10" SmallChange="1" Margin="4,260.5,4,250.5" Width="Auto" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin" d:IsLocked="True" Height="Auto" />
+        <StackPanel Orientation="Vertical" Grid.Row="3" Grid.ColumnSpan="4" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin" >
+            <StackPanel Orientation="Horizontal" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin">
+                <TextBlock Text="BranchPC" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <TextBox x:Name="xaml_TextBoxBranchPC" HorizontalAlignment="Left" Width="92.333" Height="19.96" VerticalAlignment="Center" Margin="5,0,0,0" />
+                <TextBlock Text="Delay Slot" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,2.632,0,2.632"/>
+                <TextBox x:Name="xaml_TextBoxDelaySlot" HorizontalAlignment="Left" Width="92.333" Height="19.96" VerticalAlignment="Center" Margin="5,0.632,0,0.633" />
+                <CheckBox x:Name="checkBox" Content="B" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="22,0,0,0"/>
+                <CheckBox x:Name="checkBox_Copy" Content="N" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="24.5,3.063,0,3.063"/>
+                <CheckBox x:Name="checkBox_Copy1" Content="LL" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="21.5,3.063,0,3.063"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin">
+                <TextBlock Text="Status:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <CheckBox x:Name="checkBox_Copy2" Content="C64" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0"/>
+                <CheckBox x:Name="checkBox_Copy3" Content="A64" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0"/>
+                <CheckBox x:Name="checkBox_Copy4" Content="FP" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0"/>
+                <CheckBox x:Name="checkBox_Copy13" Content="IE" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="15,0,0,0"/>
+                <CheckBox x:Name="checkBox_Copy5" Content="IM0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="17,0,0,0"/>
+                <CheckBox x:Name="checkBox_Copy6" Content="IM1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0"/>
+                <CheckBox x:Name="checkBox_Copy7" Content="IM2" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0"/>
+                <CheckBox x:Name="checkBox_Copy8" Content="IM3" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="11,0,0,0"/>
+                <CheckBox x:Name="checkBox_Copy9" Content="IM4" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0"/>
+                <CheckBox x:Name="checkBox_Copy10" Content="IM5" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0"/>
+                <CheckBox x:Name="checkBox_Copy11" Content="IM6" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0"/>
+                <CheckBox x:Name="checkBox_Copy12" Content="IM7" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin">
+                <TextBlock Text="Cause:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <CheckBox x:Name="checkBox_Copy14" Content="IP0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10.5,0,0,0"/>
+                <CheckBox x:Name="checkBox_Copy15" Content="IP1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="14,0,0,0"/>
+                <CheckBox x:Name="checkBox_Copy16" Content="IP2" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="14,0,0,0"/>
+                <CheckBox x:Name="checkBox_Copy17" Content="IP3" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="11,0,0,0"/>
+                <CheckBox x:Name="checkBox_Copy18" Content="IP4" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10.5,0,0,0"/>
+                <CheckBox x:Name="checkBox_Copy19" Content="IP5" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="14,0,0,0"/>
+                <CheckBox x:Name="checkBox_Copy20" Content="IP6" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="14,0,0,0"/>
+                <CheckBox x:Name="checkBox_Copy21" Content="IP7" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="15,0,0,0"/>
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </Window>

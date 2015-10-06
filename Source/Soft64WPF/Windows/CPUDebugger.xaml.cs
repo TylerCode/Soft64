@@ -15,7 +15,7 @@ using Soft64.Debugging;
 using Soft64.Engines;
 using Soft64.MipsR4300;
 using Soft64.MipsR4300.Debugging;
-using Soft64Binding.WPF;
+using Soft64WPF.ViewModels;
 using Soft64WPF.Converters;
 
 namespace Soft64WPF.Windows

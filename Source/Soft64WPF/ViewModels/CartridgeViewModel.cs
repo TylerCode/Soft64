@@ -22,7 +22,7 @@ using System.Windows;
 using Soft64;
 using Soft64.RCP;
 
-namespace Soft64Binding.WPF
+namespace Soft64WPF.ViewModels
 {
     public class CartridgeViewModel : MachineComponentViewModel
     {

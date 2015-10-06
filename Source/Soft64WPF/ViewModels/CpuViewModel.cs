@@ -1,8 +1,8 @@
 ﻿using System.Windows;
 using Soft64.MipsR4300.Debugging;
-using Soft64.Toolkits.WPF;
+using Soft64WPF;
 
-namespace Soft64Binding.WPF
+namespace Soft64WPF.ViewModels
 {
     public class CpuViewModel : MachineComponentViewModel
     {

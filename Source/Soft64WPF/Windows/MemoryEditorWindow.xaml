@@ -5,7 +5,7 @@
         xmlns:rb="clr-namespace:System.Windows.Controls.Ribbon;assembly=System.Windows.Controls.Ribbon"
         xmlns:conv="clr-namespace:Soft64WPF.Converters"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
-        xmlns:toolkit="clr-namespace:Soft64.Toolkits.WPF;assembly=Soft64.Toolkits.WPF"
+        xmlns:toolkit="clr-namespace:Soft64WPF"
         Title="Soft64 Memory Viewer" Height="656" Width="715"
         DataContext="{Binding Source={StaticResource machineVM}}"
         x:Name="window">

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using Soft64.MipsR4300;
 
-namespace Soft64Binding.WPF
+namespace Soft64WPF.ViewModels
 {
     public class ExecutionStateViewModel : MachineComponentViewModel
     {

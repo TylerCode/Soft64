@@ -1,4 +1,4 @@
-﻿namespace Soft64.Toolkits.WPF
+﻿namespace Soft64WPF
 {
     public enum BlockType
     {

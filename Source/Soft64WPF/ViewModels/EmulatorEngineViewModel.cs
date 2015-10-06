@@ -2,7 +2,7 @@
 using System.Windows;
 using Soft64.Engines;
 
-namespace Soft64Binding.WPF
+namespace Soft64WPF.ViewModels
 {
     public class EmulatorEngineViewModel : MachineComponentViewModel
     {

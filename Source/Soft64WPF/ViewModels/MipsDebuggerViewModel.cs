@@ -8,7 +8,7 @@ using System.Windows;
 using System.Windows.Threading;
 using Soft64.MipsR4300.Debugging;
 
-namespace Soft64Binding.WPF
+namespace Soft64WPF.ViewModels
 {
     public class MipsDebuggerViewModel : MachineComponentViewModel
     {

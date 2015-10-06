@@ -5,7 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 
-namespace Soft64.Toolkits.WPF
+namespace Soft64WPF
 {
     public sealed class HexEditorBlock : Control
     {
@@ -45,7 +45,7 @@ namespace Soft64.Toolkits.WPF
         {
             drawingContext.DrawRectangle(m_InvisiBrush, null, new Rect(0, 0, ActualWidth, ActualHeight));
 
-            if (BlockType == WPF.BlockType.Hex)
+            if (BlockType == BlockType.Hex)
             {
                 drawingContext.DrawGeometry(Foreground, null, m_HexGeo[ByteValue]);
             }

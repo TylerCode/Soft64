@@ -11,7 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 
-namespace Soft64.Toolkits.WPF
+namespace Soft64WPF
 {
     /// <summary>
     /// Interaction logic for HexEditor.xaml

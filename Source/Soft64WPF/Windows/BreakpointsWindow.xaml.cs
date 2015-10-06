@@ -14,7 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Soft64.MipsR4300.Debugging;
-using Soft64Binding.WPF;
+using Soft64WPF.ViewModels;
 
 namespace Soft64WPF.Windows
 {

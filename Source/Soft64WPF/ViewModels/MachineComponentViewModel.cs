@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Soft64Binding.WPF
+namespace Soft64WPF.ViewModels
 {
     public abstract class MachineComponentViewModel : DependencyObject
     {

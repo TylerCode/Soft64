@@ -7,11 +7,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Markup;
 
-namespace Soft64Binding.WPF
+namespace Soft64WPF.ViewModels
 {
-    public class RegisterFloatValue : IDataErrorInfo, INotifyPropertyChanged
+    public class RegisterValue : IDataErrorInfo, INotifyPropertyChanged
     {
-        private String m_Value = "0.000000";
+        private String m_Value = "0000000000000000";
 
         public String Value
         {
@@ -24,18 +24,18 @@ namespace Soft64Binding.WPF
             get { return null; }
         }
 
-        internal Double RegValue
+        internal UInt64 RegValue
         {
             get
             {
-                Double v = 0;
-                Double.TryParse(m_Value, NumberStyles.AllowDecimalPoint, CultureInfo.CurrentCulture, out v);
+                UInt64 v = 0;
+                UInt64.TryParse(m_Value, NumberStyles.AllowHexSpecifier, CultureInfo.CurrentCulture, out v);
                 return v;
             }
 
             set
             {
-                m_Value = value.ToString("0.######");
+                m_Value = value.ToString("X16");
                 OnPropertyChange("Value");
             }
         }
@@ -44,17 +44,17 @@ namespace Soft64Binding.WPF
         {
             get 
             {
-                Double v = 0;
+                UInt64 v = 0;
 
                 if (columnName.Equals("Value"))
                 {
-                    if (Double.TryParse(m_Value, NumberStyles.AllowDecimalPoint, CultureInfo.CurrentCulture, out v))
+                    if (UInt64.TryParse(m_Value, NumberStyles.AllowHexSpecifier, CultureInfo.CurrentCulture, out v))
                     {
                         return null;
                     }
                     else
                     {
-                        return "Value must be in valid decimal value";
+                        return "Value must be in valid hexadecimal value, not including 0x prefix";
                     }
                 }
 

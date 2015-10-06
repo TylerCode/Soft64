@@ -4,7 +4,7 @@ using System.Collections.Specialized;
 using System.Windows;
 using Soft64.MipsR4300;
 
-namespace Soft64Binding.WPF
+namespace Soft64WPF.ViewModels
 {
     public sealed class TlbCacheViewModel : MachineComponentViewModel
     {
