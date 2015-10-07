@@ -62,20 +62,11 @@ namespace Soft64WPF.ViewModels
             }
         }
 
-        #region INotifyPropertyChanged Members
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void OnPropertyChange(String name)
         {
-            var e = PropertyChanged;
-
-            if (e != null)
-            {
-                e(this, new PropertyChangedEventArgs(name));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
-
-        #endregion
     }
 }

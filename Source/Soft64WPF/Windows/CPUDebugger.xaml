@@ -79,41 +79,41 @@
                             </Style>
 
                             <Soft64WPF:RegisterObserverCollection x:Key="registers">
-                                <Soft64WPF:RegisterObserver RegName="PC" Path="Cpu.State.RegisterPC.Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="Hi" Path="Cpu.State.RegisterHi.Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="Lo" Path="Cpu.State.RegisterLo.Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR00 (zero)" Path="Cpu.State.GPRegisters[0].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR01 (at)" Path="Cpu.State.GPRegisters[1].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR02 (v0)" Path="Cpu.State.GPRegisters[2].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR03 (v1)" Path="Cpu.State.GPRegisters[3].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR04 (a0)" Path="Cpu.State.GPRegisters[4].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR05 (a1)" Path="Cpu.State.GPRegisters[5].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR06 (a2)" Path="Cpu.State.GPRegisters[6].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR07 (a3)" Path="Cpu.State.GPRegisters[7].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR08 (t0)" Path="Cpu.State.GPRegisters[8].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR09 (t1)" Path="Cpu.State.GPRegisters[9].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR10 (t2)" Path="Cpu.State.GPRegisters[10].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR11 (t3)" Path="Cpu.State.GPRegisters[11].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR12 (t4)" Path="Cpu.State.GPRegisters[12].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR13 (t5)" Path="Cpu.State.GPRegisters[13].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR14 (t6)" Path="Cpu.State.GPRegisters[14].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR15 (t7)" Path="Cpu.State.GPRegisters[15].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR16 (s0)" Path="Cpu.State.GPRegisters[16].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR17 (s1)" Path="Cpu.State.GPRegisters[17].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR18 (s2)" Path="Cpu.State.GPRegisters[18].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR19 (s3)" Path="Cpu.State.GPRegisters[19].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR20 (s4)" Path="Cpu.State.GPRegisters[20].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR21 (s5)" Path="Cpu.State.GPRegisters[21].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR22 (s6)" Path="Cpu.State.GPRegisters[22].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR23 (s7)" Path="Cpu.State.GPRegisters[23].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR24 (t8)" Path="Cpu.State.GPRegisters[24].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR25 (t9)" Path="Cpu.State.GPRegisters[25].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR26 (k0)" Path="Cpu.State.GPRegisters[26].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR27 (k1)" Path="Cpu.State.GPRegisters[27].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR28 (gp)" Path="Cpu.State.GPRegisters[28].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR29 (sp)" Path="Cpu.State.GPRegisters[29].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR30 (fp)" Path="Cpu.State.GPRegisters[30].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR31 (ra)" Path="Cpu.State.GPRegisters[31].Value" Source="{Binding .}" />
+                                <Soft64WPF:RegisterObserver RegName="PC" Path="DeviceCpu.State.RegisterPC.Value" Source="{Binding .}" />
+                                <Soft64WPF:RegisterObserver RegName="Hi" Path="DeviceCpu.State.RegisterHi.Value" Source="{Binding .}" />
+                                <Soft64WPF:RegisterObserver RegName="Lo" Path="DeviceCpu.State.RegisterLo.Value" Source="{Binding .}" />
+                                <Soft64WPF:RegisterObserver RegName="GPR00 (zero)" Path="DeviceCpu.State.GPRegisters[0].Value" Source="{Binding .}" />
+                                <Soft64WPF:RegisterObserver RegName="GPR01 (at)" Path="DeviceCpu.State.GPRegisters[1].Value" Source="{Binding .}" />
+                                <Soft64WPF:RegisterObserver RegName="GPR02 (v0)" Path="DeviceCpu.State.GPRegisters[2].Value" Source="{Binding .}" />
+                                <Soft64WPF:RegisterObserver RegName="GPR03 (v1)" Path="DeviceCpu.State.GPRegisters[3].Value" Source="{Binding .}" />
+                                <Soft64WPF:RegisterObserver RegName="GPR04 (a0)" Path="DeviceCpu.State.GPRegisters[4].Value" Source="{Binding .}" />
+                                <Soft64WPF:RegisterObserver RegName="GPR05 (a1)" Path="DeviceCpu.State.GPRegisters[5].Value" Source="{Binding .}" />
+                                <Soft64WPF:RegisterObserver RegName="GPR06 (a2)" Path="DeviceCpu.State.GPRegisters[6].Value" Source="{Binding .}" />
+                                <Soft64WPF:RegisterObserver RegName="GPR07 (a3)" Path="DeviceCpu.State.GPRegisters[7].Value" Source="{Binding .}" />
+                                <Soft64WPF:RegisterObserver RegName="GPR08 (t0)" Path="DeviceCpu.State.GPRegisters[8].Value" Source="{Binding .}" />
+                                <Soft64WPF:RegisterObserver RegName="GPR09 (t1)" Path="DeviceCpu.State.GPRegisters[9].Value" Source="{Binding .}" />
+                                <Soft64WPF:RegisterObserver RegName="GPR10 (t2)" Path="DeviceCpu.State.GPRegisters[10].Value" Source="{Binding .}" />
+                                <Soft64WPF:RegisterObserver RegName="GPR11 (t3)" Path="DeviceCpu.State.GPRegisters[11].Value" Source="{Binding .}" />
+                                <Soft64WPF:RegisterObserver RegName="GPR12 (t4)" Path="DeviceCpu.State.GPRegisters[12].Value" Source="{Binding .}" />
+                                <Soft64WPF:RegisterObserver RegName="GPR13 (t5)" Path="DeviceCpu.State.GPRegisters[13].Value" Source="{Binding .}" />
+                                <Soft64WPF:RegisterObserver RegName="GPR14 (t6)" Path="DeviceCpu.State.GPRegisters[14].Value" Source="{Binding .}" />
+                                <Soft64WPF:RegisterObserver RegName="GPR15 (t7)" Path="DeviceCpu.State.GPRegisters[15].Value" Source="{Binding .}" />
+                                <Soft64WPF:RegisterObserver RegName="GPR16 (s0)" Path="DeviceCpu.State.GPRegisters[16].Value" Source="{Binding .}" />
+                                <Soft64WPF:RegisterObserver RegName="GPR17 (s1)" Path="DeviceCpu.State.GPRegisters[17].Value" Source="{Binding .}" />
+                                <Soft64WPF:RegisterObserver RegName="GPR18 (s2)" Path="DeviceCpu.State.GPRegisters[18].Value" Source="{Binding .}" />
+                                <Soft64WPF:RegisterObserver RegName="GPR19 (s3)" Path="DeviceCpu.State.GPRegisters[19].Value" Source="{Binding .}" />
+                                <Soft64WPF:RegisterObserver RegName="GPR20 (s4)" Path="DeviceCpu.State.GPRegisters[20].Value" Source="{Binding .}" />
+                                <Soft64WPF:RegisterObserver RegName="GPR21 (s5)" Path="DeviceCpu.State.GPRegisters[21].Value" Source="{Binding .}" />
+                                <Soft64WPF:RegisterObserver RegName="GPR22 (s6)" Path="DeviceCpu.State.GPRegisters[22].Value" Source="{Binding .}" />
+                                <Soft64WPF:RegisterObserver RegName="GPR23 (s7)" Path="DeviceCpu.State.GPRegisters[23].Value" Source="{Binding .}" />
+                                <Soft64WPF:RegisterObserver RegName="GPR24 (t8)" Path="DeviceCpu.State.GPRegisters[24].Value" Source="{Binding .}" />
+                                <Soft64WPF:RegisterObserver RegName="GPR25 (t9)" Path="DeviceCpu.State.GPRegisters[25].Value" Source="{Binding .}" />
+                                <Soft64WPF:RegisterObserver RegName="GPR26 (k0)" Path="DeviceCpu.State.GPRegisters[26].Value" Source="{Binding .}" />
+                                <Soft64WPF:RegisterObserver RegName="GPR27 (k1)" Path="DeviceCpu.State.GPRegisters[27].Value" Source="{Binding .}" />
+                                <Soft64WPF:RegisterObserver RegName="GPR28 (gp)" Path="DeviceCpu.State.GPRegisters[28].Value" Source="{Binding .}" />
+                                <Soft64WPF:RegisterObserver RegName="GPR29 (sp)" Path="DeviceCpu.State.GPRegisters[29].Value" Source="{Binding .}" />
+                                <Soft64WPF:RegisterObserver RegName="GPR30 (fp)" Path="DeviceCpu.State.GPRegisters[30].Value" Source="{Binding .}" />
+                                <Soft64WPF:RegisterObserver RegName="GPR31 (ra)" Path="DeviceCpu.State.GPRegisters[31].Value" Source="{Binding .}" />
                             </Soft64WPF:RegisterObserverCollection>
 
                         </Grid.Resources>
@@ -136,7 +136,7 @@
             <TabItem Header="Control" d:IsHidden="True" />
             <TabItem Header="FPU" d:IsHidden="True" />
         </TabControl>
-        <ListBox x:Name="xaml_DataGridDisassembly" ItemsSource="{Binding Cpu.Debugger.Disassembly}" Grid.Row="2" Background="#FF1F1425" FontFamily="Consolas" BorderBrush="{x:Null}" Grid.ColumnSpan="1" ScrollViewer.CanContentScroll="False" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" FontSize="13.333" Foreground="#FFFF78F9" TextOptions.TextFormattingMode="Display" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin" d:IsLocked="True">
+        <ListBox x:Name="xaml_DataGridDisassembly" ItemsSource="{Binding DeviceCpu.Debugger.Disassembly}" Grid.Row="2" Background="#FF1F1425" FontFamily="Consolas" BorderBrush="{x:Null}" Grid.ColumnSpan="1" ScrollViewer.CanContentScroll="False" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" FontSize="13.333" Foreground="#FFFF78F9" TextOptions.TextFormattingMode="Display" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin" d:IsLocked="True">
             <ListBox.ItemContainerStyle>
                 <Style TargetType="{x:Type ListBoxItem}">
                     <Setter Property="Template">
@@ -159,7 +159,7 @@
             <ListBox.ItemTemplate>
                 <ItemContainerTemplate>
                     <StackPanel Orientation="Horizontal" ContextMenu="{StaticResource breakpointMenu}">
-                        <Viewbox x:Name="PART_BreakPoint" Height="12" Width="12" Stretch="Fill" Visibility="{Binding Address, Converter={StaticResource breakpointToVisibilityConverter}}">
+                        <Viewbox x:Name="PART_BreakPoint" Height="12" Width="12" Stretch="Fill" Visibility="Hidden">
                             <Ellipse Width="100" Height="100" >
                                 <Ellipse.Fill>
                                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">

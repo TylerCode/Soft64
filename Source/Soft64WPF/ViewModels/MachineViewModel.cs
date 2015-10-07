@@ -6,6 +6,20 @@ namespace Soft64WPF.ViewModels
 {
     public sealed class MachineViewModel : QuickDependencyObject
     {
+        private static MachineViewModel s_CurrentModel = null;
+        public static MachineViewModel CurrentModel => s_CurrentModel;
+
+        public MachineViewModel()
+        {
+            s_CurrentModel = this;
+
+            SetValue(CurrentMachinePK, Machine.Current);
+            SetValue(CartridgePK, new CartridgeViewModel());
+            SetValue(DeviceRcpPK, new RcpViewModel());
+            SetValue(DeviceCpuPK, new CpuViewModel());
+            SetValue(EnginePK, new EmulatorEngineViewModel());
+        }
+
         #region DP - Current Machine
         private static readonly DependencyPropertyKey CurrentMachinePK= RegDPKey<MachineViewModel, Machine>("CurrentMachine");
         public static readonly DependencyProperty CurrentMachineProperty = CurrentMachinePK.DependencyProperty;
@@ -27,45 +41,32 @@ namespace Soft64WPF.ViewModels
         #region DP - DeviceCPU
         private static readonly DependencyPropertyKey DeviceCpuPK = RegDPKey<MachineViewModel, CpuViewModel>("DeviceCpu");
         public static readonly DependencyProperty DeviceCpuProperty = DeviceCpuPK.DependencyProperty;
-        public RcpViewModel DeviceCpu => GetValue(DeviceCpuProperty);
+        public CpuViewModel DeviceCpu => GetValue(DeviceCpuProperty);
         #endregion
 
-        private static readonly DependencyPropertyKey EnginePropertyKey =
-            DependencyProperty.RegisterReadOnly("Engine", typeof(EmulatorEngineViewModel), typeof(MachineViewModel),
-            new PropertyMetadata());
+        #region DP - Engine
+        private static readonly DependencyPropertyKey EnginePK = RegDPKey<MachineViewModel, EmulatorEngineViewModel>("Engine");
+        public static readonly DependencyProperty EngineProperty = EnginePK.DependencyProperty;
+        public EmulatorEngineViewModel Engine => GetValue(EngineProperty);
+        #endregion
 
-        public static readonly DependencyProperty EngineProperty =
-            EnginePropertyKey.DependencyProperty;
-
-        public MachineViewModel()
-        {
-            /* Important: Prevent crashes if the machine hasn't been created yet */
-            if (Machine.Current == null)
-                return;
-
-            SetValue(CurrentMachinePropertyKey, Machine.Current);
-            SetValue(CartridgePropertyKey, new CartridgeViewModel(this));
-            SetValue(RcpPropertyKey, new RcpViewModel(this));
-            SetValue(CpuPropertyKey, new CpuViewModel(this));
-            SetValue(EnginePropertyKey, new EmulatorEngineViewModel(this));
-        }
-
-        public EmulatorEngineViewModel Engine
-        {
-            get { return (EmulatorEngineViewModel)GetValue(EngineProperty); }
-        }
+        #region WeakEvents
 
         public event EventHandler<MachineEventNotificationArgs> MachineEventNotification
         {
             add
             {
-                WeakEventManager<Machine, MachineEventNotificationArgs>.AddHandler(CurrentMachine,  "MachineEventNotification", value);
+                WeakEventManager<Machine, MachineEventNotificationArgs>
+                    .AddHandler(CurrentMachine, "MachineEventNotification", value);
             }
 
             remove
             {
-                WeakEventManager<Machine, MachineEventNotificationArgs>.RemoveHandler(CurrentMachine, "MachineEventNotification", value);
+                WeakEventManager<Machine, MachineEventNotificationArgs>
+                    .RemoveHandler(CurrentMachine, "MachineEventNotification", value);
             }
         }
+
+        #endregion
     }
 }

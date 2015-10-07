@@ -10,14 +10,13 @@ using Soft64.MipsR4300.Debugging;
 
 namespace Soft64WPF.ViewModels
 {
-    public class MipsDebuggerViewModel : MachineComponentViewModel
+    public class MipsDebuggerViewModel : QuickDependencyObject
     {
         private MipsDebugger m_Debugger;
 
         public event EventHandler Finished;
 
-        public MipsDebuggerViewModel(MachineViewModel machineVM) :
-            base(machineVM)
+        public MipsDebuggerViewModel()
         {
             m_Debugger = new MipsDebugger();
             Disassembly = new ObservableCollection<DisassembledInstruction>();

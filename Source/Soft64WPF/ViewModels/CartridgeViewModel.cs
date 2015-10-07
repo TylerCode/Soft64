@@ -24,85 +24,70 @@ using Soft64.RCP;
 
 namespace Soft64WPF.ViewModels
 {
-    public class CartridgeViewModel : MachineComponentViewModel
+    public sealed class CartridgeViewModel : QuickDependencyObject
     {
-        internal CartridgeViewModel(MachineViewModel currentModel)
-            : base(currentModel)
+        internal CartridgeViewModel()
         {
-            Machine machine = (Machine)currentModel.CurrentMachine;
+            SetValue(NamePK, "<Slot Empty>");
 
-            WeakEventManager<ParallelInterface, CartridgeChangedEventArgs>
-                .AddHandler(machine.DeviceRCP.Interface_Parallel, "CartridgeChanged", DevicePI_CartridgeChanged);
+            CartridgeChanged += CartridgeViewModel_CartridgeChanged;
         }
 
-        private void DevicePI_CartridgeChanged(object sender, CartridgeChangedEventArgs e)
+        private void CartridgeViewModel_CartridgeChanged(object sender, CartridgeChangedEventArgs e)
         {
-            if (e.NewCartridge != null)
+            Dispatcher.Invoke(() =>
             {
-                SetValue(NamePropertyKey, e.NewCartridge.ToString());
-                SetValue(HeaderPropertyKey, e.NewCartridge.GetCartridgeInfo());
-                SetValue(IsCICSkippedPropertyKey, e.NewCartridge.LockoutKey == null);
-                SetValue(IsCartridgeInsertedKey, true);
-            }
-            else
+                Boolean set = e.NewCartridge != null;
+                SetOrClearDP(NamePK, set, e.NewCartridge?.ToString());
+                SetOrClearDP(HeaderPK, set, e.NewCartridge?.GetCartridgeInfo());
+                SetOrClearDP(IsCICSkippedPK, set, e.NewCartridge?.LockoutKey == null);
+                SetOrClearDP(IsCartridgeInsertedPK, set, set);
+            });
+        }
+
+        #region DP - Name
+        private static readonly DependencyPropertyKey NamePK = RegDPKey<CartridgeViewModel, String>("Name");
+        public static readonly DependencyProperty NameProperty = NamePK.DependencyProperty;
+        public String Name => GetValue(NameProperty);
+        #endregion
+
+        #region DP - Header
+        private static readonly DependencyPropertyKey HeaderPK = RegDPKey<CartridgeViewModel, CartridgeInfo>("Header");
+        public static readonly DependencyProperty HeaderProperty = HeaderPK.DependencyProperty;
+        public CartridgeInfo Header => GetValue(HeaderProperty);
+        #endregion
+
+        #region DP - IsCICSkipped
+        private static readonly DependencyPropertyKey IsCICSkippedPK = RegDPKey<CartridgeViewModel, Boolean>("IsCICSkipped");
+        public static readonly DependencyProperty IsCICSkippedProperty = IsCICSkippedPK.DependencyProperty;
+        public Boolean IsCICSkipped => GetValue(IsCICSkippedProperty);
+        #endregion
+
+        #region DP - IsCartridgeInserted
+        private static readonly DependencyPropertyKey IsCartridgeInsertedPK = RegDPKey<CartridgeViewModel, Boolean>("IsCartridgeInserted");
+        public static readonly DependencyProperty IsCartridgeInsertedProperty = IsCartridgeInsertedPK.DependencyProperty;
+        public Boolean IsCartridgeInserted => GetValue(IsCartridgeInsertedProperty);
+        #endregion
+
+        #region WeakEvents
+
+        public event EventHandler<CartridgeChangedEventArgs> CartridgeChanged
+        {
+            add
             {
-                ClearValue(NamePropertyKey);
-                ClearValue(HeaderPropertyKey);
-                ClearValue(IsCICSkippedPropertyKey);
-                ClearValue(IsCartridgeInsertedKey);
+                WeakEventManager<ParallelInterface, CartridgeChangedEventArgs>
+                    .AddHandler(PI, "CartridgeChanged", value);
+            }
+
+            remove
+            {
+                WeakEventManager<ParallelInterface, CartridgeChangedEventArgs>
+                    .RemoveHandler(PI, "CartridgeChanged", value);
             }
         }
 
-        private static readonly DependencyPropertyKey NamePropertyKey =
-            DependencyProperty.RegisterReadOnly("Name", typeof(String), typeof(CartridgeViewModel),
-            new PropertyMetadata("<Slot Empty>"));
+        #endregion
 
-        private static readonly DependencyPropertyKey HeaderPropertyKey =
-            DependencyProperty.RegisterReadOnly("Header", typeof(CartridgeInfo), typeof(CartridgeViewModel),
-            new PropertyMetadata());
-
-        private static readonly DependencyPropertyKey IsCICSkippedPropertyKey =
-            DependencyProperty.RegisterReadOnly("IsCICSkipped", typeof(Boolean), typeof(CartridgeViewModel),
-            new PropertyMetadata());
-
-        private static readonly DependencyPropertyKey IsCartridgeInsertedKey =
-            DependencyProperty.RegisterReadOnly("IsCartridgeInserted", typeof(Boolean), typeof(CartridgeViewModel),
-            new PropertyMetadata());
-
-        public static readonly DependencyProperty NameProperty =
-            NamePropertyKey.DependencyProperty;
-
-        public static readonly DependencyProperty HeaderProperty =
-            HeaderPropertyKey.DependencyProperty;
-
-        public static readonly DependencyProperty IsCICSkippedProperty =
-            IsCICSkippedPropertyKey.DependencyProperty;
-
-        public static readonly DependencyProperty IsCartridgeInsertedProperty =
-            IsCartridgeInsertedKey.DependencyProperty;
-
-        public String Name
-        {
-            get { return (String)GetValue(NameProperty); }
-            internal set { SetValue(NamePropertyKey, value); }
-        }
-
-        public CartridgeInfo Header
-        {
-            get { return (CartridgeInfo)GetValue(HeaderProperty); }
-            internal set { SetValue(HeaderPropertyKey, value); }
-        }
-
-        public Boolean IsCICSkipped
-        {
-            get { return (Boolean)GetValue(IsCICSkippedProperty); }
-            internal set { SetValue(IsCICSkippedPropertyKey, value); }
-        }
-
-        public Boolean IsCartridgeInserted
-        {
-            get { return (Boolean)GetValue(IsCartridgeInsertedProperty); }
-            internal set { SetValue(IsCartridgeInsertedKey, value); }
-        }
+        private ParallelInterface PI => MachineViewModel.CurrentModel.CurrentMachine.DeviceRCP.Interface_Parallel;
     }
 }

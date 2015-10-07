@@ -12,12 +12,31 @@ namespace Soft64WPF.ViewModels
         /* Hide the old member and use a dynamic version to skip using casts */
         protected new dynamic GetValue(DependencyProperty property)
         {
-            return GetValue(property);
+            return base.GetValue(property);
+        }
+
+        protected static DependencyPropertyKey RegDPKey<TOwner, T>(String name, PropertyMetadata pMetadata)
+        {
+            return DependencyProperty.RegisterReadOnly(name, typeof(T), typeof(TOwner), pMetadata);
         }
 
         protected static DependencyPropertyKey RegDPKey<TOwner, T>(String name)
         {
-            return DependencyProperty.RegisterReadOnly(name, typeof(T), typeof(TOwner), new PropertyMetadata());
+            return RegDPKey<TOwner, T>(name, new PropertyMetadata());
+        }
+
+        protected static DependencyProperty RegDP<TOwner, T>(String name)
+        {
+            return DependencyProperty.Register(name, typeof(T), typeof(TOwner), new PropertyMetadata());
+        }
+
+
+        protected void SetOrClearDP(DependencyPropertyKey key, Boolean condition, Object value)
+        {
+            if (condition)
+                SetValue(key, value);
+            else
+                ClearValue(key);
         }
     }
 }

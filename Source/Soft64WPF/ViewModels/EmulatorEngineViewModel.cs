@@ -4,38 +4,34 @@ using Soft64.Engines;
 
 namespace Soft64WPF.ViewModels
 {
-    public class EmulatorEngineViewModel : MachineComponentViewModel
+    public class EmulatorEngineViewModel : QuickDependencyObject
     {
-        public EmulatorEngineViewModel(MachineViewModel machineModel)
-            : base(machineModel)
-        {
-            //Status = machineModel.TargetMachine.Engine.Status;
+        //internal EmulatorEngineViewModel()
+        //{
+        //}
 
-            //WeakEventManager<EmulatorEngine, EngineStatusChangedArgs>.AddHandler(
-            //    machineModel.TargetMachine.Engine,
-            //    "EngineStatusChanged",
-            //    EngineStatusChangedHandler);
-        }
+        //private void EngineStatusChangedHandler(Object sender, EngineStatusChangedArgs e)
+        //{
+        //    Dispatcher.Invoke(() =>
+        //    {
+        //        Status = e.NewStatus;
+        //    });
+        //}
 
-        private void EngineStatusChangedHandler(Object sender, EngineStatusChangedArgs e)
-        {
-            Dispatcher.Invoke(() =>
-            {
-                Status = e.NewStatus;
-            });
-        }
+        //private static readonly DependencyPropertyKey StatusPropertyKey =
+        //    DependencyProperty.RegisterReadOnly("Status", typeof(EngineStatus), typeof(EmulatorEngineViewModel),
+        //    new PropertyMetadata());
 
-        private static readonly DependencyPropertyKey StatusPropertyKey =
-            DependencyProperty.RegisterReadOnly("Status", typeof(EngineStatus), typeof(EmulatorEngineViewModel),
-            new PropertyMetadata());
+        //public static readonly DependencyProperty StatusProperty =
+        //    StatusPropertyKey.DependencyProperty;
 
-        public static readonly DependencyProperty StatusProperty =
-            StatusPropertyKey.DependencyProperty;
+        //public EngineStatus Status
+        //{
+        //    get { return (EngineStatus)GetValue(StatusProperty); }
+        //    private set { SetValue(StatusPropertyKey, value); }
+        //}
 
-        public EngineStatus Status
-        {
-            get { return (EngineStatus)GetValue(StatusProperty); }
-            private set { SetValue(StatusPropertyKey, value); }
-        }
+
+        //public EmulatorEngine CurrentEngine = MachineViewModel.CurrentModel.CurrentMachine.
     }
 }

@@ -331,11 +331,13 @@ namespace Soft64.MipsR4300
         public UInt64 Random
         {
             get { return m_Cp0Regs.Random; }
+            set { m_Cp0Regs.Random = value; }
         }
 
         public UInt64 BadVAddr
         {
             get { return m_Cp0Regs.BadVAddr; }
+            set { m_Cp0Regs.BadVAddr = value; }
         }
 
         private void OnCacheChanged(Int32 index)

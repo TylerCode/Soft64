@@ -146,20 +146,20 @@
     <Compile Include="ProgramCounterArrow.cs" />
     <Compile Include="RegisterObserver.cs" />
     <Compile Include="RegisterObserverCollection.cs" />
-    <Compile Include="StreamViewModel.cs" />
+    <Compile Include="ViewModels\StreamViewModel.cs" />
     <Compile Include="ViewModels\CartridgeViewModel.cs" />
     <Compile Include="ViewModels\CpuViewModel.cs" />
     <Compile Include="ViewModels\EmulatorEngineViewModel.cs" />
     <Compile Include="ViewModels\ExecutionStateViewModel.cs" />
-    <Compile Include="ViewModels\MachineComponentViewModel.cs" />
     <Compile Include="ViewModels\MachineViewModel.cs" />
     <Compile Include="ViewModels\MipsDebuggerViewModel.cs" />
-    <Compile Include="ViewModels\N64StreamWrapper.cs" />
+    <Compile Include="N64StreamWrapper.cs" />
     <Compile Include="ViewModels\QuickDependencyObject.cs" />
     <Compile Include="ViewModels\RcpViewModel.cs" />
     <Compile Include="ViewModels\RegisterFloatValue.cs" />
     <Compile Include="ViewModels\RegisterValue.cs" />
     <Compile Include="ViewModels\TlbCacheViewModel.cs" />
+    <Compile Include="ViewModels\TlbModelEntry.cs" />
     <Compile Include="Windows\BreakpointsWindow.xaml.cs">
       <DependentUpon>BreakpointsWindow.xaml</DependentUpon>
     </Compile>

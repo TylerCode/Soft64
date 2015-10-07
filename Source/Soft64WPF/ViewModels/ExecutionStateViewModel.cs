@@ -8,160 +8,102 @@ using Soft64.MipsR4300;
 
 namespace Soft64WPF.ViewModels
 {
-    public class ExecutionStateViewModel : MachineComponentViewModel
+    public class ExecutionStateViewModel : QuickDependencyObject
     {
-        private ExecutionState m_State;
-
-        public ExecutionStateViewModel(MachineViewModel machineVm, ExecutionState state) :
-            base(machineVm)
+        internal ExecutionStateViewModel()
         {
-            m_State = state;
+            SetValue(GPRegistersPK, AllocateReg64Array(32));
+            SetValue(FPRegistersPK, AllocateRegFloatArray(32));
+            SetValue(RegisterPCPK, new RegisterValue());
+            SetValue(RegisterHiPK, new RegisterValue());
+            SetValue(RegisterLoPK, new RegisterValue());
         }
 
         public void Load()
         {
-            RegisterPC.RegValue = (UInt64)m_State.PC;
-            RegisterHi.RegValue = m_State.Hi;
-            RegisterLo.RegValue = m_State.Lo;
+            RegisterPC.RegValue = (UInt64)CPUState.PC;
+            RegisterHi.RegValue = CPUState.Hi;
+            RegisterLo.RegValue = CPUState.Lo;
 
             for (Int32 i = 0; i < 32; i++)
             {
-                GPRegisters[i].RegValue = m_State.GPRRegs[i];
-                FPRegisters[i].RegValue = m_State.Fpr.ReadFPRDouble(i);
+                GPRegisters[i].RegValue = CPUState.GPRRegs[i];
+                FPRegisters[i].RegValue = CPUState.Fpr.ReadFPRDouble(i);
             }
         }
 
         public void Store()
         {
-            m_State.PC = (Int64)RegisterPC.RegValue;
-            m_State.Hi = RegisterHi.RegValue;
-            m_State.Lo = RegisterLo.RegValue;
+            CPUState.PC = (Int64)RegisterPC.RegValue;
+            CPUState.Hi = RegisterHi.RegValue;
+            CPUState.Lo = RegisterLo.RegValue;
 
             for (Int32 i = 0; i < 32; i++)
             {
-                m_State.GPRRegs[i] = GPRegisters[i].RegValue;
-                m_State.Fpr.WriteFPRDouble(i, FPRegisters[i].RegValue);
+                CPUState.GPRRegs[i] = GPRegisters[i].RegValue;
+                CPUState.Fpr.WriteFPRDouble(i, FPRegisters[i].RegValue);
             }
         }
 
-        public static readonly DependencyProperty RegisterPCProperty =
-            DependencyProperty.Register("RegisterPC", typeof(RegisterValue), typeof(EmulatorEngineViewModel),
-            new PropertyMetadata(new RegisterValue()));
-
-        public RegisterValue RegisterPC
+        private static DependencyPropertyKey RegisterReg64PK(String name)
         {
-            get { return (RegisterValue)GetValue(RegisterPCProperty); }
-            set { SetValue(RegisterPCProperty, value); }
+            return RegDPKey<ExecutionStateViewModel, RegisterValue>(name);
         }
 
-        public static readonly DependencyProperty RegisterHiProperty =
-            DependencyProperty.Register("RegisterHi", typeof(RegisterValue), typeof(EmulatorEngineViewModel),
-            new PropertyMetadata(new RegisterValue()));
-
-        public RegisterValue RegisterHi
+        private static DependencyPropertyKey RegisterReg64ArrayPK(String name)
         {
-            get { return (RegisterValue)GetValue(RegisterHiProperty); }
-            set { SetValue(RegisterHiProperty, value); }
+            return RegDPKey<ExecutionStateViewModel, RegisterValue[]>(name);
         }
 
-        public static readonly DependencyProperty RegisterLoProperty =
-            DependencyProperty.Register("RegisterLo", typeof(RegisterValue), typeof(EmulatorEngineViewModel),
-            new PropertyMetadata(new RegisterValue()));
-
-        public RegisterValue RegisterLo
+        private static DependencyPropertyKey RegisterRegFloatArrayPK(String name)
         {
-            get { return (RegisterValue)GetValue(RegisterLoProperty); }
-            set { SetValue(RegisterLoProperty, value); }
+            return RegDPKey<ExecutionStateViewModel, RegisterFloatValue[]>(name);
         }
 
-        public static readonly DependencyPropertyKey GPRegistersPropertyKey =
-            DependencyProperty.RegisterReadOnly("GPRegisters", typeof(RegisterValue[]), typeof(EmulatorEngineViewModel),
-            new PropertyMetadata(new RegisterValue[32] {
-                new RegisterValue(),
-                new RegisterValue(),
-                new RegisterValue(),
-                new RegisterValue(),
-                new RegisterValue(),
-                new RegisterValue(),
-                new RegisterValue(),
-                new RegisterValue(),
-                new RegisterValue(),
-                new RegisterValue(),
-                new RegisterValue(),
-                new RegisterValue(),
-                new RegisterValue(),
-                new RegisterValue(),
-                new RegisterValue(),
-                new RegisterValue(),
-                new RegisterValue(),
-                new RegisterValue(),
-                new RegisterValue(),
-                new RegisterValue(),
-                new RegisterValue(),
-                new RegisterValue(),
-                new RegisterValue(),
-                new RegisterValue(),
-                new RegisterValue(),
-                new RegisterValue(),
-                new RegisterValue(),
-                new RegisterValue(),
-                new RegisterValue(),
-                new RegisterValue(),
-                new RegisterValue(),
-                new RegisterValue(),
-            }));
-
-        public static readonly DependencyProperty GPRegistersProperty =
-            GPRegistersPropertyKey.DependencyProperty;
-
-        public RegisterValue[] GPRegisters
+        private static RegisterValue[] AllocateReg64Array(Int32 count)
         {
-            get { return (RegisterValue[])GetValue(GPRegistersProperty); }
+            RegisterValue[] v = new RegisterValue[count];
+            for (Int32 i = 0; i < count; i++) v[i] = new RegisterValue();
+            return v;
         }
 
-        public static readonly DependencyPropertyKey FPRegistersPropertyKey =
-        DependencyProperty.RegisterReadOnly("FPRegisters", typeof(RegisterFloatValue[]), typeof(EmulatorEngineViewModel),
-        new PropertyMetadata(new RegisterFloatValue[32] {
-                new RegisterFloatValue(),
-                new RegisterFloatValue(),
-                new RegisterFloatValue(),
-                new RegisterFloatValue(),
-                new RegisterFloatValue(),
-                new RegisterFloatValue(),
-                new RegisterFloatValue(),
-                new RegisterFloatValue(),
-                new RegisterFloatValue(),
-                new RegisterFloatValue(),
-                new RegisterFloatValue(),
-                new RegisterFloatValue(),
-                new RegisterFloatValue(),
-                new RegisterFloatValue(),
-                new RegisterFloatValue(),
-                new RegisterFloatValue(),
-                new RegisterFloatValue(),
-                new RegisterFloatValue(),
-                new RegisterFloatValue(),
-                new RegisterFloatValue(),
-                new RegisterFloatValue(),
-                new RegisterFloatValue(),
-                new RegisterFloatValue(),
-                new RegisterFloatValue(),
-                new RegisterFloatValue(),
-                new RegisterFloatValue(),
-                new RegisterFloatValue(),
-                new RegisterFloatValue(),
-                new RegisterFloatValue(),
-                new RegisterFloatValue(),
-                new RegisterFloatValue(),
-                new RegisterFloatValue(),
-         }));
-
-        public static readonly DependencyProperty FPRegistersProperty =
-            FPRegistersPropertyKey.DependencyProperty;
-
-        public RegisterFloatValue[] FPRegisters
+        private static RegisterFloatValue[] AllocateRegFloatArray(Int32 count)
         {
-            get { return (RegisterFloatValue[])GetValue(FPRegistersProperty); }
+            RegisterFloatValue[] v = new RegisterFloatValue[count];
+            for (Int32 i = 0; i < count; i++) v[i] = new RegisterFloatValue();
+            return v;
         }
+
+        #region DP - RegisterPC
+        private static readonly DependencyPropertyKey RegisterPCPK = RegisterReg64PK("RegisterPC");
+        public static readonly DependencyProperty RegisterPCProperty = RegisterPCPK.DependencyProperty;
+        public RegisterValue RegisterPC => GetValue(RegisterPCProperty);
+        #endregion
+
+        #region DP - RegisterHi
+        private static readonly DependencyPropertyKey RegisterHiPK = RegisterReg64PK("RegisterHi");
+        public static readonly DependencyProperty RegisterHiProperty = RegisterHiPK.DependencyProperty;
+        public RegisterValue RegisterHi => GetValue(RegisterHiProperty);
+        #endregion
+
+        #region DP - RegisterLo
+        private static readonly DependencyPropertyKey RegisterLoPK = RegisterReg64PK("RegisterLo");
+        public static readonly DependencyProperty RegisterLoProperty = RegisterLoPK.DependencyProperty;
+        public RegisterValue RegisterLo => GetValue(RegisterLoProperty);
+        #endregion
+
+        #region DP - GPRegisters
+        private static readonly DependencyPropertyKey GPRegistersPK = RegisterReg64ArrayPK("GPRegisters");
+        public static readonly DependencyProperty GPRegistersProperty = GPRegistersPK.DependencyProperty;
+        public RegisterValue[] GPRegisters => GetValue(GPRegistersProperty);
+        #endregion
+
+        #region DP - FPRegisters
+        private static readonly DependencyPropertyKey FPRegistersPK = RegisterRegFloatArrayPK("FPRegisters");
+        public static readonly DependencyProperty FPRegistersProperty = FPRegistersPK.DependencyProperty;
+        public RegisterFloatValue[] FPRegisters => GetValue(FPRegistersProperty);
+        #endregion
+
+        public ExecutionState CPUState => MachineViewModel.CurrentModel.CurrentMachine.DeviceCPU.State;
     }
 }

@@ -1,87 +1,51 @@
 ﻿using System.Windows;
 using Soft64.MipsR4300.Debugging;
 using Soft64WPF;
+using Soft64;
 
 namespace Soft64WPF.ViewModels
 {
-    public class CpuViewModel : MachineComponentViewModel
+    public class CpuViewModel : QuickDependencyObject
     {
-        public CpuViewModel(MachineViewModel machineViewModel)
-            : base(machineViewModel)
+        internal CpuViewModel()
         {
-            var cpu = machineViewModel.CurrentMachine.DeviceCPU;
-
-            VirtualMemory = StreamViewModel.NewModelFromStream(cpu.VirtualMemoryStream);
-            DebugVirtualMemory = StreamViewModel.NewModelFromStream(new VMemViewStream());
-            TlbCache = new TlbCacheViewModel(machineViewModel);
-            State = new ExecutionStateViewModel(machineViewModel, machineViewModel.CurrentMachine.DeviceCPU.State);
-            Debugger = new MipsDebuggerViewModel(machineViewModel);
+            SetValue(DebuggerPK, new MipsDebuggerViewModel());
+            SetValue(VirtualMemoryPK, StreamViewModel.NewModelFromStream(CPU.VirtualMemoryStream));
+            SetValue(DebugVirtualMemoryPK, StreamViewModel.NewModelFromStream(new VMemViewStream()));
+            SetValue(TlbCachePK, new TlbCacheViewModel());
+            SetValue(StatePK, new ExecutionStateViewModel());
         }
 
-        private static readonly DependencyPropertyKey DebuggerPropertyKey =
-            DependencyProperty.RegisterReadOnly("Debugger", typeof(MipsDebuggerViewModel), typeof(CpuViewModel),
-            new PropertyMetadata());
+        #region DP - Debugger
+        private static readonly DependencyPropertyKey DebuggerPK = RegDPKey<CpuViewModel, MipsDebuggerViewModel>("Debugger");
+        public static readonly DependencyProperty DebuggerProperty = DebuggerPK.DependencyProperty;
+        public MipsDebuggerViewModel Debugger => GetValue(DebuggerProperty);
+        #endregion
 
-        public static readonly DependencyProperty DebuggerProperty =
-            DebuggerPropertyKey.DependencyProperty;
+        #region DP - VirtualMemory
+        private static readonly DependencyPropertyKey VirtualMemoryPK = RegDPKey<CpuViewModel, StreamViewModel>("VirtualMemory");
+        public static readonly DependencyProperty VirtualMemoryProperty = VirtualMemoryPK.DependencyProperty;
+        public StreamViewModel VirtualMemory => GetValue(VirtualMemoryProperty);
+        #endregion
 
-        public MipsDebuggerViewModel Debugger
-        {
-            get { return (MipsDebuggerViewModel)GetValue(DebuggerProperty); }
-            private set { SetValue(DebuggerPropertyKey, value); }
-        }
+        #region DP - DebugVirtualMemory
+        private static readonly DependencyPropertyKey DebugVirtualMemoryPK = RegDPKey<CpuViewModel, StreamViewModel>("DebugVirtualMemory");
+        public static readonly DependencyProperty DebugVirtualMemoryProperty = DebugVirtualMemoryPK.DependencyProperty;
+        public StreamViewModel DebugVirtualMemory => GetValue(DebugVirtualMemoryProperty);
+        #endregion
 
+        #region DP - TLB Cache
+        private static readonly DependencyPropertyKey TlbCachePK = RegDPKey<CpuViewModel, TlbCacheViewModel>("TlbCache");
+        public static readonly DependencyProperty TlbCacheProperty = TlbCachePK.DependencyProperty;
+        public TlbCacheViewModel TlbCache => GetValue(TlbCacheProperty);
+        #endregion
 
-        private static readonly DependencyPropertyKey VirtualMemoryPropertyKey =
-            DependencyProperty.RegisterReadOnly("VirtualMemory", typeof(StreamViewModel), typeof(CpuViewModel),
-            new PropertyMetadata());
+        #region DP - Execution State
+        private static readonly DependencyPropertyKey StatePK = RegDPKey<CpuViewModel, ExecutionStateViewModel>("State");
+        public static readonly DependencyProperty StateProperty = StatePK.DependencyProperty;
+        public ExecutionStateViewModel State => GetValue(StateProperty);
+        #endregion
 
-        public static readonly DependencyProperty VirtualMemoryProperty
-            = VirtualMemoryPropertyKey.DependencyProperty;
-
-        private static readonly DependencyPropertyKey DebugVirtualMemoryPropertyKey =
-            DependencyProperty.RegisterReadOnly("DebugVirtualMemory", typeof(StreamViewModel), typeof(CpuViewModel),
-            new PropertyMetadata());
-
-        public static readonly DependencyProperty DebugVirtualMemoryProperty
-            = DebugVirtualMemoryPropertyKey.DependencyProperty;
-
-        private static readonly DependencyPropertyKey TlbCachePropertyKey =
-            DependencyProperty.RegisterReadOnly("TlbCache", typeof(TlbCacheViewModel), typeof(CpuViewModel),
-            new PropertyMetadata());
-
-        public static readonly DependencyProperty TlbCacheProperty =
-            TlbCachePropertyKey.DependencyProperty;
-
-        public TlbCacheViewModel TlbCache
-        {
-            get { return (TlbCacheViewModel)GetValue(TlbCacheProperty); }
-            private set { SetValue(TlbCachePropertyKey, value); }
-        }
-
-        public StreamViewModel VirtualMemory
-        {
-            get { return (StreamViewModel)GetValue(VirtualMemoryProperty); }
-            private set { SetValue(VirtualMemoryPropertyKey, value); }
-        }
-
-        public StreamViewModel DebugVirtualMemory
-        {
-            get { return (StreamViewModel)GetValue(DebugVirtualMemoryProperty); }
-            private set { SetValue(DebugVirtualMemoryPropertyKey, value); }
-        }
-
-        private static readonly DependencyPropertyKey StatePropertyKey =
-            DependencyProperty.RegisterReadOnly("State", typeof(ExecutionStateViewModel), typeof(CpuViewModel),
-            new PropertyMetadata());
-
-        public static readonly DependencyProperty StateProperty =
-            StatePropertyKey.DependencyProperty;
-
-        public ExecutionStateViewModel State
-        {
-            get { return (ExecutionStateViewModel)GetValue(StateProperty); }
-            private set { SetValue(StatePropertyKey, value); }
-        }
+        public CPUProcessor CPU => MachineViewModel.CurrentModel.CurrentMachine.DeviceCPU;
     }
 }

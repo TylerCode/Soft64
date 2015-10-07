@@ -4,228 +4,115 @@ using System.Collections.Specialized;
 using System.Windows;
 using Soft64.MipsR4300;
 
+using ObservableEntries = System.Collections.ObjectModel.ObservableCollection<Soft64WPF.ViewModels.TlbModelEntry>;
+
 namespace Soft64WPF.ViewModels
 {
-    public sealed class TlbCacheViewModel : MachineComponentViewModel
+    public sealed class TlbCacheViewModel : QuickDependencyObject
     {
-        public TlbCacheViewModel(MachineViewModel parentMachineModel)
-            : base(parentMachineModel)
+        public TlbCacheViewModel()
         {
-            Refresh();
-
-            WeakEventManager<TLBCache, TLBCacheChangeEventArgs>.AddHandler(
-                parentMachineModel.CurrentMachine.DeviceCPU.Tlb,
-                "CacheChanged",
-                TlbChange);
-
-            TlbEntries.CollectionChanged += TlbEntries_CollectionChanged;
+            SetValue(TlbEntriesPK, new ObservableEntries());
         }
 
-        private void TlbEntries_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        public void Load()
         {
-            if (e.Action == NotifyCollectionChangedAction.Replace)
+            PageMask = TlbCache.PageMask;
+            EntryHi = TlbCache.EntryHi;
+            EntryLo0 = TlbCache.EntryLo0;
+            EntryLo1 = TlbCache.EntryLo1;
+            Index = TlbCache.Index;
+            Wired = TlbCache.Wired;
+            Random = TlbCache.Random;
+            BadVAddress = TlbCache.BadVAddr;
+
+            TlbEntries.Clear();
+
+            for (Int32 i = 0; i < TlbCache.Count; i++)
             {
-                /* Update the real TLB cache */
+                TlbEntries.Add(new TlbModelEntry(i, TlbCache[i]));
             }
         }
 
-        public void Refresh()
+        public void Store()
         {
-            ReadRegs();
-            ReadEntries();
+            TlbCache.PageMask = PageMask;
+            TlbCache.EntryHi = EntryHi;
+            TlbCache.EntryLo0 = EntryLo0;
+            TlbCache.EntryLo1 = EntryLo1;
+            TlbCache.Index = Index;
+            TlbCache.Wired = Wired;
+            TlbCache.Random = Random;
+            TlbCache.BadVAddr = BadVAddress;
+
+            /* TODO: Sync entry collection to real cache */
         }
 
-        private void TlbChange(Object sender, TLBCacheChangeEventArgs a)
+        #region DP - TLBEntries
+        private static readonly DependencyPropertyKey TlbEntriesPK = RegDPKey<TlbCacheViewModel, ObservableEntries>("TlbEntries");
+        public static readonly DependencyProperty TlbEntriesProperty = TlbEntriesPK.DependencyProperty;
+        public ObservableEntries TlbEntries => GetValue(TlbEntriesProperty);
+        #endregion
+
+        #region DP - PageMask
+        public static readonly DependencyProperty PageMaskProperty = RegDP<TlbCacheViewModel, UInt64>("PageMask");
+        public UInt64 PageMask { get { return GetValue(PageMaskProperty); } set { SetValue(PageMaskProperty, value); } }
+        #endregion
+
+        #region DP - EntryHi
+        public static readonly DependencyProperty EntryHiProperty = RegDP<TlbCacheViewModel, UInt64>("EntryHi");
+        public UInt64 EntryHi { get { return GetValue(EntryHiProperty); } set { SetValue(EntryHiProperty, value); } }
+        #endregion
+
+        #region DP - EntryLo0
+        public static readonly DependencyProperty EntryLo0Property = RegDP<TlbCacheViewModel, UInt64>("EntryLo0");
+        public UInt64 EntryLo0 { get { return GetValue(EntryLo0Property); } set { SetValue(EntryLo0Property, value); } }
+        #endregion
+
+        #region DP - EntryLo1
+        public static readonly DependencyProperty EntryLo1Property = RegDP<TlbCacheViewModel, UInt64>("EntryLo1");
+        public UInt64 EntryLo1 { get { return GetValue(EntryLo1Property); } set { SetValue(EntryLo1Property, value); } }
+        #endregion
+
+        #region DP - Index
+        public static readonly DependencyProperty IndexProperty = RegDP<TlbCacheViewModel, UInt64>("Index");
+        public UInt64 Index { get { return GetValue(IndexProperty); } set { SetValue(IndexProperty, value); } }
+        #endregion
+
+        #region DP - Wired
+        public static readonly DependencyProperty WiredProperty = RegDP<TlbCacheViewModel, UInt64>("Wired");
+        public UInt64 Wired { get { return GetValue(WiredProperty); } set { SetValue(WiredProperty, value); } }
+        #endregion
+
+        #region DP - Random
+        public static readonly DependencyProperty RandomProperty = RegDP<TlbCacheViewModel, UInt64>("Random");
+        public UInt64 Random { get { return GetValue(RandomProperty); } set { SetValue(RandomProperty, value); } }
+        #endregion
+
+        #region DP - BadVAddress
+        public static readonly DependencyProperty BadVAddressProperty = RegDP<TlbCacheViewModel, UInt64>("BadVAddress");
+        public UInt64 BadVAddress { get { return GetValue(BadVAddressProperty); } set { SetValue(BadVAddressProperty, value); } }
+        #endregion
+
+        #region Weak Events
+
+        public event EventHandler<TLBCacheChangeEventArgs> TLBChanged
         {
-            Dispatcher.InvokeAsync(() =>
+            add
             {
-                TLBCache cache = (TLBCache)sender;
+                WeakEventManager<TLBCache, TLBCacheChangeEventArgs>
+                    .AddHandler(TlbCache, "CacheChanged", value);
+            }
 
-                if (a.Index < 0)
-                {
-                    /* Do a full reload */
-                    ReadEntries();
-                    return;
-                }
-
-                if (cache[a.Index] != null)
-                {
-                    TlbEntries.Add(new TlbModelEntry(a.Index, cache[a.Index]));
-                }
-                else
-                {
-                    foreach (var entry in TlbEntries)
-                    {
-                        if (entry.EntryIndex == a.Index)
-                        {
-                            TlbEntries.Remove(entry);
-                        }
-                    }
-                }
-            });
-        }
-
-        private void ReadRegs()
-        {
-            TLBCache cache = ParentMachine.CurrentMachine.DeviceCPU.Tlb;
-
-            PageMask = cache.PageMask;
-            EntryHi = cache.EntryHi;
-            EntryLo0 = cache.EntryLo0;
-            EntryLo1 = cache.EntryLo1;
-            Index = cache.Index;
-            Wired = cache.Wired;
-            Random = cache.Random;
-            BadVAddress = cache.BadVAddr;
-        }
-
-        private void ReadEntries()
-        {
-            TLBCache cache = ParentMachine.CurrentMachine.DeviceCPU.Tlb;
-        }
-
-        private static void UpdateRegister(DependencyObject o, DependencyPropertyChangedEventArgs a)
-        {
-            TlbCacheViewModel model = o as TlbCacheViewModel;
-
-            if (model != null)
+            remove
             {
-                TLBCache cache = model.ParentMachine.CurrentMachine.DeviceCPU.Tlb;
-
-                switch (a.Property.Name)
-                {
-                    case "PageMask": cache.PageMask = (UInt64)a.NewValue; break;
-                    case "EntryHi": cache.EntryHi = (UInt64)a.NewValue; break;
-                    case "EntryLo0": cache.EntryLo0 = (UInt64)a.NewValue; break;
-                    case "EntryLo1": cache.EntryLo1 = (UInt64)a.NewValue; break;
-                    case "Index": cache.Index = (UInt64)a.NewValue; break;
-                    default: break;
-                }
+                WeakEventManager<TLBCache, TLBCacheChangeEventArgs>
+                    .RemoveHandler(TlbCache, "CacheChanged", value);
             }
         }
 
-        private static readonly DependencyPropertyKey TlbEntriesPropertyKey =
-        DependencyProperty.RegisterReadOnly("TlbEntries", typeof(ObservableCollection<TlbModelEntry>), typeof(TlbCacheViewModel),
-        new PropertyMetadata(new ObservableCollection<TlbModelEntry>()));
+        #endregion
 
-        public static readonly DependencyProperty TlbEntriesProperty =
-            TlbEntriesPropertyKey.DependencyProperty;
-
-        public static readonly DependencyProperty PageMaskProperty =
-            DependencyProperty.Register("PageMask", typeof(UInt64), typeof(TlbCacheViewModel),
-            new PropertyMetadata(UpdateRegister));
-
-        public static readonly DependencyProperty EntryHiProperty =
-            DependencyProperty.Register("EntryHi", typeof(UInt64), typeof(TlbCacheViewModel),
-            new PropertyMetadata(UpdateRegister));
-
-        public static readonly DependencyProperty EntryLo0Property =
-            DependencyProperty.Register("EntryLo0", typeof(UInt64), typeof(TlbCacheViewModel),
-            new PropertyMetadata(UpdateRegister));
-
-        public static readonly DependencyProperty EntryLo1Property =
-            DependencyProperty.Register("EntryLo1", typeof(UInt64), typeof(TlbCacheViewModel),
-            new PropertyMetadata(UpdateRegister));
-
-        public static readonly DependencyProperty IndexProperty =
-            DependencyProperty.Register("Index", typeof(UInt64), typeof(TlbCacheViewModel),
-            new PropertyMetadata(UpdateRegister));
-
-        private static readonly DependencyPropertyKey WiredPropertyKey =
-            DependencyProperty.RegisterReadOnly("Wired", typeof(UInt64), typeof(TlbCacheViewModel),
-            new PropertyMetadata());
-
-        public static readonly DependencyProperty WiredProperty =
-           WiredPropertyKey.DependencyProperty;
-
-        private static readonly DependencyPropertyKey RandomPropertyKey =
-            DependencyProperty.RegisterReadOnly("Random", typeof(UInt64), typeof(TlbCacheViewModel),
-            new PropertyMetadata());
-
-        public static readonly DependencyProperty RandomProperty =
-            RandomPropertyKey.DependencyProperty;
-
-        private static readonly DependencyPropertyKey BadVAddressPropertyKey =
-            DependencyProperty.RegisterReadOnly("BadVAddress", typeof(UInt64), typeof(TlbCacheViewModel),
-            new PropertyMetadata());
-
-        public static readonly DependencyProperty BadVAddressProperty =
-            BadVAddressPropertyKey.DependencyProperty;
-
-        public ObservableCollection<TlbModelEntry> TlbEntries
-        {
-            get { return (ObservableCollection<TlbModelEntry>)GetValue(TlbEntriesProperty); }
-            private set { SetValue(TlbEntriesPropertyKey, value); }
-        }
-
-        public UInt64 PageMask
-        {
-            get { return (UInt64)GetValue(PageMaskProperty); }
-            set { SetValue(PageMaskProperty, value); }
-        }
-
-        public UInt64 EntryHi
-        {
-            get { return (UInt64)GetValue(EntryHiProperty); }
-            set { SetValue(EntryHiProperty, value); }
-        }
-
-        public UInt64 EntryLo0
-        {
-            get { return (UInt64)GetValue(EntryLo0Property); }
-            set { SetValue(EntryLo0Property, value); }
-        }
-
-        public UInt64 EntryLo1
-        {
-            get { return (UInt64)GetValue(EntryLo1Property); }
-            set { SetValue(EntryLo1Property, value); }
-        }
-
-        public UInt64 Index
-        {
-            get { return (UInt64)GetValue(IndexProperty); }
-            set { SetValue(IndexProperty, value); }
-        }
-
-        public UInt64 Wired
-        {
-            get { return (UInt64)GetValue(WiredProperty); }
-            private set { SetValue(WiredPropertyKey, value); }
-        }
-
-        public UInt64 Random
-        {
-            get { return (UInt64)GetValue(RandomProperty); }
-            private set { SetValue(RandomPropertyKey, value); }
-        }
-
-        public UInt64 BadVAddress
-        {
-            get { return (UInt64)GetValue(BadVAddressProperty); }
-            private set { SetValue(BadVAddressPropertyKey, value); }
-        }
-    }
-
-    public sealed class TlbModelEntry
-    {
-        private Int32 m_EntryIndex;
-        private TLBEntry m_AssociatedEntry;
-
-        public TlbModelEntry(Int32 index, TLBEntry entry)
-        {
-            m_EntryIndex = index;
-            m_AssociatedEntry = entry;
-        }
-
-        public TLBEntry AssociatedEntry
-        {
-            get { return m_AssociatedEntry; }
-        }
-
-        public Int32 EntryIndex
-        {
-            get { return m_EntryIndex; }
-        }
+        public TLBCache TlbCache => MachineViewModel.CurrentModel.CurrentMachine.DeviceCPU.Tlb;
     }
 }
