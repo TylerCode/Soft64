@@ -28,8 +28,6 @@ using NLog.Config;
 using NLog.Targets;
 using NLog.Targets.Wrappers;
 using Soft64;
-using Soft64.Debugging;
-using Soft64.MipsR4300;
 using Soft64WPF.ViewModels;
 using Soft64WPF.Helper;
 
@@ -117,8 +115,8 @@ namespace Soft64WPF.Windows
                 target.RowColoringRules.Clear();
                 target.RowColoringRules.Add(new WpfRichTextBoxRowColoringRule("level == LogLevel.Fatal", "White", "Red", FontStyles.Normal, FontWeights.Bold));
                 target.RowColoringRules.Add(new WpfRichTextBoxRowColoringRule("level == LogLevel.Error", "Red", "Transparent", FontStyles.Italic, FontWeights.Bold));
-                target.RowColoringRules.Add(new WpfRichTextBoxRowColoringRule("level == LogLevel.Warn", "Orange", "Transparent"));
-                target.RowColoringRules.Add(new WpfRichTextBoxRowColoringRule("level == LogLevel.Info", "Black", "Transparent"));
+                target.RowColoringRules.Add(new WpfRichTextBoxRowColoringRule("level == LogLevel.Warn", "Yellow", "Transparent"));
+                target.RowColoringRules.Add(new WpfRichTextBoxRowColoringRule("level == LogLevel.Info", "Green", "Transparent"));
                 target.RowColoringRules.Add(new WpfRichTextBoxRowColoringRule("level == LogLevel.Debug", "Gray", "Transparent"));
                 target.RowColoringRules.Add(new WpfRichTextBoxRowColoringRule("level == LogLevel.Trace", "White", "Transparent", FontStyles.Normal, FontWeights.Normal));
 

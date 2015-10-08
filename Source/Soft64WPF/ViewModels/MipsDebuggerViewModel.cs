@@ -18,6 +18,9 @@ namespace Soft64WPF.ViewModels
 
         public MipsDebuggerViewModel()
         {
+            if (MachineViewModel.CurrentModel.CurrentMachine == null)
+                return;
+
             m_Debugger = new MipsDebugger();
             Disassembly = new ObservableCollection<DisassembledInstruction>();
 

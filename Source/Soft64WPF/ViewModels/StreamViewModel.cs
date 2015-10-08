@@ -28,6 +28,9 @@ namespace Soft64WPF
 
         public static StreamViewModel NewModelFromStream(Stream stream)
         {
+            if (stream == null)
+                return null;
+
             return new StreamViewModel(new WeakReference<Stream>(stream));
         }
 

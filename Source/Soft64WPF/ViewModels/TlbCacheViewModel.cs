@@ -113,6 +113,6 @@ namespace Soft64WPF.ViewModels
 
         #endregion
 
-        public TLBCache TlbCache => MachineViewModel.CurrentModel.CurrentMachine.DeviceCPU.Tlb;
+        public TLBCache TlbCache => MachineViewModel.CurrentModel.CurrentMachine?.DeviceCPU.Tlb;
     }
 }

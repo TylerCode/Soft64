@@ -4,6 +4,7 @@
         xmlns:binding="clr-namespace:Soft64WPF.ViewModels;assembly=Soft64WPF.ViewModels"
         xmlns:r="clr-namespace:Soft64WPF"
         xmlns:conv="clr-namespace:Soft64WPF.Converters"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
         x:Class="Soft64WPF.Windows.MainWindow"
         Title="Soft64 Emulator" Height="451" Width="659"
         FontSize="10.667"
@@ -22,13 +23,13 @@
             <ColumnDefinition Width="650*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="260*" />
+            <RowDefinition Height="20" />
+            <RowDefinition />
         </Grid.RowDefinitions>
-        <Menu Background="#FFD8BB00" TextOptions.TextFormattingMode="Display">
+        <Menu d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin">
             <MenuItem>
                 <MenuItem.Header>
-                    <TextBlock Foreground="White" FontSize="18" FontWeight="Bold" Text="Control" />
+                    <TextBlock Text="Control" />
                 </MenuItem.Header>
                 <MenuItem x:Name="xamlControl_EmuRunButton" Header="Run" Foreground="Black" />
                 <MenuItem x:Name="xamlControl_EmuRunPostDebugButton" Header="Run To Post-Boot Debug" Foreground="Black" />
@@ -37,26 +38,26 @@
             </MenuItem>
             <MenuItem>
                 <MenuItem.Header>
-                    <TextBlock Foreground="White" FontSize="18" FontWeight="Bold" Text="Media" />
+                    <TextBlock Text="Media" />
                 </MenuItem.Header>
                 <MenuItem x:Name="xamlControl_MainCartBrowseFileButton" Header="Insert Cartridge" Foreground="Black" />
                 <MenuItem x:Name="xaml_ButtonEjectCartridge" Header="Eject Cartridge" Foreground="Black" />
             </MenuItem>
             <MenuItem>
                 <MenuItem.Header>
-                    <TextBlock Foreground="White" FontSize="18" FontWeight="Bold" Text="Script" />
+                    <TextBlock Text="Script" />
                 </MenuItem.Header>
                 <MenuItem x:Name="xaml_ButtonScript" Header="Python Window..." Foreground="Black" />
             </MenuItem>
             <MenuItem>
                 <MenuItem.Header>
-                    <TextBlock Foreground="White" FontSize="18" FontWeight="Bold" Text="Tools" />
+                    <TextBlock Text="Tools" />
                 </MenuItem.Header>
                 <MenuItem x:Name="xaml_ButtonToolMemoryEditor" Header="Memory Editor..." />
                 <MenuItem x:Name="xaml_ButtonToolCPUDebugger"  Header="CPU Debugger..." />
             </MenuItem>
         </Menu>
-        <TabControl Grid.Row="1" Background="Transparent" BorderBrush="Transparent">
+        <TabControl Grid.Row="1" Background="Transparent" BorderBrush="Transparent" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin">
             <TabItem>
                 <TabItem.Template>
                     <ControlTemplate>

@@ -75,19 +75,21 @@ namespace Soft64WPF.ViewModels
         {
             add
             {
+                if (PI != null)
                 WeakEventManager<ParallelInterface, CartridgeChangedEventArgs>
                     .AddHandler(PI, "CartridgeChanged", value);
             }
 
             remove
             {
-                WeakEventManager<ParallelInterface, CartridgeChangedEventArgs>
+                if (PI != null)
+                    WeakEventManager<ParallelInterface, CartridgeChangedEventArgs>
                     .RemoveHandler(PI, "CartridgeChanged", value);
             }
         }
 
         #endregion
 
-        private ParallelInterface PI => MachineViewModel.CurrentModel.CurrentMachine.DeviceRCP.Interface_Parallel;
+        private ParallelInterface PI => MachineViewModel.CurrentModel.CurrentMachine?.DeviceRCP.Interface_Parallel;
     }
 }

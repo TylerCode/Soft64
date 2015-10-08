@@ -10,10 +10,14 @@ namespace Soft64WPF.ViewModels
         internal CpuViewModel()
         {
             SetValue(DebuggerPK, new MipsDebuggerViewModel());
-            SetValue(VirtualMemoryPK, StreamViewModel.NewModelFromStream(CPU.VirtualMemoryStream));
-            SetValue(DebugVirtualMemoryPK, StreamViewModel.NewModelFromStream(new VMemViewStream()));
             SetValue(TlbCachePK, new TlbCacheViewModel());
             SetValue(StatePK, new ExecutionStateViewModel());
+
+            if (MachineViewModel.CurrentModel.CurrentMachine != null)
+            {
+                SetValue(VirtualMemoryPK, StreamViewModel.NewModelFromStream(CPU.VirtualMemoryStream));
+                SetValue(DebugVirtualMemoryPK, StreamViewModel.NewModelFromStream(new VMemViewStream()));
+            }
         }
 
         #region DP - Debugger
@@ -46,6 +50,6 @@ namespace Soft64WPF.ViewModels
         public ExecutionStateViewModel State => GetValue(StateProperty);
         #endregion
 
-        public CPUProcessor CPU => MachineViewModel.CurrentModel.CurrentMachine.DeviceCPU;
+        public CPUProcessor CPU => MachineViewModel.CurrentModel.CurrentMachine?.DeviceCPU;
     }
 }

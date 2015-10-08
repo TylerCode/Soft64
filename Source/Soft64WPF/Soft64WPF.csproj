@@ -132,6 +132,10 @@
     <Compile Include="Converters\Hex64Converter.cs" />
     <Compile Include="Converters\PcVisibilityConverter.cs" />
     <Compile Include="Converters\StringToCollectionConverter.cs" />
+    <Compile Include="CpuRegistersPanel.xaml.cs">
+      <DependentUpon>CpuRegistersPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DesignHelper.cs" />
     <Compile Include="FontTools.cs" />
     <Compile Include="Helper\WpfRichTextBoxRowColoringRule.cs" />
     <Compile Include="Helper\WpfRichTextBoxTarget.cs" />
@@ -144,6 +148,7 @@
     <Compile Include="HexEditorRow.cs" />
     <Compile Include="InvertColorEffect.cs" />
     <Compile Include="ProgramCounterArrow.cs" />
+    <Compile Include="RegisterItemsControl.cs" />
     <Compile Include="RegisterObserver.cs" />
     <Compile Include="RegisterObserverCollection.cs" />
     <Compile Include="ViewModels\StreamViewModel.cs" />
@@ -180,6 +185,10 @@
     <Compile Include="Windows\ResourceDebugger.xaml.cs">
       <DependentUpon>ResourceDebugger.xaml</DependentUpon>
     </Compile>
+    <Page Include="CpuRegistersPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="HexEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

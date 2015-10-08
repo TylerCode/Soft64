@@ -104,6 +104,6 @@ namespace Soft64WPF.ViewModels
         public RegisterFloatValue[] FPRegisters => GetValue(FPRegistersProperty);
         #endregion
 
-        public ExecutionState CPUState => MachineViewModel.CurrentModel.CurrentMachine.DeviceCPU.State;
+        public ExecutionState CPUState => MachineViewModel.CurrentModel.CurrentMachine?.DeviceCPU.State;
     }
 }

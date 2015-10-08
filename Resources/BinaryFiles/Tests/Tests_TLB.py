@@ -1,9 +1,9 @@
-from Soft64 import Machine
-from Soft64.MipsR4300.CP0 import TLBCache
-from Soft64.MipsR4300.CP0 import TLBEntry
+﻿from Soft64 import Machine
+from Soft64.MipsR4300 import TLBCache
+from Soft64.MipsR4300 import TLBEntry
 from Soft64.MipsR4300 import WordSize
-from Soft64.MipsR4300.CP0 import VirtualPageNumber2
-from Soft64.MipsR4300.CP0 import PageFrameNumber
+from Soft64.MipsR4300 import VirtualPageNumber2
+from Soft64.MipsR4300 import PageFrameNumber
 from System import Console
 
 

@@ -23,7 +23,7 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
                 <ScrollBar x:Name="xaml_HexScrollBar"  Minimum="0" Maximum="10" Value="5" SmallChange="1" ViewportSize="3" />
-                <Expander ExpandDirection="Right" Background="#FF8B8B8B" IsExpanded="False" Header="TLB" Foreground="#FFFFD100" FontSize="16" TextOptions.TextFormattingMode="Display" FontWeight="Bold">
+                <Expander ExpandDirection="Right" Background="White" IsExpanded="False" Header="TLB" Foreground="Black" FontSize="16" TextOptions.TextFormattingMode="Display" FontWeight="Bold">
                     <Expander.HeaderTemplate>
                         <DataTemplate>
                             <Grid>
@@ -40,8 +40,8 @@
                             </Grid>
                         </DataTemplate>
                     </Expander.HeaderTemplate>
-                    <Grid Width="270" DataContext="{Binding Cpu.TlbCache}">
-                        <TreeView ItemsSource="{Binding TlbEntries}" Background="#FFA6A6A6" Foreground="#FFFFD100" FontSize="10">
+                    <Grid Width="270" DataContext="{Binding DeviceCpu.TlbCache}">
+                        <TreeView ItemsSource="{Binding TlbEntries}" Background="White" Foreground="Black" FontSize="10" BorderBrush="White">
                             <TreeView.ItemTemplate>
                                 <HierarchicalDataTemplate>
                                     <TreeViewItem>
@@ -65,8 +65,7 @@
             <toolkit:HexEditor x:Name="xaml_HexEditor" Grid.Row="1" Margin="0,5,0,0"
                      BaseAddress="{Binding Text, ElementName=txtBoxBaseAddress, Converter={StaticResource stringToInt64Converter}}"
                      StreamSource="{Binding CurrentMemoryStream, ElementName=window}"
-                     Grid.RowSpan="2"
-                     TextOptions.TextFormattingMode="Display" Background="#FF494949" Foreground="#FFFFB900" GridLineBrush="#FFDADADA" />
+                     Grid.RowSpan="2" Background="White" Foreground="Black" GridLineBrush="#FF707070" FontSize="16" />
         </DockPanel>
     </Grid>
 </Window>

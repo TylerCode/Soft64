@@ -23,8 +23,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="501"/>
             <ColumnDefinition Width="25"/>
-            <ColumnDefinition Width="178*"/>
-            <ColumnDefinition Width="63*"/>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="23"/>
@@ -32,7 +31,7 @@
             <RowDefinition/>
             <RowDefinition Height="56.225"/>
         </Grid.RowDefinitions>
-        <Menu Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin" d:IsLocked="True">
+        <Menu Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin">
             <MenuItem Header="Debugger" d:IsHidden="True">
                 <MenuItem x:Name="xaml_MenuBtnRefreshDisam" Header="Refresh Disassembly" d:IsHidden="True" />
                 <MenuItem x:Name="xaml_MenuBtnSaveChanges" Header="Write Modifications" d:IsHidden="True" />
@@ -43,7 +42,7 @@
                 <MenuItem Header="Breakpoints ..." x:Name="xaml_BtnBreakpoints" d:IsHidden="True" />
             </MenuItem>
         </Menu>
-        <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,5,243,0" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin" d:IsLocked="True">
+        <StackPanel Orientation="Horizontal" Grid.Row="1">
             <StackPanel.Resources>
                 <Style x:Name="Button" TargetType="{x:Type Button}">
                     <Setter Property="Margin" Value="10,5,0,0" />
@@ -54,89 +53,10 @@
             <Button x:Name="xaml_BtnStep" Content="Step" Width="76" Height="22" Click="xaml_BtnStep_Click" Margin="10,0,0,0" VerticalAlignment="Top" d:IsHidden="True"/>
         </StackPanel>
 
-        <!-- Registers -->
-        <TabControl  Grid.RowSpan="2" Grid.Row="1" Grid.Column="2" Margin="10,3,0,0" Grid.ColumnSpan="2" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin" d:IsLocked="True">
-            <TabItem Header="General" d:IsHidden="True">
-                <StackPanel Orientation="Vertical" d:IsHidden="True">
-                    <Grid d:IsHidden="True">
-                        <Grid.Resources>
-                            <c:Hex64Converter x:Key="hex64converter" />
-                            <Style TargetType="{x:Type TextBox}" >
-                                <Setter Property="Width" Value="137" />
-                                <Setter Property="Margin" Value="5,0,0,0" />
-                                <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
+        <!-- CPU Registers -->
+        <Soft64WPF:CpuRegistersPanel Grid.ColumnSpan="2" Grid.Column="2" Grid.Row="1" Grid.RowSpan="2"/>
 
-                                <Style.Triggers>
-                                    <Trigger Property="Validation.HasError" Value="True">
-                                        <Setter Property="ToolTip" Value="{Binding (Validation.Errors)[0].ErrorContent, RelativeSource={x:Static RelativeSource.Self}}"/>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-
-                            <Style TargetType="{x:Type TextBlock}">
-                                <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
-                                <Setter Property="Foreground" Value="Black" />
-                            </Style>
-
-                            <Soft64WPF:RegisterObserverCollection x:Key="registers">
-                                <Soft64WPF:RegisterObserver RegName="PC" Path="DeviceCpu.State.RegisterPC.Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="Hi" Path="DeviceCpu.State.RegisterHi.Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="Lo" Path="DeviceCpu.State.RegisterLo.Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR00 (zero)" Path="DeviceCpu.State.GPRegisters[0].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR01 (at)" Path="DeviceCpu.State.GPRegisters[1].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR02 (v0)" Path="DeviceCpu.State.GPRegisters[2].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR03 (v1)" Path="DeviceCpu.State.GPRegisters[3].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR04 (a0)" Path="DeviceCpu.State.GPRegisters[4].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR05 (a1)" Path="DeviceCpu.State.GPRegisters[5].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR06 (a2)" Path="DeviceCpu.State.GPRegisters[6].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR07 (a3)" Path="DeviceCpu.State.GPRegisters[7].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR08 (t0)" Path="DeviceCpu.State.GPRegisters[8].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR09 (t1)" Path="DeviceCpu.State.GPRegisters[9].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR10 (t2)" Path="DeviceCpu.State.GPRegisters[10].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR11 (t3)" Path="DeviceCpu.State.GPRegisters[11].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR12 (t4)" Path="DeviceCpu.State.GPRegisters[12].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR13 (t5)" Path="DeviceCpu.State.GPRegisters[13].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR14 (t6)" Path="DeviceCpu.State.GPRegisters[14].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR15 (t7)" Path="DeviceCpu.State.GPRegisters[15].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR16 (s0)" Path="DeviceCpu.State.GPRegisters[16].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR17 (s1)" Path="DeviceCpu.State.GPRegisters[17].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR18 (s2)" Path="DeviceCpu.State.GPRegisters[18].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR19 (s3)" Path="DeviceCpu.State.GPRegisters[19].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR20 (s4)" Path="DeviceCpu.State.GPRegisters[20].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR21 (s5)" Path="DeviceCpu.State.GPRegisters[21].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR22 (s6)" Path="DeviceCpu.State.GPRegisters[22].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR23 (s7)" Path="DeviceCpu.State.GPRegisters[23].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR24 (t8)" Path="DeviceCpu.State.GPRegisters[24].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR25 (t9)" Path="DeviceCpu.State.GPRegisters[25].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR26 (k0)" Path="DeviceCpu.State.GPRegisters[26].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR27 (k1)" Path="DeviceCpu.State.GPRegisters[27].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR28 (gp)" Path="DeviceCpu.State.GPRegisters[28].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR29 (sp)" Path="DeviceCpu.State.GPRegisters[29].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR30 (fp)" Path="DeviceCpu.State.GPRegisters[30].Value" Source="{Binding .}" />
-                                <Soft64WPF:RegisterObserver RegName="GPR31 (ra)" Path="DeviceCpu.State.GPRegisters[31].Value" Source="{Binding .}" />
-                            </Soft64WPF:RegisterObserverCollection>
-
-                        </Grid.Resources>
-
-                        <ItemsControl ItemsSource="{StaticResource registers}" FontFamily="Consolas" TextOptions.TextFormattingMode="Display" FontSize="11" Margin="0,0,0,7" Foreground="Black" d:IsHidden="True">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel Orientation="Vertical" />
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <ContentPresenter Content="{Binding}" />
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </Grid>
-                </StackPanel>
-            </TabItem>
-            <TabItem Header="Control" d:IsHidden="True" />
-            <TabItem Header="FPU" d:IsHidden="True" />
-        </TabControl>
-        <ListBox x:Name="xaml_DataGridDisassembly" ItemsSource="{Binding DeviceCpu.Debugger.Disassembly}" Grid.Row="2" Background="#FF1F1425" FontFamily="Consolas" BorderBrush="{x:Null}" Grid.ColumnSpan="1" ScrollViewer.CanContentScroll="False" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" FontSize="13.333" Foreground="#FFFF78F9" TextOptions.TextFormattingMode="Display" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin" d:IsLocked="True">
+        <ListBox x:Name="xaml_DataGridDisassembly" ItemsSource="{Binding DeviceCpu.Debugger.Disassembly}" Grid.Row="2" Background="#FF1F1425" FontFamily="Consolas" BorderBrush="{x:Null}" Grid.ColumnSpan="1" ScrollViewer.CanContentScroll="False" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" FontSize="13.333" Foreground="#FFFF78F9" TextOptions.TextFormattingMode="Display" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin">
             <ListBox.ItemContainerStyle>
                 <Style TargetType="{x:Type ListBoxItem}">
                     <Setter Property="Template">
@@ -184,7 +104,7 @@
                 </ItemContainerTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <ScrollBar x:Name="xaml_CodeScrollbar" Orientation="Horizontal" Grid.Row="2" Grid.Column="1" Maximum="1073741823" LargeChange="10" SmallChange="1" Margin="4,260.5,4,250.5" Width="Auto" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin" d:IsLocked="True" Height="Auto" />
+        <ScrollBar x:Name="xaml_CodeScrollbar" Orientation="Horizontal" Grid.Row="2" Grid.Column="1" Maximum="1073741823" LargeChange="10" SmallChange="1" Margin="4,260.5,4,250.5" Width="Auto" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin" Height="Auto" />
         <StackPanel Orientation="Vertical" Grid.Row="3" Grid.ColumnSpan="4" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin" >
             <StackPanel Orientation="Horizontal" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin">
                 <TextBlock Text="BranchPC" HorizontalAlignment="Left" VerticalAlignment="Center"/>

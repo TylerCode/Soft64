@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Soft64WPF.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -39,7 +40,7 @@ namespace Soft64WPF
             binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
             binding.ValidatesOnDataErrors = true;
             binding.ValidationRules.Add(new DataErrorValidationRule());
-            binding.Source = Source;
+            binding.Source = MachineViewModel.CurrentModel.DeviceCpu.State;
             binding.Path = new PropertyPath(Path);
             xaml_RegValueBox.SetBinding(TextBox.TextProperty, binding);
         }
