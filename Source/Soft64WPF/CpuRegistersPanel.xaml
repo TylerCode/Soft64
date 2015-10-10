@@ -1,0 +1,80 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Soft64WPF"
+             xmlns:Converters="clr-namespace:Soft64WPF.Converters" x:Class="Soft64WPF.CpuRegistersPanel"
+             mc:Ignorable="d" 
+             d:DesignHeight="599.775" d:DesignWidth="243">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type TextBox}" >
+            <Setter Property="Width" Value="137" />
+            <Setter Property="Margin" Value="5,0,0,0" />
+            <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
+            <Setter Property="Foreground" Value="Black" />
+
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="ToolTip" Value="{Binding (Validation.Errors)[0].ErrorContent, RelativeSource={x:Static RelativeSource.Self}}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    <TabControl HorizontalAlignment="Right" Height="599.775" Width="243">
+        <TabItem Header="General">
+            <StackPanel Orientation="Vertical">
+                <Grid>
+                    <local:RegisterItemsControl FontFamily="Consolas" TextOptions.TextFormattingMode="Display" FontSize="11" Margin="0,0,0,7" Foreground="Black" >
+                        <local:RegisterItemsControl.ItemsSource>
+                            <local:RegisterObserverCollection>
+                                <local:RegisterObserver RegName="PC" Path="RegisterPC.Value" />
+                                <local:RegisterObserver RegName="Hi" Path="RegisterHi.Value" />
+                                <local:RegisterObserver RegName="Lo" Path="RegisterLo.Value" />
+                                <local:RegisterObserver RegName="GPR00 (zero)" Path="GPRegisters[0].Value" />
+                                <local:RegisterObserver RegName="GPR01 (at)" Path="GPRegisters[1].Value" />
+                                <local:RegisterObserver RegName="GPR02 (v0)" Path="GPRegisters[2].Value" />
+                                <local:RegisterObserver RegName="GPR03 (v1)" Path="GPRegisters[3].Value" />
+                                <local:RegisterObserver RegName="GPR04 (a0)" Path="GPRegisters[4].Value" />
+                                <local:RegisterObserver RegName="GPR05 (a1)" Path="GPRegisters[5].Value" />
+                                <local:RegisterObserver RegName="GPR06 (a2)" Path="GPRegisters[6].Value" />
+                                <local:RegisterObserver RegName="GPR07 (a3)" Path="GPRegisters[7].Value" />
+                                <local:RegisterObserver RegName="GPR08 (t0)" Path="GPRegisters[8].Value" />
+                                <local:RegisterObserver RegName="GPR09 (t1)" Path="GPRegisters[9].Value" />
+                                <local:RegisterObserver RegName="GPR10 (t2)" Path="GPRegisters[10].Value" />
+                                <local:RegisterObserver RegName="GPR11 (t3)" Path="GPRegisters[11].Value" />
+                                <local:RegisterObserver RegName="GPR12 (t4)" Path="GPRegisters[12].Value" />
+                                <local:RegisterObserver RegName="GPR13 (t5)" Path="GPRegisters[13].Value" />
+                                <local:RegisterObserver RegName="GPR14 (t6)" Path="GPRegisters[14].Value" />
+                                <local:RegisterObserver RegName="GPR15 (t7)" Path="GPRegisters[15].Value" />
+                                <local:RegisterObserver RegName="GPR16 (s0)" Path="GPRegisters[16].Value" />
+                                <local:RegisterObserver RegName="GPR17 (s1)" Path="GPRegisters[17].Value" />
+                                <local:RegisterObserver RegName="GPR18 (s2)" Path="GPRegisters[18].Value" />
+                                <local:RegisterObserver RegName="GPR19 (s3)" Path="GPRegisters[19].Value" />
+                                <local:RegisterObserver RegName="GPR20 (s4)" Path="GPRegisters[20].Value" />
+                                <local:RegisterObserver RegName="GPR21 (s5)" Path="GPRegisters[21].Value" />
+                                <local:RegisterObserver RegName="GPR22 (s6)" Path="GPRegisters[22].Value" />
+                                <local:RegisterObserver RegName="GPR23 (s7)" Path="GPRegisters[23].Value" />
+                                <local:RegisterObserver RegName="GPR24 (t8)" Path="GPRegisters[24].Value" />
+                                <local:RegisterObserver RegName="GPR25 (t9)" Path="GPRegisters[25].Value" />
+                                <local:RegisterObserver RegName="GPR26 (k0)" Path="GPRegisters[26].Value" />
+                                <local:RegisterObserver RegName="GPR27 (k1)" Path="GPRegisters[27].Value" />
+                                <local:RegisterObserver RegName="GPR28 (gp)" Path="GPRegisters[28].Value" />
+                                <local:RegisterObserver RegName="GPR29 (sp)" Path="GPRegisters[29].Value" />
+                                <local:RegisterObserver RegName="GPR30 (fp)" Path="GPRegisters[30].Value" />
+                                <local:RegisterObserver RegName="GPR31 (ra)" Path="GPRegisters[31].Value" />
+                            </local:RegisterObserverCollection>
+                        </local:RegisterItemsControl.ItemsSource>
+                        <local:RegisterItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Vertical" />
+                            </ItemsPanelTemplate>
+                        </local:RegisterItemsControl.ItemsPanel>
+                    </local:RegisterItemsControl>
+                </Grid>
+            </StackPanel>
+        </TabItem>
+        <TabItem Header="Control" />
+        <TabItem Header="FPU" />
+    </TabControl>
+</UserControl>
