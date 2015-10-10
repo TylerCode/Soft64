@@ -151,6 +151,9 @@
     <Compile Include="RegisterItemsControl.cs" />
     <Compile Include="RegisterObserver.cs" />
     <Compile Include="RegisterObserverCollection.cs" />
+    <Compile Include="ViewModels\Cop0RegistersViewModel.cs" />
+    <Compile Include="ViewModels\Register32Value.cs" />
+    <Compile Include="ViewModels\RegisterValueViewModel.cs" />
     <Compile Include="ViewModels\StreamViewModel.cs" />
     <Compile Include="ViewModels\CartridgeViewModel.cs" />
     <Compile Include="ViewModels\CpuViewModel.cs" />
@@ -161,8 +164,8 @@
     <Compile Include="N64StreamWrapper.cs" />
     <Compile Include="ViewModels\QuickDependencyObject.cs" />
     <Compile Include="ViewModels\RcpViewModel.cs" />
-    <Compile Include="ViewModels\RegisterFloatValue.cs" />
-    <Compile Include="ViewModels\RegisterValue.cs" />
+    <Compile Include="ViewModels\RegisterFPUValue.cs" />
+    <Compile Include="ViewModels\Register64Value.cs" />
     <Compile Include="ViewModels\TlbCacheViewModel.cs" />
     <Compile Include="ViewModels\TlbModelEntry.cs" />
     <Compile Include="Windows\BreakpointsWindow.xaml.cs">
@@ -258,7 +261,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Resource Include="ViewModels\TODO.txt" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

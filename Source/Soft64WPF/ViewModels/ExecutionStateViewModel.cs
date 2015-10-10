@@ -14,9 +14,9 @@ namespace Soft64WPF.ViewModels
         {
             SetValue(GPRegistersPK, AllocateReg64Array(32));
             SetValue(FPRegistersPK, AllocateRegFloatArray(32));
-            SetValue(RegisterPCPK, new RegisterValue());
-            SetValue(RegisterHiPK, new RegisterValue());
-            SetValue(RegisterLoPK, new RegisterValue());
+            SetValue(RegisterPCPK, new Register64Value());
+            SetValue(RegisterHiPK, new Register64Value());
+            SetValue(RegisterLoPK, new Register64Value());
         }
 
         public void Load()
@@ -47,62 +47,64 @@ namespace Soft64WPF.ViewModels
 
         private static DependencyPropertyKey RegisterReg64PK(String name)
         {
-            return RegDPKey<ExecutionStateViewModel, RegisterValue>(name);
+            return RegDPKey<ExecutionStateViewModel, Register64Value>(name);
         }
 
         private static DependencyPropertyKey RegisterReg64ArrayPK(String name)
         {
-            return RegDPKey<ExecutionStateViewModel, RegisterValue[]>(name);
+            return RegDPKey<ExecutionStateViewModel, Register64Value[]>(name);
         }
 
         private static DependencyPropertyKey RegisterRegFloatArrayPK(String name)
         {
-            return RegDPKey<ExecutionStateViewModel, RegisterFloatValue[]>(name);
+            return RegDPKey<ExecutionStateViewModel, RegisterFPUValue[]>(name);
         }
 
-        private static RegisterValue[] AllocateReg64Array(Int32 count)
+        private static Register64Value[] AllocateReg64Array(Int32 count)
         {
-            RegisterValue[] v = new RegisterValue[count];
-            for (Int32 i = 0; i < count; i++) v[i] = new RegisterValue();
+            Register64Value[] v = new Register64Value[count];
+            for (Int32 i = 0; i < count; i++) v[i] = new Register64Value();
             return v;
         }
 
-        private static RegisterFloatValue[] AllocateRegFloatArray(Int32 count)
+        private static RegisterFPUValue[] AllocateRegFloatArray(Int32 count)
         {
-            RegisterFloatValue[] v = new RegisterFloatValue[count];
-            for (Int32 i = 0; i < count; i++) v[i] = new RegisterFloatValue();
+            RegisterFPUValue[] v = new RegisterFPUValue[count];
+            for (Int32 i = 0; i < count; i++) v[i] = new RegisterFPUValue();
             return v;
         }
 
         #region DP - RegisterPC
         private static readonly DependencyPropertyKey RegisterPCPK = RegisterReg64PK("RegisterPC");
         public static readonly DependencyProperty RegisterPCProperty = RegisterPCPK.DependencyProperty;
-        public RegisterValue RegisterPC => GetValue(RegisterPCProperty);
+        public Register64Value RegisterPC => GetValue(RegisterPCProperty);
         #endregion
 
         #region DP - RegisterHi
         private static readonly DependencyPropertyKey RegisterHiPK = RegisterReg64PK("RegisterHi");
         public static readonly DependencyProperty RegisterHiProperty = RegisterHiPK.DependencyProperty;
-        public RegisterValue RegisterHi => GetValue(RegisterHiProperty);
+        public Register64Value RegisterHi => GetValue(RegisterHiProperty);
         #endregion
 
         #region DP - RegisterLo
         private static readonly DependencyPropertyKey RegisterLoPK = RegisterReg64PK("RegisterLo");
         public static readonly DependencyProperty RegisterLoProperty = RegisterLoPK.DependencyProperty;
-        public RegisterValue RegisterLo => GetValue(RegisterLoProperty);
+        public Register64Value RegisterLo => GetValue(RegisterLoProperty);
         #endregion
 
         #region DP - GPRegisters
         private static readonly DependencyPropertyKey GPRegistersPK = RegisterReg64ArrayPK("GPRegisters");
         public static readonly DependencyProperty GPRegistersProperty = GPRegistersPK.DependencyProperty;
-        public RegisterValue[] GPRegisters => GetValue(GPRegistersProperty);
+        public Register64Value[] GPRegisters => GetValue(GPRegistersProperty);
         #endregion
 
         #region DP - FPRegisters
         private static readonly DependencyPropertyKey FPRegistersPK = RegisterRegFloatArrayPK("FPRegisters");
         public static readonly DependencyProperty FPRegistersProperty = FPRegistersPK.DependencyProperty;
-        public RegisterFloatValue[] FPRegisters => GetValue(FPRegistersProperty);
+        public RegisterFPUValue[] FPRegisters => GetValue(FPRegistersProperty);
         #endregion
+
+
 
         public ExecutionState CPUState => MachineViewModel.CurrentModel.CurrentMachine?.DeviceCPU.State;
     }
