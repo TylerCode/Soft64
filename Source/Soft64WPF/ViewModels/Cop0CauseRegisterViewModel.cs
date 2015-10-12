@@ -6,24 +6,46 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
+using CauseVM = Soft64WPF.ViewModels.Cop0CauseRegisterViewModel;
+
 namespace Soft64WPF.ViewModels
 {
     public sealed class Cop0CauseRegisterViewModel : QuickDependencyObject
     {
         internal Cop0CauseRegisterViewModel()
         {
-
+            SetValue(RegisterPK, new Register32Value());
         }
 
         public void Load()
         {
-
+            Interrupt0 = Cause.IP0;
+            Interrupt1 = Cause.IP1;
+            Interrupt2 = Cause.IP2;
+            Interrupt3 = Cause.IP3;
+            Interrupt4 = Cause.IP4;
+            Interrupt5 = Cause.IP5;
+            Interrupt6 = Cause.IP6;
+            Interrupt7 = Cause.IP7;
         }
 
         public void Store()
         {
-
+            Cause.IP0 = Interrupt0;
+            Cause.IP1 = Interrupt1;
+            Cause.IP2 = Interrupt2;
+            Cause.IP3 = Interrupt3;
+            Cause.IP4 = Interrupt4;
+            Cause.IP5 = Interrupt5;
+            Cause.IP6 = Interrupt6;
+            Cause.IP7 = Interrupt7;
         }
+
+        #region DP - Register
+        private static readonly DependencyPropertyKey RegisterPK = RegDPKey<CauseVM, Register32Value>("Register");
+        public static readonly DependencyProperty RegisterProperty = RegisterPK.DependencyProperty;
+        public Register32Value Register => GetValue(RegisterProperty);
+        #endregion
 
         #region DP - Interrupt0
         public static readonly DependencyProperty Interrupt0Property = RegDP<Cop0RegistersViewModel, Boolean>("Interrupt0");

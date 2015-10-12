@@ -153,6 +153,7 @@
     <Compile Include="RegisterObserverCollection.cs" />
     <Compile Include="ViewModels\Cop0CauseRegisterViewModel.cs" />
     <Compile Include="ViewModels\Cop0RegistersViewModel.cs" />
+    <Compile Include="ViewModels\Cop0StatusRegisterViewModel.cs" />
     <Compile Include="ViewModels\Register32Value.cs" />
     <Compile Include="ViewModels\RegisterValueViewModel.cs" />
     <Compile Include="ViewModels\StreamViewModel.cs" />

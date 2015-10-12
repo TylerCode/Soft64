@@ -12,6 +12,7 @@ namespace Soft64WPF.ViewModels
     {
         internal ExecutionStateViewModel()
         {
+            SetValue(Cop0RegistersPK, new Cop0RegistersViewModel());
             SetValue(GPRegistersPK, AllocateReg64Array(32));
             SetValue(FPRegistersPK, AllocateRegFloatArray(32));
             SetValue(RegisterPCPK, new Register64Value());
@@ -30,6 +31,14 @@ namespace Soft64WPF.ViewModels
                 GPRegisters[i].RegValue = CPUState.GPRRegs[i];
                 FPRegisters[i].RegValue = CPUState.Fpr.ReadFPRDouble(i);
             }
+
+            BranchPC = CPUState.BranchPC;
+            BranchDelaySlot = CPUState.BranchDelaySlot;
+            BranchEnabled = CPUState.BranchEnabled;
+            NullifiedEnabled = CPUState.NullifyEnabled;
+            LLBit = CPUState.LLBit;
+
+            Cop0Registers.Load();
         }
 
         public void Store()
@@ -43,6 +52,14 @@ namespace Soft64WPF.ViewModels
                 CPUState.GPRRegs[i] = GPRegisters[i].RegValue;
                 CPUState.Fpr.WriteFPRDouble(i, FPRegisters[i].RegValue);
             }
+
+            CPUState.BranchPC = BranchPC;
+            CPUState.BranchDelaySlot = BranchDelaySlot;
+            CPUState.BranchEnabled = BranchEnabled;
+            CPUState.NullifyEnabled = NullifiedEnabled;
+            CPUState.LLBit = LLBit;
+
+            Cop0Registers.Store();
         }
 
         private static DependencyPropertyKey RegisterReg64PK(String name)
@@ -104,7 +121,36 @@ namespace Soft64WPF.ViewModels
         public RegisterFPUValue[] FPRegisters => GetValue(FPRegistersProperty);
         #endregion
 
+        #region DP - BranchPC
+        public static readonly DependencyProperty BranchPCProperty = RegDP<ExecutionStateViewModel, Int64>("BranchPC");
+        public Int64 BranchPC { get { return GetValue(BranchPCProperty); } set { SetValue(BranchPCProperty, value); } }
+        #endregion
 
+        #region DP - BranchDelaySlot
+        public static readonly DependencyProperty BranchDelaySlotProperty = RegDP<ExecutionStateViewModel, Int64>("BranchDelaySlot");
+        public Int64 BranchDelaySlot { get { return GetValue(BranchDelaySlotProperty); } set { SetValue(BranchDelaySlotProperty, value); } }
+        #endregion
+
+        #region DP - BranchEnabled
+        public static readonly DependencyProperty BranchEnabledProperty = RegDP<ExecutionStateViewModel, Boolean>("BranchEnabled");
+        public Boolean BranchEnabled { get { return GetValue(BranchEnabledProperty); } set { SetValue(BranchEnabledProperty, value); } }
+        #endregion
+
+        #region DP - NullifiedEnabled
+        public static readonly DependencyProperty NullifiedEnabledProperty = RegDP<ExecutionStateViewModel, Boolean>("NullifiedEnabled");
+        public Boolean NullifiedEnabled { get { return GetValue(NullifiedEnabledProperty); } set { SetValue(NullifiedEnabledProperty, value); } }
+        #endregion
+
+        #region DP - LLBit
+        public static readonly DependencyProperty LLBitProperty = RegDP<ExecutionStateViewModel, Boolean>("LLBit");
+        public Boolean LLBit { get { return GetValue(LLBitProperty); } set { SetValue(LLBitProperty, value); } }
+        #endregion
+
+        #region DP - Cop0 Registers
+        private static readonly DependencyPropertyKey Cop0RegistersPK = RegDPKey<ExecutionStateViewModel, Cop0RegistersViewModel>("Cop0Registers");
+        public static readonly DependencyProperty Cop0RegistersProperty = Cop0RegistersPK.DependencyProperty;
+        public Cop0RegistersViewModel Cop0Registers => GetValue(Cop0RegistersProperty);
+        #endregion
 
         public ExecutionState CPUState => MachineViewModel.CurrentModel.CurrentMachine?.DeviceCPU.State;
     }

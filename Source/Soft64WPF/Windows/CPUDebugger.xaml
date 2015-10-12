@@ -115,24 +115,24 @@
                 <CheckBox x:Name="checkBox_Copy" Content="N" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="24.5,3.063,0,3.063"/>
                 <CheckBox x:Name="checkBox_Copy1" Content="LL" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="21.5,3.063,0,3.063"/>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin">
+            <StackPanel Orientation="Horizontal" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin" DataContext="{Binding DeviceCpu.State.Cop0Registers.Status}">
                 <TextBlock Text="Status:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <CheckBox x:Name="checkBox_Copy2" Content="C64" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0"/>
-                <CheckBox x:Name="checkBox_Copy3" Content="A64" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0"/>
-                <CheckBox x:Name="checkBox_Copy4" Content="FP" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0"/>
-                <CheckBox x:Name="checkBox_Copy13" Content="IE" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="15,0,0,0"/>
-                <CheckBox x:Name="checkBox_Copy5" Content="IM0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="17,0,0,0"/>
-                <CheckBox x:Name="checkBox_Copy6" Content="IM1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0"/>
-                <CheckBox x:Name="checkBox_Copy7" Content="IM2" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0"/>
-                <CheckBox x:Name="checkBox_Copy8" Content="IM3" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="11,0,0,0"/>
-                <CheckBox x:Name="checkBox_Copy9" Content="IM4" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0"/>
-                <CheckBox x:Name="checkBox_Copy10" Content="IM5" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0"/>
-                <CheckBox x:Name="checkBox_Copy11" Content="IM6" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0"/>
-                <CheckBox x:Name="checkBox_Copy12" Content="IM7" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0"/>
+                <CheckBox x:Name="xaml_ChkBoxO64" Content="O64" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" IsChecked="{Binding IsOperating64, Mode=OneWay}" IsEnabled="False"/>
+                <CheckBox x:Name="checkBox_Copy3" Content="A64" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" IsEnabled="False"/>
+                <CheckBox x:Name="checkBox_Copy4" Content="FP" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" IsEnabled="False"/>
+                <CheckBox x:Name="checkBox_Copy13" Content="IE" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="15,0,0,0" IsEnabled="False"/>
+                <CheckBox x:Name="checkBox_Copy5" Content="IM0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="17,0,0,0" IsEnabled="False"/>
+                <CheckBox x:Name="checkBox_Copy6" Content="IM1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" IsEnabled="False"/>
+                <CheckBox x:Name="checkBox_Copy7" Content="IM2" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" IsEnabled="False"/>
+                <CheckBox x:Name="checkBox_Copy8" Content="IM3" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="11,0,0,0" IsEnabled="False"/>
+                <CheckBox x:Name="checkBox_Copy9" Content="IM4" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" IsEnabled="False"/>
+                <CheckBox x:Name="checkBox_Copy10" Content="IM5" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" IsEnabled="False"/>
+                <CheckBox x:Name="checkBox_Copy11" Content="IM6" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" IsEnabled="False"/>
+                <CheckBox x:Name="checkBox_Copy12" Content="IM7" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" IsEnabled="False"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin">
                 <TextBlock Text="Cause:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <CheckBox x:Name="checkBox_Copy14" Content="IP0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10.5,0,0,0"/>
+                <CheckBox x:Name="checkBox_Copy14" Content="IP0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="11,0,0,0"/>
                 <CheckBox x:Name="checkBox_Copy15" Content="IP1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="14,0,0,0"/>
                 <CheckBox x:Name="checkBox_Copy16" Content="IP2" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="14,0,0,0"/>
                 <CheckBox x:Name="checkBox_Copy17" Content="IP3" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="11,0,0,0"/>
