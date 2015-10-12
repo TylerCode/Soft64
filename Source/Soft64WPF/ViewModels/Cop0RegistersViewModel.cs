@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Soft64.MipsR4300;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,16 +14,81 @@ namespace Soft64WPF.ViewModels
         {
             SetValue(CountPK, new Register32Value());
             SetValue(ComparePK, new Register32Value());
+            SetValue(BadVAddressPK, new Register64Value());
+            SetValue(EntryHiPK, new Register64Value());
+            SetValue(EntryLo0PK, new Register64Value());
+            SetValue(EntryLo1PK, new Register64Value());
+            SetValue(IndexPK, new Register64Value());
+            SetValue(PageMaskPK, new Register64Value());
+            SetValue(RandomPK, new Register64Value());
+            SetValue(WiredPK, new Register64Value());
+            SetValue(ContextPK, new Register64Value());
+            SetValue(EPCPK, new Register64Value());
+            SetValue(PRIdPK, new Register64Value());
+            SetValue(ConfigPK, new Register64Value());
+            SetValue(LLAddrPK, new Register64Value());
+            SetValue(WatchLoPK, new Register64Value());
+            SetValue(WatchHiPK, new Register64Value());
+            SetValue(XContextPK, new Register64Value());
+            SetValue(ECCPK, new Register64Value());
+            SetValue(CacheErrPK, new Register64Value());
+            SetValue(TagLoPK, new Register64Value());
+            SetValue(TagHiPK, new Register64Value());
+            SetValue(ErrorEPCPK, new Register64Value());
         }
 
         public void Load()
         {
-
+            Count.RegValue = Regs.Count;
+            Compare.RegValue = Regs.Compare;
+            BadVAddress.RegValue = Regs.BadVAddr;
+            EntryHi.RegValue = Regs.EntryHi;
+            EntryLo0.RegValue = Regs.EntryLo0;
+            EntryLo1.RegValue = Regs.EntryLo1;
+            Index.RegValue = Regs.Index;
+            PageMask.RegValue = Regs.PageMask;
+            Random.RegValue = Regs.Random;
+            Wired.RegValue = Regs.Wired;
+            Context.RegValue = Regs.Context;
+            EPC.RegValue = Regs.EPC;
+            PRId.RegValue = Regs.PRId;
+            Config.RegValue = Regs.Config;
+            LLAddr.RegValue = Regs.LLAddr;
+            WatchLo.RegValue = Regs.WatchLo;
+            WatchHi.RegValue = Regs.WatchHi;
+            XContext.RegValue = Regs.XContext;
+            ECC.RegValue = Regs.ECC;
+            CacheErr.RegValue = Regs.CacheErr;
+            TagLo.RegValue = Regs.TagLo;
+            TagHi.RegValue = Regs.TagHi;
+            ErrorEPC.RegValue = Regs.ErrorEPC;
         }
 
         public void Store()
         {
-
+            Regs.Count = Count.RegValue;
+            Regs.Compare = Compare.RegValue;
+            Regs.BadVAddr = BadVAddress.RegValue;
+            Regs.EntryHi = EntryHi.RegValue;
+            Regs.EntryLo0 = EntryLo0.RegValue;
+            Regs.EntryLo1 = EntryLo1.RegValue;
+            Regs.Index = Index.RegValue;
+            Regs.PageMask = PageMask.RegValue;
+            Regs.Random = Random.RegValue;
+            Regs.Wired = Wired.RegValue;
+            Regs.Context = Context.RegValue;
+            Regs.EPC = EPC.RegValue;
+            Regs.PRId = PRId.RegValue;
+            Regs.Config = Config.RegValue;
+            Regs.LLAddr = LLAddr.RegValue;
+            Regs.WatchLo = WatchLo.RegValue;
+            Regs.WatchHi = WatchHi.RegValue;
+            Regs.XContext = XContext.RegValue;
+            Regs.ECC = ECC.RegValue;
+            Regs.CacheErr = CacheErr.RegValue;
+            Regs.TagLo = TagLo.RegValue;
+            Regs.TagHi = TagHi.RegValue;
+            Regs.ErrorEPC = ErrorEPC.RegValue;
         }
 
         #region DP - Count
@@ -162,5 +228,7 @@ namespace Soft64WPF.ViewModels
         public static readonly DependencyProperty ErrorEPCProperty = ErrorEPCPK.DependencyProperty;
         public Register64Value ErrorEPC => GetValue(ErrorEPCProperty);
         #endregion
+
+        CP0Registers Regs => MachineViewModel.CurrentModel?.CurrentMachine?.DeviceCPU.State.CP0Regs;
     }
 }
