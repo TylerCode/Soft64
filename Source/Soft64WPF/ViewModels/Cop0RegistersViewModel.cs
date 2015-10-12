@@ -61,6 +61,106 @@ namespace Soft64WPF.ViewModels
         public Register64Value EntryLo1 => GetValue(EntryLo1Property);
         #endregion
 
+        #region DP - Index
+        private static readonly DependencyPropertyKey IndexPK = RegDPKey<Cop0RegistersViewModel, Register64Value>("Index");
+        public static readonly DependencyProperty IndexProperty = IndexPK.DependencyProperty;
+        public Register64Value Index => GetValue(IndexProperty);
+        #endregion
 
+        #region DP - PageMask
+        private static readonly DependencyPropertyKey PageMaskPK = RegDPKey<Cop0RegistersViewModel, Register64Value>("PageMask");
+        public static readonly DependencyProperty PageMaskProperty = PageMaskPK.DependencyProperty;
+        public Register64Value PageMask => GetValue(PageMaskProperty);
+        #endregion
+
+        #region DP - Random
+        private static readonly DependencyPropertyKey RandomPK = RegDPKey<Cop0RegistersViewModel, Register64Value>("Random");
+        public static readonly DependencyProperty RandomProperty = RandomPK.DependencyProperty;
+        public Register64Value Random => GetValue(RandomProperty);
+        #endregion
+
+        #region DP - Wired
+        private static readonly DependencyPropertyKey WiredPK = RegDPKey<Cop0RegistersViewModel, Register64Value>("Wired");
+        public static readonly DependencyProperty WiredProperty = WiredPK.DependencyProperty;
+        public Register64Value Wired => GetValue(WiredProperty);
+        #endregion
+
+        #region DP - Context
+        private static readonly DependencyPropertyKey ContextPK = RegDPKey<Cop0RegistersViewModel, Register64Value>("Context");
+        public static readonly DependencyProperty ContextProperty = ContextPK.DependencyProperty;
+        public Register64Value Context => GetValue(ContextProperty);
+        #endregion
+
+        #region DP - EPC
+        private static readonly DependencyPropertyKey EPCPK = RegDPKey<Cop0RegistersViewModel, Register64Value>("EPC");
+        public static readonly DependencyProperty EPCProperty = EPCPK.DependencyProperty;
+        public Register64Value EPC => GetValue(EPCProperty);
+        #endregion
+
+        #region DP - PRId
+        private static readonly DependencyPropertyKey PRIdPK = RegDPKey<Cop0RegistersViewModel, Register64Value>("PRId");
+        public static readonly DependencyProperty PRIdProperty = PRIdPK.DependencyProperty;
+        public Register64Value PRId => GetValue(PRIdProperty);
+        #endregion
+
+        #region DP - Config
+        private static readonly DependencyPropertyKey ConfigPK = RegDPKey<Cop0RegistersViewModel, Register64Value>("Config");
+        public static readonly DependencyProperty ConfigProperty = ConfigPK.DependencyProperty;
+        public Register64Value Config => GetValue(ConfigProperty);
+        #endregion
+
+        #region DP - LLAddr
+        private static readonly DependencyPropertyKey LLAddrPK = RegDPKey<Cop0RegistersViewModel, Register64Value>("LLAddr");
+        public static readonly DependencyProperty LLAddrProperty = LLAddrPK.DependencyProperty;
+        public Register64Value LLAddr => GetValue(LLAddrProperty);
+        #endregion
+
+        #region DP - WatchLo
+        private static readonly DependencyPropertyKey WatchLoPK = RegDPKey<Cop0RegistersViewModel, Register64Value>("WatchLo");
+        public static readonly DependencyProperty WatchLoProperty = WatchLoPK.DependencyProperty;
+        public Register64Value WatchLo => GetValue(WatchLoProperty);
+        #endregion
+
+        #region DP - WatchHi
+        private static readonly DependencyPropertyKey WatchHiPK = RegDPKey<Cop0RegistersViewModel, Register64Value>("WatchHi");
+        public static readonly DependencyProperty WatchHiProperty = WatchHiPK.DependencyProperty;
+        public Register64Value WatchHi => GetValue(WatchHiProperty);
+        #endregion
+
+        #region DP - XContext
+        private static readonly DependencyPropertyKey XContextPK = RegDPKey<Cop0RegistersViewModel, Register64Value>("XContext");
+        public static readonly DependencyProperty XContextProperty = XContextPK.DependencyProperty;
+        public Register64Value XContext => GetValue(XContextProperty);
+        #endregion
+
+        #region DP - ECC
+        private static readonly DependencyPropertyKey ECCPK = RegDPKey<Cop0RegistersViewModel, Register64Value>("ECC");
+        public static readonly DependencyProperty ECCProperty = ECCPK.DependencyProperty;
+        public Register64Value ECC => GetValue(ECCProperty);
+        #endregion
+
+        #region DP - CacheErr
+        private static readonly DependencyPropertyKey CacheErrPK = RegDPKey<Cop0RegistersViewModel, Register64Value>("CacheErr");
+        public static readonly DependencyProperty CacheErrProperty = CacheErrPK.DependencyProperty;
+        public Register64Value CacheErr => GetValue(CacheErrProperty);
+        #endregion
+
+        #region DP - TagLo
+        private static readonly DependencyPropertyKey TagLoPK = RegDPKey<Cop0RegistersViewModel, Register64Value>("TagLo");
+        public static readonly DependencyProperty TagLoProperty = TagLoPK.DependencyProperty;
+        public Register64Value TagLo => GetValue(TagLoProperty);
+        #endregion
+
+        #region DP - TagHi
+        private static readonly DependencyPropertyKey TagHiPK = RegDPKey<Cop0RegistersViewModel, Register64Value>("TagHi");
+        public static readonly DependencyProperty TagHiProperty = TagHiPK.DependencyProperty;
+        public Register64Value TagHi => GetValue(TagHiProperty);
+        #endregion
+
+        #region DP - ErrorEPC
+        private static readonly DependencyPropertyKey ErrorEPCPK = RegDPKey<Cop0RegistersViewModel, Register64Value>("ErrorEPC");
+        public static readonly DependencyProperty ErrorEPCProperty = ErrorEPCPK.DependencyProperty;
+        public Register64Value ErrorEPC => GetValue(ErrorEPCProperty);
+        #endregion
     }
 }
