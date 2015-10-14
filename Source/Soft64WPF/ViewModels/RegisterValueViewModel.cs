@@ -9,9 +9,15 @@ namespace Soft64WPF.ViewModels
 {
     public abstract class RegisterValueViewModel : IDataErrorInfo, INotifyPropertyChanged
     {
+        private String m_Value;
+
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public String Value { get; set; }
+        public String Value
+        {
+            get { return m_Value; }
+            set { m_Value = value; OnPropertyChange("Value"); }
+        }
 
         public String Error => null;
 

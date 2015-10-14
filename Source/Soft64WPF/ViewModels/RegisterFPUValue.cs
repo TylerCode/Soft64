@@ -32,7 +32,7 @@ namespace Soft64WPF.ViewModels
         protected override bool ValueCheck(string value)
         {
             Double d;
-            return Double.TryParse(value, out d);
+            return Double.TryParse(value, NumberStyles.AllowDecimalPoint, CultureInfo.CurrentCulture, out d);
         }
     }
 }

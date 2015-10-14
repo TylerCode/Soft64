@@ -8,7 +8,7 @@
         xmlns:om="clr-namespace:System.Collections.ObjectModel;assembly=System"
         xmlns:win="clr-namespace:System.Windows;assembly=PresentationFramework"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Name="window" x:Class="Soft64WPF.Windows.CPUDebugger"
-        Title="CPU Debugger" Height="711" Width="785"
+        Title="CPU Debugger" Height="711" Width="764"
         ResizeMode="NoResize">
     <Window.Resources>
         <ContextMenu x:Key="breakpointMenu">
@@ -22,7 +22,6 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="501"/>
-            <ColumnDefinition Width="25"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -54,9 +53,9 @@
         </StackPanel>
 
         <!-- CPU Registers -->
-        <Soft64WPF:CpuRegistersPanel Grid.ColumnSpan="2" Grid.Column="2" Grid.Row="1" Grid.RowSpan="2"/>
+        <Soft64WPF:CpuRegistersPanel Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Left" Margin="13,0,0,0"/>
 
-        <ListBox x:Name="xaml_DataGridDisassembly" ItemsSource="{Binding DeviceCpu.Debugger.Disassembly}" Grid.Row="2" Background="#FF1F1425" FontFamily="Consolas" BorderBrush="{x:Null}" Grid.ColumnSpan="1" ScrollViewer.CanContentScroll="False" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" FontSize="13.333" Foreground="#FFFF78F9" TextOptions.TextFormattingMode="Display" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin">
+        <ListBox x:Name="xaml_DataGridDisassembly" ItemsSource="{Binding DeviceCpu.Debugger.Disassembly}" Grid.Row="2" Background="#FF1F1425" FontFamily="Consolas" BorderBrush="{x:Null}" Grid.ColumnSpan="1" ScrollViewer.CanContentScroll="False" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Visible" FontSize="13.333" Foreground="#FFFF78F9" TextOptions.TextFormattingMode="Display" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin" VerticalContentAlignment="Top">
             <ListBox.ItemContainerStyle>
                 <Style TargetType="{x:Type ListBoxItem}">
                     <Setter Property="Template">
@@ -104,42 +103,44 @@
                 </ItemContainerTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <ScrollBar x:Name="xaml_CodeScrollbar" Orientation="Horizontal" Grid.Row="2" Grid.Column="1" Maximum="1073741823" LargeChange="10" SmallChange="1" Margin="4,260.5,4,250.5" Width="Auto" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin" Height="Auto" />
         <StackPanel Orientation="Vertical" Grid.Row="3" Grid.ColumnSpan="4" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin" >
-            <StackPanel Orientation="Horizontal" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin">
-                <TextBlock Text="BranchPC" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <TextBox x:Name="xaml_TextBoxBranchPC" HorizontalAlignment="Left" Width="92.333" Height="19.96" VerticalAlignment="Center" Margin="5,0,0,0" />
-                <TextBlock Text="Delay Slot" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,2.632,0,2.632"/>
-                <TextBox x:Name="xaml_TextBoxDelaySlot" HorizontalAlignment="Left" Width="92.333" Height="19.96" VerticalAlignment="Center" Margin="5,0.632,0,0.633" />
-                <CheckBox x:Name="checkBox" Content="B" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="22,0,0,0"/>
-                <CheckBox x:Name="checkBox_Copy" Content="N" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="24.5,3.063,0,3.063"/>
-                <CheckBox x:Name="checkBox_Copy1" Content="LL" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="21.5,3.063,0,3.063"/>
+            <StackPanel Orientation="Horizontal" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin" DataContext="{Binding DeviceCpu.State}">
+                <StackPanel.Resources>
+                    <c:Hex64Converter x:Key="hex64" />
+                </StackPanel.Resources>
+                <TextBlock Text="BranchPC"/>
+                <TextBox  Width="111" Height="20"  Margin="5,0,0,0" Text="{Binding BranchPC, Converter={StaticResource hex64}}" />
+                <TextBlock Text="Delay Slot" Margin="20,2.632,0,2.632"/>
+                <TextBox  Width="111" Height="20" Margin="5,0,0,0" Text="{Binding BranchDelaySlot, Converter={StaticResource hex64}}" />
+                <CheckBox Content="B"  Margin="22,0,0,0" VerticalAlignment="Center" IsChecked="{Binding BranchEnabled}"/>
+                <CheckBox Content="N"  Margin="22,0,0,0" VerticalAlignment="Center" IsChecked="{Binding NullifiedEnabled}"/>
+                <CheckBox Content="LL" Margin="22,0,0,0" VerticalAlignment="Center" IsChecked="{Binding LLBit}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin" DataContext="{Binding DeviceCpu.State.Cop0Registers.Status}">
-                <TextBlock Text="Status:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <CheckBox x:Name="xaml_ChkBoxO64" Content="O64" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" IsChecked="{Binding IsOperating64, Mode=OneWay}" IsEnabled="False"/>
-                <CheckBox x:Name="checkBox_Copy3" Content="A64" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" IsEnabled="False"/>
-                <CheckBox x:Name="checkBox_Copy4" Content="FP" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" IsEnabled="False"/>
-                <CheckBox x:Name="checkBox_Copy13" Content="IE" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="15,0,0,0" IsEnabled="False"/>
-                <CheckBox x:Name="checkBox_Copy5" Content="IM0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="17,0,0,0" IsEnabled="False"/>
-                <CheckBox x:Name="checkBox_Copy6" Content="IM1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" IsEnabled="False"/>
-                <CheckBox x:Name="checkBox_Copy7" Content="IM2" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" IsEnabled="False"/>
-                <CheckBox x:Name="checkBox_Copy8" Content="IM3" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="11,0,0,0" IsEnabled="False"/>
-                <CheckBox x:Name="checkBox_Copy9" Content="IM4" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" IsEnabled="False"/>
-                <CheckBox x:Name="checkBox_Copy10" Content="IM5" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" IsEnabled="False"/>
-                <CheckBox x:Name="checkBox_Copy11" Content="IM6" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" IsEnabled="False"/>
-                <CheckBox x:Name="checkBox_Copy12" Content="IM7" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" IsEnabled="False"/>
+                <TextBlock Text="Status:" />
+                <CheckBox Content="O64" Margin="10,0,0,0" IsChecked="{Binding IsOperating64, Mode=OneWay}" IsEnabled="False" />
+                <CheckBox Content="A64" Margin="10,0,0,0" IsEnabled="False" IsChecked="{Binding IsAddressing64, Mode=OneWay}" />
+                <CheckBox Content="FP" Margin="10,0,0,0" IsEnabled="False" IsChecked="{Binding AdditionalFPR, Mode=OneWay}" />
+                <CheckBox Content="IE" Margin="10,0,0,0" IsEnabled="False" IsChecked="{Binding InterruptsEnabled, Mode=OneWay}" />
+                <CheckBox Content="IM0" Margin="10,0,0,0" IsEnabled="False" IsChecked="{Binding InterruptMask0, Mode=OneWay}" />
+                <CheckBox Content="IM1" Margin="10,0,0,0" IsEnabled="False" IsChecked="{Binding InterruptMask1, Mode=OneWay}" />
+                <CheckBox Content="IM2" Margin="10,0,0,0" IsEnabled="False" IsChecked="{Binding InterruptMask2, Mode=OneWay}" />
+                <CheckBox Content="IM3" Margin="10,0,0,0" IsEnabled="False" IsChecked="{Binding InterruptMask3, Mode=OneWay}" />
+                <CheckBox Content="IM4" Margin="10,0,0,0" IsEnabled="False" IsChecked="{Binding InterruptMask4, Mode=OneWay}" />
+                <CheckBox Content="IM5" Margin="10,0,0,0" IsEnabled="False" IsChecked="{Binding InterruptMask5, Mode=OneWay}" />
+                <CheckBox Content="IM6" Margin="10,0,0,0" IsEnabled="False" IsChecked="{Binding InterruptMask6, Mode=OneWay}" />
+                <CheckBox Content="IM7" Margin="10,0,0,0" IsEnabled="False" IsChecked="{Binding InterruptMask7, Mode=OneWay}" />
             </StackPanel>
-            <StackPanel Orientation="Horizontal" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin">
-                <TextBlock Text="Cause:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <CheckBox x:Name="checkBox_Copy14" Content="IP0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="11,0,0,0"/>
-                <CheckBox x:Name="checkBox_Copy15" Content="IP1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="14,0,0,0"/>
-                <CheckBox x:Name="checkBox_Copy16" Content="IP2" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="14,0,0,0"/>
-                <CheckBox x:Name="checkBox_Copy17" Content="IP3" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="11,0,0,0"/>
-                <CheckBox x:Name="checkBox_Copy18" Content="IP4" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10.5,0,0,0"/>
-                <CheckBox x:Name="checkBox_Copy19" Content="IP5" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="14,0,0,0"/>
-                <CheckBox x:Name="checkBox_Copy20" Content="IP6" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="14,0,0,0"/>
-                <CheckBox x:Name="checkBox_Copy21" Content="IP7" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="15,0,0,0"/>
+            <StackPanel Orientation="Horizontal" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin" DataContext="{Binding DeviceCpu.State.Cop0Registers.Cause}">
+                <TextBlock Text="Cause:"/>
+                <CheckBox Content="IP0" Margin="10,0,0,0" IsChecked="{Binding Interrupt0}"/>
+                <CheckBox Content="IP1" Margin="10,0,0,0" IsChecked="{Binding Interrupt1}"/>
+                <CheckBox Content="IP2" Margin="10,0,0,0" IsChecked="{Binding Interrupt2}"/>
+                <CheckBox Content="IP3" Margin="10,0,0,0" IsChecked="{Binding Interrupt3}"/>
+                <CheckBox Content="IP4" Margin="10,0,0,0" IsChecked="{Binding Interrupt4}"/>
+                <CheckBox Content="IP5" Margin="10,0,0,0" IsChecked="{Binding Interrupt5}"/>
+                <CheckBox Content="IP6" Margin="10,0,0,0" IsChecked="{Binding Interrupt6}"/>
+                <CheckBox Content="IP7" Margin="10,0,0,0" IsChecked="{Binding Interrupt7}"/>
             </StackPanel>
         </StackPanel>
     </Grid>

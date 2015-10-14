@@ -82,7 +82,7 @@ namespace Soft64
 
                setter = (v) =>
                {
-                   dynamic newValue = (UInt64)v;
+                   dynamic newValue = Convert.ToUInt64(v);
                    newValue <<= def.FieldOffset;
 
                    dynamic maskedRegValue = m_Register;

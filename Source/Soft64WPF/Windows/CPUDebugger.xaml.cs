@@ -58,7 +58,6 @@ namespace Soft64WPF.Windows
             xaml_BtnBreakpoints.Click += xaml_BtnBreakpoints_Click;
             Loaded += CPUDebugger_Loaded;
             Unloaded += CPUDebugger_Unloaded;
-            xaml_CodeScrollbar.ValueChanged += xaml_CodeScrollbar_ValueChanged;
         }
 
         void xaml_BtnBreakpoints_Click(object sender, RoutedEventArgs e)
@@ -192,17 +191,9 @@ namespace Soft64WPF.Windows
 
         private void DiassembleCode()
         {
-            FormattedText text = new FormattedText("0", CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
-                new Typeface(FontFamily, FontStyle, FontWeight, FontStretch),
-                FontSize,
-                Foreground);
-
-            m_LineCount = (
-                (Int32)(xaml_DataGridDisassembly.ActualHeight / text.Height) - 
-                ((Int32)xaml_DataGridDisassembly.ActualHeight % 8)) - 1;
+            m_LineCount = (Int32)Math.Ceiling(xaml_DataGridDisassembly.ActualHeight / FontSize);
 
             Int64 pc = Machine.Current.DeviceCPU.State.PC;
-            xaml_CodeScrollbar.ViewportSize = m_LineCount;
             Int32 byteCount = (4 * m_LineCount);
             Int64 offset = pc;
             Int64 end = m_LastAddress + byteCount;
@@ -215,15 +206,11 @@ namespace Soft64WPF.Windows
             {
                 m_LastAddress = pc;
                 m_Debugger.DisassembleCode(m_LastAddress, m_LineCount);
-                Int32 index = (Int32)(m_LastAddress / 4);
-                xaml_CodeScrollbar.Value = index;
             }
             else if (pc >= end)
             {
-                m_LastAddress += (pc - end);
+                m_LastAddress += 4 + (pc - end);
                 m_Debugger.DisassembleCode(m_LastAddress, m_LineCount);
-                Int32 index = (Int32)(m_LastAddress / 4);
-                xaml_CodeScrollbar.Value = index;
             }
             else
             {

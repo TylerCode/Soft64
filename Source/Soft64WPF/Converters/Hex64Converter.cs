@@ -10,14 +10,11 @@ namespace Soft64WPF.Converters
 {
     public sealed class Hex64Converter : IValueConverter
     {
-        #region IValueConverter Members
-
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            if (typeof(String).Equals(value.GetType()))
+            if (typeof(Int64).Equals(value.GetType()))
             {
-                UInt64 v = UInt64.Parse(value as String, NumberStyles.AllowHexSpecifier);
-                return v;
+                return ((Int64)value).ToString("X16");
             }
             else
             {
@@ -27,16 +24,15 @@ namespace Soft64WPF.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            if (typeof(UInt64).Equals(value.GetType()))
+            if (typeof(String).Equals(value.GetType()))
             {
-                return ((UInt64)value).ToString("X16");
+                Int64 v = Int64.Parse(value as String, NumberStyles.AllowHexSpecifier);
+                return v;
             }
             else
             {
                 return null;
             }
         }
-
-        #endregion
     }
 }

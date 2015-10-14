@@ -28,7 +28,7 @@ namespace Soft64WPF.ViewModels
         protected override bool ValueCheck(string value)
         {
             UInt32 _value = 0;
-            return UInt32.TryParse(value, out _value);
+            return UInt32.TryParse(value, NumberStyles.AllowHexSpecifier, CultureInfo.CurrentCulture, out _value);
         } 
     }
 }
