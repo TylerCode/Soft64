@@ -36,13 +36,16 @@ namespace Soft64WPF
         {
             xaml_RegNameBlock.Text = RegName;
 
-            Binding binding = new Binding();
-            binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-            binding.ValidatesOnDataErrors = true;
-            binding.ValidationRules.Add(new DataErrorValidationRule());
-            binding.Source = MachineViewModel.CurrentModel.DeviceCpu.State;
-            binding.Path = new PropertyPath(Path);
-            xaml_RegValueBox.SetBinding(TextBox.TextProperty, binding);
+            if (MachineViewModel.CurrentModel != null)
+            {
+                Binding binding = new Binding();
+                binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+                binding.ValidatesOnDataErrors = true;
+                binding.ValidationRules.Add(new DataErrorValidationRule());
+                binding.Source = MachineViewModel.CurrentModel.DeviceCpu.State;
+                binding.Path = new PropertyPath(Path);
+                xaml_RegValueBox.SetBinding(TextBox.TextProperty, binding);
+            }
         }
 
         public String RegName

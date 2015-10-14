@@ -8,7 +8,7 @@
         xmlns:om="clr-namespace:System.Collections.ObjectModel;assembly=System"
         xmlns:win="clr-namespace:System.Windows;assembly=PresentationFramework"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Name="window" x:Class="Soft64WPF.Windows.CPUDebugger"
-        Title="CPU Debugger" Height="711" Width="764"
+        Title="CPU Debugger" Height="711" Width="771"
         ResizeMode="NoResize">
     <Window.Resources>
         <ContextMenu x:Key="breakpointMenu">
@@ -53,7 +53,7 @@
         </StackPanel>
 
         <!-- CPU Registers -->
-        <Soft64WPF:CpuRegistersPanel Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Left" Margin="13,0,0,0"/>
+        <Soft64WPF:CpuRegistersPanel Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Left" Margin="13,0,0,0"/>
 
         <ListBox x:Name="xaml_DataGridDisassembly" ItemsSource="{Binding DeviceCpu.Debugger.Disassembly}" Grid.Row="2" Background="#FF1F1425" FontFamily="Consolas" BorderBrush="{x:Null}" Grid.ColumnSpan="1" ScrollViewer.CanContentScroll="False" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Visible" FontSize="13.333" Foreground="#FFFF78F9" TextOptions.TextFormattingMode="Display" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin" VerticalContentAlignment="Top">
             <ListBox.ItemContainerStyle>

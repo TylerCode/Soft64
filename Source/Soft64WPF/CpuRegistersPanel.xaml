@@ -21,10 +21,9 @@
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
-    <TabControl HorizontalAlignment="Right" Height="599.775" Width="243">
+    <TabControl Width="243" HorizontalAlignment="Left">
         <TabItem Header="General">
             <StackPanel Orientation="Vertical">
-                <Grid>
                     <local:RegisterItemsControl FontFamily="Consolas" TextOptions.TextFormattingMode="Display" FontSize="11" Margin="0,0,0,7" Foreground="Black" >
                         <local:RegisterItemsControl.ItemsSource>
                             <local:RegisterObserverCollection>
@@ -71,10 +70,94 @@
                             </ItemsPanelTemplate>
                         </local:RegisterItemsControl.ItemsPanel>
                     </local:RegisterItemsControl>
-                </Grid>
+                </StackPanel>
+        </TabItem>
+        <TabItem Header="Control">
+            <StackPanel Orientation="Vertical">
+                <local:RegisterItemsControl FontFamily="Consolas" TextOptions.TextFormattingMode="Display" FontSize="11" Margin="0,0,0,7" Foreground="Black" >
+                    <local:RegisterItemsControl.ItemsSource>
+                        <local:RegisterObserverCollection>
+                            <local:RegisterObserver RegName="Cause" Path="Cop0Registers.Cause.Register.Value" />
+                            <local:RegisterObserver RegName="Status" Path="Cop0Registers.Status.Register.Value" />
+                            <local:RegisterObserver RegName="Count" Path="Cop0Registers.Count.Value" />
+                            <local:RegisterObserver RegName="Compare" Path="Cop0Registers.Compare.Value" />
+                            <local:RegisterObserver RegName="BadVAddress" Path="Cop0Registers.BadVAddress.Value" />
+                            <local:RegisterObserver RegName="EntryHi" Path="Cop0Registers.EntryHi.Value" />
+                            <local:RegisterObserver RegName="EntryLo0" Path="Cop0Registers.EntryLo0.Value" />
+                            <local:RegisterObserver RegName="EntryLo1" Path="Cop0Registers.EntryLo1.Value" />
+                            <local:RegisterObserver RegName="Index" Path="Cop0Registers.Index.Value" />
+                            <local:RegisterObserver RegName="PageMask" Path="Cop0Registers.PageMask.Value" />
+                            <local:RegisterObserver RegName="Random" Path="Cop0Registers.Random.Value" />
+                            <local:RegisterObserver RegName="Wired" Path="Cop0Registers.Wired.Value" />
+                            <local:RegisterObserver RegName="Context" Path="Cop0Registers.Context.Value" />
+                            <local:RegisterObserver RegName="EPC" Path="Cop0Registers.EPC.Value" />
+                            <local:RegisterObserver RegName="PRId" Path="Cop0Registers.PRId.Value" />
+                            <local:RegisterObserver RegName="Config" Path="Cop0Registers.Config.Value" />
+                            <local:RegisterObserver RegName="LLAddr" Path="Cop0Registers.LLAddr.Value" />
+                            <local:RegisterObserver RegName="WatchLo" Path="Cop0Registers.WatchLo.Value" />
+                            <local:RegisterObserver RegName="WatchHi" Path="Cop0Registers.WatchHi.Value" />
+                            <local:RegisterObserver RegName="XContext" Path="Cop0Registers.XContext.Value" />
+                            <local:RegisterObserver RegName="ECC" Path="Cop0Registers.ECC.Value" />
+                            <local:RegisterObserver RegName="CacheErr" Path="Cop0Registers.CacheErr.Value" />
+                            <local:RegisterObserver RegName="TagLo" Path="Cop0Registers.TagLo.Value" />
+                            <local:RegisterObserver RegName="TagHi" Path="Cop0Registers.TagHi.Value" />
+                            <local:RegisterObserver RegName="ErrorEPC" Path="Cop0Registers.ErrorEPC.Value" />
+                        </local:RegisterObserverCollection>
+                    </local:RegisterItemsControl.ItemsSource>
+                    <local:RegisterItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical" />
+                        </ItemsPanelTemplate>
+                    </local:RegisterItemsControl.ItemsPanel>
+                </local:RegisterItemsControl>
             </StackPanel>
         </TabItem>
-        <TabItem Header="Control" />
-        <TabItem Header="FPU" />
+        <TabItem Header="FPU">
+            <StackPanel Orientation="Vertical">
+                <local:RegisterItemsControl FontFamily="Consolas" TextOptions.TextFormattingMode="Display" FontSize="11" Margin="0,0,0,7" Foreground="Black" >
+                    <local:RegisterItemsControl.ItemsSource>
+                        <local:RegisterObserverCollection>
+                            <local:RegisterObserver RegName="FPR00" Path="FPRegisters[0].Value" />
+                            <local:RegisterObserver RegName="FPR01" Path="FPRegisters[1].Value" />
+                            <local:RegisterObserver RegName="FPR02" Path="FPRegisters[2].Value" />
+                            <local:RegisterObserver RegName="FPR03" Path="FPRegisters[3].Value" />
+                            <local:RegisterObserver RegName="FPR04" Path="FPRegisters[4].Value" />
+                            <local:RegisterObserver RegName="FPR05" Path="FPRegisters[5].Value" />
+                            <local:RegisterObserver RegName="FPR06" Path="FPRegisters[6].Value" />
+                            <local:RegisterObserver RegName="FPR07" Path="FPRegisters[7].Value" />
+                            <local:RegisterObserver RegName="FPR08" Path="FPRegisters[8].Value" />
+                            <local:RegisterObserver RegName="FPR09" Path="FPRegisters[9].Value" />
+                            <local:RegisterObserver RegName="FPR10" Path="FPRegisters[10].Value" />
+                            <local:RegisterObserver RegName="FPR11" Path="FPRegisters[11].Value" />
+                            <local:RegisterObserver RegName="FPR12" Path="FPRegisters[12].Value" />
+                            <local:RegisterObserver RegName="FPR13" Path="FPRegisters[13].Value" />
+                            <local:RegisterObserver RegName="FPR14" Path="FPRegisters[14].Value" />
+                            <local:RegisterObserver RegName="FPR15" Path="FPRegisters[15].Value" />
+                            <local:RegisterObserver RegName="FPR16" Path="FPRegisters[16].Value" />
+                            <local:RegisterObserver RegName="FPR17" Path="FPRegisters[17].Value" />
+                            <local:RegisterObserver RegName="FPR18" Path="FPRegisters[18].Value" />
+                            <local:RegisterObserver RegName="FPR19" Path="FPRegisters[19].Value" />
+                            <local:RegisterObserver RegName="FPR20" Path="FPRegisters[20].Value" />
+                            <local:RegisterObserver RegName="FPR21" Path="FPRegisters[21].Value" />
+                            <local:RegisterObserver RegName="FPR22" Path="FPRegisters[22].Value" />
+                            <local:RegisterObserver RegName="FPR23" Path="FPRegisters[23].Value" />
+                            <local:RegisterObserver RegName="FPR24" Path="FPRegisters[24].Value" />
+                            <local:RegisterObserver RegName="FPR25" Path="FPRegisters[25].Value" />
+                            <local:RegisterObserver RegName="FPR26" Path="FPRegisters[26].Value" />
+                            <local:RegisterObserver RegName="FPR27" Path="FPRegisters[27].Value" />
+                            <local:RegisterObserver RegName="FPR28" Path="FPRegisters[28].Value" />
+                            <local:RegisterObserver RegName="FPR29" Path="FPRegisters[29].Value" />
+                            <local:RegisterObserver RegName="FPR30" Path="FPRegisters[30].Value" />
+                            <local:RegisterObserver RegName="FPR31" Path="FPRegisters[31].Value" />
+                        </local:RegisterObserverCollection>
+                    </local:RegisterItemsControl.ItemsSource>
+                    <local:RegisterItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical" />
+                        </ItemsPanelTemplate>
+                    </local:RegisterItemsControl.ItemsPanel>
+                </local:RegisterItemsControl>
+            </StackPanel>
+        </TabItem>
     </TabControl>
 </UserControl>

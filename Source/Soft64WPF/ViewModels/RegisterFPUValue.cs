@@ -21,7 +21,7 @@ namespace Soft64WPF.ViewModels
         protected override string MakeString(dynamic value)
         {
             Double d = value;
-            return d.ToString();
+            return d.ToString("0.000000");
         }
 
         protected override dynamic ParseValue(string value)
