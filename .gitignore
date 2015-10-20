@@ -23,3 +23,4 @@ Source/ipch
 *.log
 /Source/CompareEngine.Mupen/DebugFull
 /Source/CompareEngine.Mupen/mupen64plus-core/projects/VisualStudio2013/DebugFull
+/Source/CompareEngine.Mupen/x64/Debug
