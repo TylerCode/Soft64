@@ -134,7 +134,6 @@
     <Compile Include="ChromeHostForm.Designer.cs">
       <DependentUpon>ChromeHostForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="DebugCallbacks.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="ChromeHostForm.resx">
@@ -182,6 +181,9 @@
   <ItemGroup>
     <Content Include="HTMLUI\css\StartStyle.min.css">
       <DependentUpon>StartStyle.css</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="HTMLUI\js\jquery-1.11.3.min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="HTMLUI\Start.html">

@@ -3,21 +3,46 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <link rel="stylesheet" type="text/css" href="css/StartStyle.min.css" />
+    <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
     <meta charset="utf-8" />
     <title></title>
+
+    <script type="text/javascript">
+        $(function () {
+            $('#romFileSelect').change(function (e) {
+                var file = this.files[0];
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    mainWindow.insertRomFile(btoa(this.result));
+                }
+
+                reader.readAsBinaryString(file);
+            });
+
+            $('#buttonShowDevConsole').click(function () {
+                mainWindow.showDevTools();
+            });
+        });
+    </script>
 </head>
 
 
 
 <body>
-    <input type='button' value="Show Dev Console" onclick="debugCallbacks.showDevTools()" />
+    <input id="buttonShowDevConsole" type='button' value="Show Dev Console" />
     <br />
     <br />
+    <input type="button" value="Run" />
     <br />
     <b class="sectionHeader">Cartridge Configuration</b>
     <br />
     <div id="cartridgeBox">
-        <b>ROM File:</b><input style="margin-left: 5px" type='file' />
+        <b>ROM File:</b><input id="romFileSelect" style="margin-left: 5px" type='file' />
+        <br />
+        <div id="cartrigeInfo">
+            No Cartridge Inserted
+        </div>
     </div>
 </body>
 </html>
