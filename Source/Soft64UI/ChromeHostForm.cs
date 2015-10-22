@@ -44,10 +44,20 @@ namespace Soft64UI
         private void Interface_Parallel_CartridgeChanged(object sender, Soft64.RCP.CartridgeChangedEventArgs e)
         {
             m_HostBrowser.ExecuteScriptAsync(
-                $@"$('#cartrigeInfo').html(' \
-                    <b>Name: {e.NewCartridge?.RomImage.Name} </b> \
-                    <br /> \
-                ');");
+            $@"$('#cartrigeInfo').html(' \
+            Name: {e.NewCartridge?.RomImage.Name} \
+            <br /> \
+            ID: {e.NewCartridge?.RomImage.Serial.Serial } \
+            <br /> \
+            CRC1: {e.NewCartridge?.RomImage.CRC1:X4} \
+            <br /> \
+            CRC2: {e.NewCartridge?.RomImage.CRC2:X4} \
+            <br /> \
+            Detected CIC: {e.NewCartridge?.RomImage.BootRomInformation.CIC.ToString()} \
+            <br /> \
+            Region: {e.NewCartridge?.RomImage.Region.ToString()} \
+            <br /> \
+            ');");
         }
 
         protected override void OnClosed(EventArgs e)
