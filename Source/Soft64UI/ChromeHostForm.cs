@@ -11,16 +11,35 @@ using CefSharp.WinForms;
 using CefSharp;
 using Soft64;
 using System.IO;
+using NLog;
+using NLog.Targets;
 
 namespace Soft64UI
 {
     public partial class ChromeHostForm : Form
     {
+        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
+        private BootBreakMode m_BreakOnBootMode;
         private ChromiumWebBrowser m_HostBrowser;
+
+        public enum BootBreakMode
+        {
+            None,
+            Pre,
+            Post
+        }
 
         public ChromeHostForm()
         {
             InitializeComponent();
+
+            MethodCallTarget target = new MethodCallTarget();
+            target.ClassName = this.GetType().AssemblyQualifiedName;
+            target.MethodName = "OnLogMessage";
+            target.Parameters.Add(new MethodCallParameter("${level}"));
+            target.Parameters.Add(new MethodCallParameter("${message}"));
+            NLog.Config.SimpleConfigurator.ConfigureForTargetLogging(target, LogLevel.Trace);
+
         }
 
         protected override void OnLoad(EventArgs e)
@@ -60,9 +79,28 @@ namespace Soft64UI
             ');");
         }
 
+        public static void OnLogMessage(String level, String message)
+        {
+            Console.ResetColor();
+        }
+
         protected override void OnClosed(EventArgs e)
         {
             Cef.Shutdown();
+        }
+
+        public void RunEmu()
+        {
+            if (m_BreakOnBootMode == BootBreakMode.Post)
+            {
+                Machine.Current.MachineEventNotification += (o, e) =>
+                {
+                    if (e.EventType == MachineEventType.Booted)
+                        Machine.Current.Pause();
+                };
+            }
+
+            Machine.Current.Run();
         }
 
         public void InsertRomFile(String stringBuffer)
