@@ -2,7 +2,7 @@ extensions: .cs .cpp .h designer.cs generated.cs
 /*
 Soft64 - C# N64 Emulator
 Copyright (C) Soft64 Project @ Codeplex
-Copyright (C) 2013 - 2014 Bryan Perris
+Copyright (C) 2013 - 2015 Bryan Perris
 	
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

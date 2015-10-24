@@ -1,8 +1,8 @@
 ﻿/*
 Soft64 - C# N64 Emulator
 Copyright (C) Soft64 Project @ Codeplex
-Copyright (C) 2013 - 2014 Bryan Perris
-
+Copyright (C) 2013 - 2015 Bryan Perris
+	
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
@@ -189,8 +189,6 @@ namespace Soft64
 
                 logger.Trace("** Starting emulation core **");
                 OnMachineEventNotification(MachineEventType.PreBooted);
-
-
 
                 logger.Trace("Booting firmware: " + SystemBootMode.GetFriendlyName());
                 SoftBootManager.SetupExecutionState(SystemBootMode);
