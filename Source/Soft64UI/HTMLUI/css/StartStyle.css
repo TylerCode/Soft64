@@ -1,4 +1,12 @@
-﻿.sectionHeader {
+﻿body {
+  background-image: url(../img/tooplate_body.png);
+  background-repeat: repeat;
+  color: white;
+}
+div {
+  display: block;
+}
+.sectionHeader {
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   font-size: large;
 }
@@ -6,6 +14,6 @@
   width: 40em;
   padding: 10px;
   border: solid;
-  border-color: black;
+  border-color: white;
   border-width: thin;
 }

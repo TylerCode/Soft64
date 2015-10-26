@@ -21,6 +21,7 @@ namespace Soft64UI
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         private BootBreakMode m_BreakOnBootMode;
         private ChromiumWebBrowser m_HostBrowser;
+        private static ChromeHostForm s_Current;
 
         public enum BootBreakMode
         {
@@ -31,6 +32,7 @@ namespace Soft64UI
 
         public ChromeHostForm()
         {
+            s_Current = this;
             InitializeComponent();
 
             MethodCallTarget target = new MethodCallTarget();
@@ -81,7 +83,12 @@ namespace Soft64UI
 
         public static void OnLogMessage(String level, String message)
         {
-            Console.ResetColor();
+            s_Current?.LogMessage(level, message);
+        }
+
+        private void LogMessage(String level, String message)
+        {
+            /* TODO: Expose message to Javascript */
         }
 
         protected override void OnClosed(EventArgs e)
