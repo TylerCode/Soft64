@@ -6,6 +6,33 @@ body {
     color: @forecolor;
 }
 
+.logmessage {
+    font-weight: 100;
+    color: @forecolor;
+    font-size: small;
+}
+
+.logmessage_fatal {
+    .logmessage;
+    background-color: white;
+    color: red;
+}
+
+.logmessage_warning {
+    .logmessage;
+    color:yellow;
+}
+
+.logmessage_error {
+    .logmessage;
+    color:red;
+}
+
+.logmessage_debug {
+    .logmessage;
+    color:palegreen;
+}
+
 div {
     display: block;
 }
@@ -15,10 +42,26 @@ div {
     font-size: large;
 }
 
-#cartridgeBox {
-    width: 40em;
+.sectionBorder {
     padding: 10px;
     border: solid;
     border-color: @forecolor;
     border-width: thin;
 }
+
+#cartridgeBox {
+    width: 40em;
+    .sectionBorder;
+}
+
+#emulog {
+    width: 60em;
+    height: 200px;
+    .sectionBorder;
+    font-size: small;
+    font-stretch: narrower;
+    font-weight: lighter;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    overflow-y: scroll;
+}
+

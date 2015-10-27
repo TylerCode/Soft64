@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.UI;
 
 namespace Soft64UI
 {
@@ -30,6 +31,7 @@ namespace Soft64UI
             MethodCallTarget target = new MethodCallTarget();
             target.ClassName = this.GetType().AssemblyQualifiedName;
             target.MethodName = "OnLogMessage";
+            target.Parameters.Add(new MethodCallParameter("${logger}"));
             target.Parameters.Add(new MethodCallParameter("${level}"));
             target.Parameters.Add(new MethodCallParameter("${message}"));
             NLog.Config.SimpleConfigurator.ConfigureForTargetLogging(target, LogLevel.Trace);
@@ -56,31 +58,58 @@ namespace Soft64UI
 
         private void Interface_Parallel_CartridgeChanged(object sender, Soft64.RCP.CartridgeChangedEventArgs e)
         {
-            HostBrowser.ExecuteScriptAsync(
-            $@"$('#cartrigeInfo').html(' \
-            Name: {e.NewCartridge?.RomImage.Name} \
-            <br /> \
-            ID: {e.NewCartridge?.RomImage.Serial.Serial } \
-            <br /> \
-            CRC1: {e.NewCartridge?.RomImage.CRC1:X4} \
-            <br /> \
-            CRC2: {e.NewCartridge?.RomImage.CRC2:X4} \
-            <br /> \
-            Detected CIC: {e.NewCartridge?.RomImage.BootRomInformation.CIC.ToString()} \
-            <br /> \
-            Region: {e.NewCartridge?.RomImage.Region.ToString()} \
-            <br /> \
-            ');");
+            StringBuilder htmlBuilder = new StringBuilder();
+            HtmlTextWriter writer = new HtmlTextWriter(new StringWriter(htmlBuilder));
+            writer.WriteEncodedText($"Name: {e.NewCartridge?.RomImage.Name}");
+            writer.WriteBreak();
+            writer.WriteEncodedText($"ID: {e.NewCartridge?.RomImage.Serial.Serial }");
+            writer.WriteBreak();
+            writer.WriteEncodedText($"CRC1: {e.NewCartridge?.RomImage.CRC1:X4} ");
+            writer.WriteBreak();
+            writer.WriteEncodedText($"CRC2: {e.NewCartridge?.RomImage.CRC2:X4}");
+            writer.WriteBreak();
+            writer.WriteEncodedText($"Detected CIC: {e.NewCartridge?.RomImage.BootRomInformation.CIC.ToString()}");
+            writer.WriteBreak();
+            writer.WriteEncodedText($"Region: {e.NewCartridge?.RomImage.Region.ToString()}");
+            writer.Flush();
+
+            HostBrowser.ExecuteScriptAsync($" $('#cartrigeInfo').html('{htmlBuilder.ToString()}'); ");
         }
 
-        public static void OnLogMessage(String level, String message)
+        public static void OnLogMessage(String logger, String level, String message)
         {
-            s_Current?.LogMessage(level, message);
+            s_Current?.LogMessage(logger, level, message);
         }
 
-        private void LogMessage(String level, String message)
+        private void LogMessage(String logger, String level, String message)
         {
-            /* TODO: Expose message to Javascript */
+            logger = logger.Substring(logger.LastIndexOf('.') + 1);
+            String spanClass = "logmessage";
+
+            switch (level.ToLower())
+            {
+                default:
+                case "trace":
+                case "info": break;
+                case "fatal": spanClass = "logmessage_fatal"; break;
+                case "error": spanClass = "logmessage_error"; break;
+                case "warning": spanClass = "logmessage_warning"; break;
+                case "debug": spanClass = "logmessage_debug"; break;
+            }
+
+
+            StringBuilder htmlBuilder = new StringBuilder();
+            HtmlTextWriter writer = new HtmlTextWriter(new StringWriter(htmlBuilder));
+            writer.WriteBeginTag("span");
+            writer.WriteAttribute("class", spanClass);
+            writer.Write(HtmlTextWriter.TagRightChar);
+            writer.WriteEncodedText($"{logger}: {message}");
+            writer.WriteEndTag("span");
+            writer.WriteBreak();
+            writer.Flush();
+
+
+            HostBrowser.ExecuteScriptAsync($" $('#emulog').append('{htmlBuilder.ToString()}'); ");
         }
 
         public void RunEmu()

@@ -14,18 +14,18 @@
                 var reader = new FileReader();
 
                 reader.onload = function (e) {
-                    mainWindow.insertRomFile(btoa(this.result));
+                    currentForm.insertRomFile(btoa(this.result));
                 }
 
                 reader.readAsBinaryString(file);
             });
 
             $('#buttonShowDevConsole').click(function () {
-                mainWindow.showDevTools();
+                currentForm.showDevTools();
             });
 
             $('#buttonEmuRun').click(function () {
-                mainWindow.runEmu();
+                currentForm.runEmu();
             });
         });
     </script>
@@ -46,6 +46,14 @@
         <br />
         <div id="cartrigeInfo">
             No Cartridge Inserted
+        </div>
+    </div>
+
+    <br />
+    <div class="sectionHeader">
+        <b>Emulation Log</b>
+        <br />
+        <div id="emulog">
         </div>
     </div>
 </body>

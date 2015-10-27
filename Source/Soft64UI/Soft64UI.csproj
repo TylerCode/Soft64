@@ -107,6 +107,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -199,7 +200,8 @@
   </PropertyGroup>
   <Import Project="..\packages\BuildWebCompiler.1.7.246\build\BuildWebCompiler.targets" Condition="Exists('..\packages\BuildWebCompiler.1.7.246\build\BuildWebCompiler.targets')" />
   <PropertyGroup>
-    <PreBuildEvent>taskkill /F /FI "IMAGENAME eq CefSharp.BrowserSubprocess*"</PreBuildEvent>
+    <PreBuildEvent>taskkill /F /FI "IMAGENAME eq CefSharp.BrowserSubprocess*"
+taskkill /F /FI "IMAGENAME eq Soft64UI*"</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -3,6 +3,36 @@
   background-repeat: repeat;
   color: white;
 }
+.logmessage {
+  font-weight: 100;
+  color: white;
+  font-size: small;
+}
+.logmessage_fatal {
+  font-weight: 100;
+  color: white;
+  font-size: small;
+  background-color: white;
+  color: red;
+}
+.logmessage_warning {
+  font-weight: 100;
+  color: white;
+  font-size: small;
+  color: yellow;
+}
+.logmessage_error {
+  font-weight: 100;
+  color: white;
+  font-size: small;
+  color: red;
+}
+.logmessage_debug {
+  font-weight: 100;
+  color: white;
+  font-size: small;
+  color: palegreen;
+}
 div {
   display: block;
 }
@@ -10,10 +40,29 @@ div {
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   font-size: large;
 }
+.sectionBorder {
+  padding: 10px;
+  border: solid;
+  border-color: white;
+  border-width: thin;
+}
 #cartridgeBox {
   width: 40em;
   padding: 10px;
   border: solid;
   border-color: white;
   border-width: thin;
+}
+#emulog {
+  width: 60em;
+  height: 200px;
+  padding: 10px;
+  border: solid;
+  border-color: white;
+  border-width: thin;
+  font-size: small;
+  font-stretch: narrower;
+  font-weight: lighter;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  overflow-y: scroll;
 }

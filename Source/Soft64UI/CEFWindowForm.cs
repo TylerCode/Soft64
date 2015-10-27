@@ -2,9 +2,11 @@
 using CefSharp.WinForms;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.UI;
 using System.Windows.Forms;
 
 namespace Soft64UI
@@ -14,7 +16,6 @@ namespace Soft64UI
     {
         private ChromiumWebBrowser m_HostBrowser;
         private String m_TargetUrl;
-
 
         public CEFWindowForm(String url)
         {
@@ -29,7 +30,6 @@ namespace Soft64UI
 
         protected virtual void InitializeComponent()
         {
-
         }
 
         protected virtual void RegisterJSObjects()
