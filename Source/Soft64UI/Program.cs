@@ -1,4 +1,5 @@
-﻿using Soft64;
+﻿using CefSharp;
+using Soft64;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,9 +18,13 @@ namespace Soft64UI
         {
             Machine machine = new Machine();
 
+            Cef.Initialize();
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new ChromeHostForm());
+            Application.Run(new MainForm());
+
+            Cef.Shutdown();
         }
     }
 }

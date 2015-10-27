@@ -85,20 +85,12 @@
       <HintPath>..\packages\IronPython.2.7.5\lib\Net45\IronPython.SQLite.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="IronPython.Wpf, Version=2.7.5.0, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
-      <HintPath>..\packages\IronPython.2.7.5\lib\Net45\IronPython.Wpf.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.Dynamic, Version=1.1.0.20, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
       <HintPath>..\packages\IronPython.2.7.5\lib\Net45\Microsoft.Dynamic.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Scripting, Version=1.1.0.20, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
       <HintPath>..\packages\IronPython.2.7.5\lib\Net45\Microsoft.Scripting.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.Scripting.AspNet, Version=1.0.0.0, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
-      <HintPath>..\packages\IronPython.2.7.5\lib\Net45\Microsoft.Scripting.AspNet.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Scripting.Metadata, Version=1.1.0.20, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
@@ -126,20 +118,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChromeHostForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ChromeHostForm.Designer.cs">
-      <DependentUpon>ChromeHostForm.cs</DependentUpon>
-    </Compile>
+    <Compile Include="CEFWindowForm.cs" />
+    <Compile Include="MainForm.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="HTMLUI\css\MainStyles.css">
+      <DependentUpon>MainStyles.less</DependentUpon>
+    </Content>
+    <Content Include="HTMLUI\css\MainStyles.min.css">
+      <DependentUpon>MainStyles.css</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="HTMLUI\img\tooplate_body.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <EmbeddedResource Include="ChromeHostForm.resx">
-      <DependentUpon>ChromeHostForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -150,10 +142,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Content Include="HTMLUI\css\StartStyle.css">
-      <DependentUpon>StartStyle.less</DependentUpon>
-    </Content>
-    <None Include="HTMLUI\css\StartStyle.less" />
+    <None Include="HTMLUI\css\MainStyles.less" />
     <None Include="compilerconfig.json" />
     <None Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>
@@ -183,14 +172,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Content Include="HTMLUI\css\StartStyle.min.css">
-      <DependentUpon>StartStyle.css</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="HTMLUI\js\jquery-1.11.3.min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="HTMLUI\Start.html">
+    <Content Include="HTMLUI\Main.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -213,6 +198,9 @@
     <PostBuildEvent>@call $(SolutionDir)..\BinBuilderScript.bat $(SolutionDir)..\</PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\packages\BuildWebCompiler.1.7.246\build\BuildWebCompiler.targets" Condition="Exists('..\packages\BuildWebCompiler.1.7.246\build\BuildWebCompiler.targets')" />
+  <PropertyGroup>
+    <PreBuildEvent>taskkill /F /FI "IMAGENAME eq CefSharp.BrowserSubprocess*"</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

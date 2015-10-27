@@ -1,27 +1,20 @@
-﻿using System;
+﻿using CefSharp;
+using NLog;
+using NLog.Targets;
+using Soft64;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
-using CefSharp.WinForms;
-using CefSharp;
-using Soft64;
-using System.IO;
-using NLog;
-using NLog.Targets;
 
 namespace Soft64UI
 {
-    public partial class ChromeHostForm : Form
+    public sealed class MainForm : CEFWindowForm
     {
-        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         private BootBreakMode m_BreakOnBootMode;
-        private ChromiumWebBrowser m_HostBrowser;
-        private static ChromeHostForm s_Current;
+        private static MainForm s_Current;
 
         public enum BootBreakMode
         {
@@ -30,10 +23,9 @@ namespace Soft64UI
             Post
         }
 
-        public ChromeHostForm()
+        public MainForm() : base()
         {
             s_Current = this;
-            InitializeComponent();
 
             MethodCallTarget target = new MethodCallTarget();
             target.ClassName = this.GetType().AssemblyQualifiedName;
@@ -41,30 +33,30 @@ namespace Soft64UI
             target.Parameters.Add(new MethodCallParameter("${level}"));
             target.Parameters.Add(new MethodCallParameter("${message}"));
             NLog.Config.SimpleConfigurator.ConfigureForTargetLogging(target, LogLevel.Trace);
+        }
 
+        protected override void InitializeComponent()
+        {
+            this.Text = "Soft64 Emulator UI 1.0";
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
+            this.ClientSize = new System.Drawing.Size(883, 542);
+            TargetUrl = MakeLocalUrl("Main");
+
+            base.InitializeComponent();
         }
 
         protected override void OnLoad(EventArgs e)
         {
-            /* Initalize the CEF system */
-            CefSettings settings = new CefSettings();
-            settings.WindowlessRenderingEnabled = true;
-            settings.CefCommandLineArgs.Add(new KeyValuePair<String, String>("process-per-site", "1"));
-            Cef.Initialize(settings, true, false);
-
-            /* Create an instance of the Chrome browser host */
-            m_HostBrowser = new ChromiumWebBrowser($"{Environment.CurrentDirectory}/HTMLUI/Start.html");
-            Controls.Add(m_HostBrowser);
-
-            /* Register JS Objects */
-            m_HostBrowser.RegisterJsObject("mainWindow", this);
+            base.OnLoad(e);
 
             Machine.Current.DeviceRCP.Interface_Parallel.CartridgeChanged += Interface_Parallel_CartridgeChanged;
         }
 
         private void Interface_Parallel_CartridgeChanged(object sender, Soft64.RCP.CartridgeChangedEventArgs e)
         {
-            m_HostBrowser.ExecuteScriptAsync(
+            HostBrowser.ExecuteScriptAsync(
             $@"$('#cartrigeInfo').html(' \
             Name: {e.NewCartridge?.RomImage.Name} \
             <br /> \
@@ -91,11 +83,6 @@ namespace Soft64UI
             /* TODO: Expose message to Javascript */
         }
 
-        protected override void OnClosed(EventArgs e)
-        {
-            Cef.Shutdown();
-        }
-
         public void RunEmu()
         {
             if (m_BreakOnBootMode == BootBreakMode.Post)
@@ -115,11 +102,6 @@ namespace Soft64UI
             Byte[] buffer = Convert.FromBase64String(stringBuffer);
             VirtualCartridge cart = new VirtualCartridge(new MemoryStream(buffer));
             Machine.Current.CartridgeInsert(cart);
-        }
-
-        public void ShowDevTools()
-        {
-            m_HostBrowser.ShowDevTools();
         }
     }
 }
