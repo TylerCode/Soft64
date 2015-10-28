@@ -73,5 +73,10 @@ namespace Soft64.RCP
         {
             base.Write(buffer, offset, count);
         }
+
+        public override string ToString()
+        {
+            return "Rdram Interface";
+        }
     }
 }

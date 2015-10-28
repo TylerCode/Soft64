@@ -33,7 +33,7 @@ namespace Soft64.RCP
 
         public event EventHandler<CartridgeChangedEventArgs> CartridgeChanged;
 
-        public ParallelInterface(SysADBusStream bus) : base(bus)
+        public ParallelInterface(FakeSysADBus bus) : base(bus)
         {
             m_ParallelBus = new ParallelStream();
             m_Registers = new PIRegisters();

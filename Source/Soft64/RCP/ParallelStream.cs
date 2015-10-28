@@ -74,5 +74,10 @@ namespace Soft64.RCP
                 return c_CartAddress + m_CartSize;
             }
         }
+
+        public override string ToString()
+        {
+            return "Parallel Device Memory";
+        }
     }
 }

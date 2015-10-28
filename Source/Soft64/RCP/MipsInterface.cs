@@ -81,5 +81,10 @@ namespace Soft64.RCP
             get { return ReadUInt32(OFFSET_MI_INTR_MASK_REG); }
             set { Write(OFFSET_MI_INTR_MASK_REG, value); }
         }
+
+        public override string ToString()
+        {
+            return "Mips Interface";
+        }
     }
 }

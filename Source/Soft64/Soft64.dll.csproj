@@ -135,7 +135,7 @@
     <Compile Include="N64MemRegions.cs" />
     <Compile Include="RCP\ParallelInterface.cs" />
     <Compile Include="RCP\ParallelStream.cs" />
-    <Compile Include="RCP\SysADBusStream.cs" />
+    <Compile Include="RCP\FakeSysADBus.cs" />
     <Compile Include="RCP\RdramStream.cs" />
     <Compile Include="RCP\SPMemory.cs" />
     <Compile Include="DiskDrive.cs" />

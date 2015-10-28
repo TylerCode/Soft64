@@ -28,21 +28,13 @@ namespace Soft64.RCP
     /// <summary>
     /// Simulates the RCP A/D Bus stream
     /// </summary>
-    public sealed class SysADBusStream : UnifiedStream
+    public sealed class FakeSysADBus : UnifiedStream
     {
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
 
-        private Dictionary<Int64, String> m_NamedMountPoints =
-            new Dictionary<long, string>();
-
         public override void Add(long key, Stream value)
         {
-            String name = value.GetType().Name;
-
-            m_NamedMountPoints.Add(key, name);
-
-            logger.Debug(String.Format("Stream Mount: {0} -> {1}", key.ToString("X8"), name));
-
+            logger.Debug($"Stream Mounted @{key:X8} : {value.ToString()}");
             base.Add(key, value);
         }
 

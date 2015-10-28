@@ -104,6 +104,11 @@ namespace Soft64.RCP
         {
             m_RamStream.Write(buffer, offset, count);
         }
+
+        public override string ToString()
+        {
+            return "RDRAM Memory + Expansion";
+        }
     }
 
 

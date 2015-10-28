@@ -61,7 +61,7 @@ namespace Soft64
         private ParallelInterface m_PIInterface;
         private RdramRegisters m_RdramRegs;
         private MipsInterface m_MIInterface;
-        private SysADBusStream m_MemoryBus;
+        private FakeSysADBus m_MemoryBus;
         private N64MemoryStream m_MemoryStream;
         private RdramStream m_RdRam;
         private SPMemory m_SPMemory;
@@ -72,7 +72,7 @@ namespace Soft64
 
         public RcpProcessor()
         {
-            m_MemoryBus = new SysADBusStream();
+            m_MemoryBus = new FakeSysADBus();
             m_MemoryStream = new N64MemoryStream(m_MemoryBus);
             m_PIInterface = new ParallelInterface(m_MemoryBus);
             m_RdramRegs = new RdramRegisters();
@@ -131,7 +131,7 @@ namespace Soft64
         /* ///////////////////////////////////
            Reality CoProcessor A/D Bus
            /////////////////////////////////// */
-        internal SysADBusStream ADBusStream => m_MemoryBus;
+        internal FakeSysADBus ADBusStream => m_MemoryBus;
 
         /* //////////////////////////////////
            Reality CoProcessor Interfaces

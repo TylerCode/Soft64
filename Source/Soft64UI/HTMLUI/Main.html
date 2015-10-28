@@ -9,6 +9,7 @@
 
     <script type="text/javascript">
         $(function () {
+
             $('#romFileSelect').change(function (e) {
                 var file = this.files[0];
                 var reader = new FileReader();
@@ -26,6 +27,39 @@
 
             $('#buttonEmuRun').click(function () {
                 currentForm.runEmu();
+            });
+
+
+            /* Register events */
+            currentForm.on('cartridge', function (name, serial, crc1, crc2, cic, region) {
+                var brTag = '<br />';
+
+                $('#cartrigeInfo').html(
+                    ['Name: ', name, brTag,
+                    'Serial: ', serial, brTag,
+                    'CRC1: ', crc1, brTag,
+                    'CRC2: ', crc2, brTag,
+                    'CIC: ', cic, brTag,
+                    'Region: ', region].join(''));
+            });
+
+            currentForm.on('emulog', function (logger, level, message) {
+                var logStyle = "logmessage";
+
+                switch (level.toLowerCase())
+                {
+                    default:
+                    case "trace":
+                    case "info": break;
+                    case "fatal": logStyle = "logmessage_fatal"; break;
+                    case "error": logStyle = "logmessage_error"; break;
+                    case "warning": logStyle = "logmessage_warning"; break;
+                    case "debug": logStyle = "logmessage_debug"; break;
+                }
+
+                var output = ['<span class=', logStyle, '>', logger, ': ', message, '</span><br />'].join('');
+
+                $('#emulog').append(output);
             });
         });
     </script>

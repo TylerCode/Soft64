@@ -1,7 +1,9 @@
 ﻿using CefSharp;
 using NLog;
+using NLog.Config;
 using NLog.Targets;
 using Soft64;
+using Soft64.MipsR4300;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,12 +12,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.UI;
 
+using JSCallback = System.Action<System.Object[]>;
+
 namespace Soft64UI
 {
     public sealed class MainForm : CEFWindowForm
     {
         private BootBreakMode m_BreakOnBootMode;
         private static MainForm s_Current;
+
+        private JSCallback m_JSCallback_CartChange;
+        private JSCallback m_JSCallback_EventLog;
 
         public enum BootBreakMode
         {
@@ -28,13 +35,33 @@ namespace Soft64UI
         {
             s_Current = this;
 
+            var config = new LoggingConfiguration();
+
+            FileTarget cpuTraceLogTarget = new FileTarget();
+            cpuTraceLogTarget.Layout = "${message}";
+            cpuTraceLogTarget.FileName = "${basedir}/logs/cpuTrace.txt";
+            cpuTraceLogTarget.KeepFileOpen = false;
+            cpuTraceLogTarget.DeleteOldFileOnStartup = true;
+            cpuTraceLogTarget.Encoding = Encoding.ASCII;
+
             MethodCallTarget target = new MethodCallTarget();
             target.ClassName = this.GetType().AssemblyQualifiedName;
             target.MethodName = "OnLogMessage";
             target.Parameters.Add(new MethodCallParameter("${logger}"));
             target.Parameters.Add(new MethodCallParameter("${level}"));
             target.Parameters.Add(new MethodCallParameter("${message}"));
-            NLog.Config.SimpleConfigurator.ConfigureForTargetLogging(target, LogLevel.Trace);
+
+            var cpuLogRule = new LoggingRule(typeof(Interpreter).AssemblyQualifiedName, LogLevel.Debug, cpuTraceLogTarget);
+            cpuLogRule.Final = true;
+
+            var emuLogRule = new LoggingRule("*", LogLevel.Trace, target);
+
+
+            config.LoggingRules.Add(cpuLogRule);
+            config.LoggingRules.Add(emuLogRule);
+
+
+            LogManager.Configuration = config;
         }
 
         protected override void InitializeComponent()
@@ -49,6 +76,21 @@ namespace Soft64UI
             base.InitializeComponent();
         }
 
+        public void On(String eventName, IJavascriptCallback callback)
+        {
+            JSCallback handler = (args) =>
+            {
+                callback?.ExecuteAsync(args);
+            };
+
+            switch (eventName.ToLower())
+            {
+                default: return;
+                case "cartridge": m_JSCallback_CartChange = handler; break;
+                case "emulog": m_JSCallback_EventLog = handler; break;
+            }
+        }
+
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
@@ -58,22 +100,14 @@ namespace Soft64UI
 
         private void Interface_Parallel_CartridgeChanged(object sender, Soft64.RCP.CartridgeChangedEventArgs e)
         {
-            StringBuilder htmlBuilder = new StringBuilder();
-            HtmlTextWriter writer = new HtmlTextWriter(new StringWriter(htmlBuilder));
-            writer.WriteEncodedText($"Name: {e.NewCartridge?.RomImage.Name}");
-            writer.WriteBreak();
-            writer.WriteEncodedText($"ID: {e.NewCartridge?.RomImage.Serial.Serial }");
-            writer.WriteBreak();
-            writer.WriteEncodedText($"CRC1: {e.NewCartridge?.RomImage.CRC1:X4} ");
-            writer.WriteBreak();
-            writer.WriteEncodedText($"CRC2: {e.NewCartridge?.RomImage.CRC2:X4}");
-            writer.WriteBreak();
-            writer.WriteEncodedText($"Detected CIC: {e.NewCartridge?.RomImage.BootRomInformation.CIC.ToString()}");
-            writer.WriteBreak();
-            writer.WriteEncodedText($"Region: {e.NewCartridge?.RomImage.Region.ToString()}");
-            writer.Flush();
-
-            HostBrowser.ExecuteScriptAsync($" $('#cartrigeInfo').html('{htmlBuilder.ToString()}'); ");
+            m_JSCallback_CartChange(new[] {
+                e.NewCartridge?.RomImage.Name,
+                e.NewCartridge?.RomImage.Serial.Serial,
+                e.NewCartridge?.RomImage.CRC1.ToString("X4"),
+                e.NewCartridge?.RomImage.CRC2.ToString("X4"),
+                e.NewCartridge?.RomImage.BootRomInformation.CIC.ToString(),
+                e.NewCartridge?.RomImage.Region.ToString()}
+                );
         }
 
         public static void OnLogMessage(String logger, String level, String message)
@@ -83,33 +117,7 @@ namespace Soft64UI
 
         private void LogMessage(String logger, String level, String message)
         {
-            logger = logger.Substring(logger.LastIndexOf('.') + 1);
-            String spanClass = "logmessage";
-
-            switch (level.ToLower())
-            {
-                default:
-                case "trace":
-                case "info": break;
-                case "fatal": spanClass = "logmessage_fatal"; break;
-                case "error": spanClass = "logmessage_error"; break;
-                case "warning": spanClass = "logmessage_warning"; break;
-                case "debug": spanClass = "logmessage_debug"; break;
-            }
-
-
-            StringBuilder htmlBuilder = new StringBuilder();
-            HtmlTextWriter writer = new HtmlTextWriter(new StringWriter(htmlBuilder));
-            writer.WriteBeginTag("span");
-            writer.WriteAttribute("class", spanClass);
-            writer.Write(HtmlTextWriter.TagRightChar);
-            writer.WriteEncodedText($"{logger}: {message}");
-            writer.WriteEndTag("span");
-            writer.WriteBreak();
-            writer.Flush();
-
-
-            HostBrowser.ExecuteScriptAsync($" $('#emulog').append('{htmlBuilder.ToString()}'); ");
+            m_JSCallback_EventLog(new[] { logger.Substring(logger.LastIndexOf('.') + 1), level, message });
         }
 
         public void RunEmu()

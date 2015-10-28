@@ -128,5 +128,10 @@ namespace Soft64.RCP
             get { return ReadUInt32(OFFSET_PI_BSD_DOM2_RLS_REG); }
             set { Write(OFFSET_PI_BSD_DOM2_RLS_REG, value); }
         }
+
+        public override string ToString()
+        {
+            return "Parellel Interface";
+        }
     }
 }

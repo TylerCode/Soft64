@@ -28,7 +28,7 @@ namespace Soft64.RCP
 {
     public abstract class DmaEngine
     {
-        protected DmaEngine(SysADBusStream sysADBusStream)
+        protected DmaEngine(FakeSysADBus sysADBusStream)
         {
             BusStream = sysADBusStream;
         }
