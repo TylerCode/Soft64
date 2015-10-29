@@ -1,14 +1,16 @@
-﻿@forecolor: white;
+﻿@forecolor: #ffcb78;
+@infocolor: #00aaff;
 
 body {
     background-image:url(../img/tooplate_body.png);
     background-repeat: repeat;
     color: @forecolor;
+    font-family: 'DejaVu Sans';
 }
 
 .logmessage {
     font-weight: 100;
-    color: @forecolor;
+    color: @infocolor;
     font-size: small;
 }
 
@@ -30,7 +32,7 @@ body {
 
 .logmessage_debug {
     .logmessage;
-    color:palegreen;
+    color:#7000ff;
 }
 
 div {
@@ -50,18 +52,20 @@ div {
 }
 
 #cartridgeBox {
-    width: 40em;
+    width: 27em;
     .sectionBorder;
+}
+
+.cartInfo {
+    color: @infocolor;
 }
 
 #emulog {
-    width: 60em;
+    width: 670px;
     height: 200px;
     .sectionBorder;
-    font-size: small;
-    font-stretch: narrower;
-    font-weight: lighter;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 12pt;
+    font-weight: normal;
+    font-family: 'Lucida Console';
     overflow-y: scroll;
 }
-
