@@ -1,5 +1,5 @@
-﻿@forecolor: #ffcb78;
-@infocolor: #00aaff;
+﻿@infocolor: #00b1ff;
+@forecolor: #b6ff2c;
 
 body {
     background-image:url(../img/tooplate_body.png);
@@ -8,10 +8,15 @@ body {
     font-family: 'DejaVu Sans';
 }
 
-.logmessage {
+.info {
     font-weight: 100;
     color: @infocolor;
     font-size: small;
+    font-family: 'Lucida Console';
+}
+
+.logmessage {
+    .info;
 }
 
 .logmessage_fatal {
@@ -40,8 +45,8 @@ div {
 }
 
 .sectionHeader {
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-size: large;
+    font-family: 'Lucida Console';
+    font-size: medium;
 }
 
 .sectionBorder {
@@ -57,7 +62,7 @@ div {
 }
 
 .cartInfo {
-    color: @infocolor;
+    .info;
 }
 
 #emulog {
@@ -68,4 +73,37 @@ div {
     font-weight: normal;
     font-family: 'Lucida Console';
     overflow-y: scroll;
+}
+
+input[type="button"] {
+	font-family: 'PT Sans', arial, serif;
+	color:@forecolor;
+	text-align:center;
+	font-size:12pt;
+	font-weight:bold;
+	padding:7px;
+
+    text-shadow:
+    -1px -1px 0 #000, 
+    1px -1px 0 #000, 
+    -1px 1px 0 #000, 
+    1px 1px 0 #000;
+
+    @buttonBoxShadow:
+         0 2px 8px rgba(0,0,0,0.5),
+        inset 0 1px rgba(255,255,255,0.3),
+        inset 0 10px rgba(255,255,255,0.2),
+        inset 0 10px 20px rgba(255,255,255,0.25),
+        inset 0 -15px 30px rgba(0,0,0,0.3);
+
+    @buttonBorderColor: rgba(0,0,0,0.5);
+
+    border: 1px solid  @buttonBorderColor;
+	border-bottom: 3px solid @buttonBorderColor;
+	border-radius: 3px;
+    margin:10px 2px;
+	background: rgba(168, 255, 0, 0.41);
+	box-shadow:  @buttonBoxShadow;
+    display: inline-block;
+	text-decoration: none;
 }
