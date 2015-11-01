@@ -6,11 +6,13 @@ using Soft64;
 using Soft64.MipsR4300;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.UI;
+using System.Windows.Forms;
 
 using JSCallback = System.Action<System.Object[]>;
 
@@ -36,10 +38,12 @@ namespace Soft64UI
         protected override void InitializeComponent()
         {
             this.Text = "Soft64 Emulator UI 1.0";
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(883, 542);
+            this.AutoScaleDimensions = new SizeF(6F, 13F);
+            this.AutoScaleMode = AutoScaleMode.Font;
+            this.BackColor = Color.White;
+            this.ClientSize = new Size(883, 642);
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             TargetUrl = MakeLocalUrl("Main");
 
             base.InitializeComponent();
@@ -48,18 +52,6 @@ namespace Soft64UI
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-
-            Machine.Current.DeviceRCP.Interface_Parallel.CartridgeChanged += Interface_Parallel_CartridgeChanged;
-        }
-
-        private void Interface_Parallel_CartridgeChanged(object sender, Soft64.RCP.CartridgeChangedEventArgs e)
-        {
-            ExecuteJSCallback("cartridge", e.NewCartridge?.RomImage.Name,
-                e.NewCartridge?.RomImage.Serial.Serial,
-                e.NewCartridge?.RomImage.CRC1.ToString("X4"),
-                e.NewCartridge?.RomImage.CRC2.ToString("X4"),
-                e.NewCartridge?.RomImage.BootRomInformation.CIC.ToString(),
-                e.NewCartridge?.RomImage.Region.ToString());
         }
 
         public static void OnLogMessage(String logger, String level, String message)

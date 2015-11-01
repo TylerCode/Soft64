@@ -29,20 +29,6 @@
                 currentForm.runEmu();
             });
 
-
-            /* Register events */
-            currentForm.on('cartridge', function (name, serial, crc1, crc2, cic, region) {
-                var brTag = '<br />';
-
-                $('#cartrigeInfo').html(
-                    ['Name: ', name, brTag,
-                    'Serial: ', serial, brTag,
-                    'CRC1: ', crc1, brTag,
-                    'CRC2: ', crc2, brTag,
-                    'CIC: ', cic, brTag,
-                    'Region: ', region].join(''));
-            });
-
             currentForm.on('emulog', function (logger, level, message) {
                 var logStyle = "logmessage";
 
@@ -68,24 +54,28 @@
 
 
 <body>
-    <input id="buttonShowDevConsole" type='button' value="Show Dev Console" />
-    <input type="button" id="buttonEmuRun" value="Run" />
-    <br />
-    <b class="sectionHeader">Cartridge Configuration</b>
-    <br />
-    <div id="cartridgeBox">
-        <b>ROM File:</b><input id="romFileSelect" style="margin-left: 5px" type='file' />
+    <div class="centered">
+        <input id="buttonShowDevConsole" type='button' value="Show Dev Console" />
+        <input type="button" id="buttonEmuRun" value="Run" />
+        <input type="button" id="buttonEmuPause" value="Pause" />
+        <input type="button" id="buttonEmuStop" value="Stop" />
         <br />
-        <div id="cartrigeInfo" class="cartInfo">
-            No Cartridge Inserted
+        <div style="margin-top: -10px;">
+            <input type="button" class="debugButton" id="buttonDebugMemory" value="Memory Edit" />
         </div>
-    </div>
-
-    <br />
-    <div class="sectionHeader">
-        <b>Emulation Log</b>
         <br />
-        <div id="emulog">
+        <b class="sectionHeader">Cartridge Configuration</b>
+        <br />
+        <div id="cartridgeBox">
+            <b>ROM File:</b><input id="romFileSelect" style="margin-left: 5px" type='file' />
+        </div>
+
+        <br />
+        <div class="sectionHeader">
+            <b>Emulation Log</b>
+            <br />
+            <div id="emulog">
+            </div>
         </div>
     </div>
 </body>

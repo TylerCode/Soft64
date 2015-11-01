@@ -43,7 +43,11 @@
   color: #00b1ff;
   font-size: small;
   font-family: 'Lucida Console';
-  color: #7000ff;
+  color: #b367ff;
+}
+.centered {
+  position: absolute;
+  left: 10%;
 }
 div {
   display: block;
@@ -59,21 +63,15 @@ div {
   border-width: thin;
 }
 #cartridgeBox {
-  width: 27em;
+  width: 670px;
   padding: 10px;
   border: solid;
   border-color: #b6ff2c;
   border-width: thin;
 }
-.cartInfo {
-  font-weight: 100;
-  color: #00b1ff;
-  font-size: small;
-  font-family: 'Lucida Console';
-}
 #emulog {
   width: 670px;
-  height: 200px;
+  height: 300px;
   padding: 10px;
   border: solid;
   border-color: #b6ff2c;
@@ -99,4 +97,9 @@ input[type="button"] {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5), inset 0 1px rgba(255, 255, 255, 0.3), inset 0 10px rgba(255, 255, 255, 0.2), inset 0 10px 20px rgba(255, 255, 255, 0.25), inset 0 -15px 30px rgba(0, 0, 0, 0.3);
   display: inline-block;
   text-decoration: none;
+}
+.debugButton {
+  font-size: 10px !important;
+  color: white !important;
+  background: rgba(255, 70, 0, 0.41) !important;
 }

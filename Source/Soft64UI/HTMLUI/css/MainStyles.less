@@ -1,5 +1,6 @@
 ﻿@infocolor: #00b1ff;
 @forecolor: #b6ff2c;
+@divContentWidth: 670px;
 
 body {
     background-image:url(../img/tooplate_body.png);
@@ -37,7 +38,12 @@ body {
 
 .logmessage_debug {
     .logmessage;
-    color:#7000ff;
+    color:#b367ff;
+}
+
+.centered{
+    position: absolute;
+    left: 10%;
 }
 
 div {
@@ -57,17 +63,13 @@ div {
 }
 
 #cartridgeBox {
-    width: 27em;
+    width: @divContentWidth;
     .sectionBorder;
 }
 
-.cartInfo {
-    .info;
-}
-
 #emulog {
-    width: 670px;
-    height: 200px;
+    width: @divContentWidth;
+    height: 300px;
     .sectionBorder;
     font-size: 12pt;
     font-weight: normal;
@@ -106,4 +108,10 @@ input[type="button"] {
 	box-shadow:  @buttonBoxShadow;
     display: inline-block;
 	text-decoration: none;
+}
+
+.debugButton {
+    font-size: 10px !important;
+    color: white !important;
+    background: rgba(255, 70, 0, 0.41) !important;
 }
