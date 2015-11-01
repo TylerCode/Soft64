@@ -31,34 +31,6 @@ namespace Soft64UI
         public MainForm() : base()
         {
             s_Current = this;
-
-            var config = new LoggingConfiguration();
-
-            FileTarget cpuTraceLogTarget = new FileTarget();
-            cpuTraceLogTarget.Layout = "${message}";
-            cpuTraceLogTarget.FileName = "${basedir}/logs/cpuTrace.txt";
-            cpuTraceLogTarget.KeepFileOpen = false;
-            cpuTraceLogTarget.DeleteOldFileOnStartup = true;
-            cpuTraceLogTarget.Encoding = Encoding.ASCII;
-
-            MethodCallTarget target = new MethodCallTarget();
-            target.ClassName = this.GetType().AssemblyQualifiedName;
-            target.MethodName = "OnLogMessage";
-            target.Parameters.Add(new MethodCallParameter("${logger}"));
-            target.Parameters.Add(new MethodCallParameter("${level}"));
-            target.Parameters.Add(new MethodCallParameter("${message}"));
-
-            var cpuLogRule = new LoggingRule(typeof(Interpreter).AssemblyQualifiedName, LogLevel.Debug, cpuTraceLogTarget);
-            cpuLogRule.Final = true;
-
-            var emuLogRule = new LoggingRule("*", LogLevel.Trace, target);
-
-
-            config.LoggingRules.Add(cpuLogRule);
-            config.LoggingRules.Add(emuLogRule);
-
-
-            LogManager.Configuration = config;
         }
 
         protected override void InitializeComponent()
