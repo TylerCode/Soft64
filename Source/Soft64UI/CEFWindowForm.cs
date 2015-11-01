@@ -53,8 +53,15 @@ namespace Soft64UI
 
         public void On(String eventName, IJavascriptCallback callback)
         {
+            JSCallback _callback = (args) => callback?.ExecuteAsync(args);
+            eventName = eventName.ToLower();
+
             if (!m_JSCallbacks.ContainsKey(eventName))
-                m_JSCallbacks.Add(eventName.ToLower(), (args) => callback?.ExecuteAsync(args));
+                m_JSCallbacks.Add(eventName, _callback);
+            else
+            {
+                m_JSCallbacks[eventName] = (JSCallback)Delegate.Combine(m_JSCallbacks[eventName], _callback);
+            }
         }
 
         protected void ExecuteJSCallback(String eventName, params Object[] arguments)
