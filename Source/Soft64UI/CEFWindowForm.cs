@@ -11,11 +11,14 @@ using System.Windows.Forms;
 
 namespace Soft64UI
 {
+    public delegate void JSCallback(Object[] arguments);
+
     [System.ComponentModel.DesignerCategory("Code")]
     public class CEFWindowForm : Form
     {
         private ChromiumWebBrowser m_HostBrowser;
         private String m_TargetUrl;
+        private Dictionary<String, JSCallback> m_JSCallbacks = new Dictionary<string, JSCallback>();
 
         public CEFWindowForm(String url)
         {
@@ -46,6 +49,22 @@ namespace Soft64UI
             RegisterJSObjects();
 
             base.OnLoad(e);
+        }
+
+        public void On(String eventName, IJavascriptCallback callback)
+        {
+            if (!m_JSCallbacks.ContainsKey(eventName))
+                m_JSCallbacks.Add(eventName.ToLower(), (args) => callback?.ExecuteAsync(args));
+        }
+
+        protected void ExecuteJSCallback(String eventName, params Object[] arguments)
+        {
+            m_JSCallbacks[eventName.ToLower()]?.Invoke(arguments);
+        }
+
+        protected void RemoveJSCallback(String eventName)
+        {
+            m_JSCallbacks.Remove(eventName);
         }
 
         public void ShowDevTools()

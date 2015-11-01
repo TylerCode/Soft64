@@ -21,9 +21,6 @@ namespace Soft64UI
         private BootBreakMode m_BreakOnBootMode;
         private static MainForm s_Current;
 
-        private JSCallback m_JSCallback_CartChange;
-        private JSCallback m_JSCallback_EventLog;
-
         public enum BootBreakMode
         {
             None,
@@ -76,21 +73,6 @@ namespace Soft64UI
             base.InitializeComponent();
         }
 
-        public void On(String eventName, IJavascriptCallback callback)
-        {
-            JSCallback handler = (args) =>
-            {
-                callback?.ExecuteAsync(args);
-            };
-
-            switch (eventName.ToLower())
-            {
-                default: return;
-                case "cartridge": m_JSCallback_CartChange = handler; break;
-                case "emulog": m_JSCallback_EventLog = handler; break;
-            }
-        }
-
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
@@ -100,14 +82,12 @@ namespace Soft64UI
 
         private void Interface_Parallel_CartridgeChanged(object sender, Soft64.RCP.CartridgeChangedEventArgs e)
         {
-            m_JSCallback_CartChange(new[] {
-                e.NewCartridge?.RomImage.Name,
+            ExecuteJSCallback("cartridge", e.NewCartridge?.RomImage.Name,
                 e.NewCartridge?.RomImage.Serial.Serial,
                 e.NewCartridge?.RomImage.CRC1.ToString("X4"),
                 e.NewCartridge?.RomImage.CRC2.ToString("X4"),
                 e.NewCartridge?.RomImage.BootRomInformation.CIC.ToString(),
-                e.NewCartridge?.RomImage.Region.ToString()}
-                );
+                e.NewCartridge?.RomImage.Region.ToString());
         }
 
         public static void OnLogMessage(String logger, String level, String message)
@@ -117,7 +97,7 @@ namespace Soft64UI
 
         private void LogMessage(String logger, String level, String message)
         {
-            m_JSCallback_EventLog(new[] { logger.Substring(logger.LastIndexOf('.') + 1), level, message });
+            ExecuteJSCallback("emulog", logger.Substring(logger.LastIndexOf('.') + 1), level, message);
         }
 
         public void RunEmu()
