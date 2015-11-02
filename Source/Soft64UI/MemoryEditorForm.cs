@@ -28,5 +28,12 @@ namespace Soft64UI
 
             base.RegisterJSObjects();
         }
+
+        public Byte[] ReadMem(Int32 address, Int32 size)
+        {
+            Byte[] buffer = new Byte[size];
+            Machine.Current.N64MemorySafe.Read(buffer, 0, size);
+            return buffer;
+        }
     }
 }

@@ -4,20 +4,8 @@
 <head>
     <link rel="stylesheet" type="text/css" href="css/MainStyles.min.css" />
     <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
-    <script type="text/javascript" src="js/Globals.js"></script>
     <meta charset="utf-8" />
     <title>Soft64 Hex Editor</title>
-
-    <style type="text/css">
-        .hexchar {
-            padding-right: 10px;
-            border-bottom: 1px solid white;
-        }
-
-        .asciichar {
-            margin: 0, 5px, 10px, 0;
-        }
-    </style>
 
     <script type="text/javascript">
         $(function () {
@@ -26,16 +14,20 @@
                 currentForm.showDevTools();
             });
 
+            var gridPixelHeight = $('#hexGrid').height();
+            var fontPixelHeight = parseFloat($('#hexGrid').css('font-size'));
+            var numLines = gridPixelHeight / (fontPixelHeight + 3.5);
+            var width = 16;
 
-            var width = 15;
-            var h = 15;
+           // var buffer = currentForm.readMem(0, numLines * width);
 
-  
-                for (var y = 0; y < h; y++)
+            for (var y = 0; y < numLines; y++)
                 {
                     for (var x = 0; x < width; x++)
                     {
-                        $('#hexGrid').append('<span class=\'hexchar\' id=' + x.toString() + y.toString() + '>00</span>');
+
+                        
+                        $('#hexGrid').append('<span class=\'hexchar\' id=' + x.toString() + y.toString() + '>' + '00' + '</span>');
                         //$('#asciiGrid').append("<span class='asciichar'>.</span>");
                     }
 
@@ -52,8 +44,10 @@
         <input id="buttonShowDevConsole" type='button' value="Show Dev Console" />
         Hex editor
         <br />
-        <div id="hexGrid">
+        <div>
+            <div id="hexGrid">
 
+            </div>
         </div>
 
 
