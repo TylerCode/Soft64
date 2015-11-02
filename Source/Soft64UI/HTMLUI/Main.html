@@ -3,13 +3,13 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <link rel="stylesheet" type="text/css" href="css/MainStyles.min.css" />
+    <script type="text/javascript" src="js/Globals.js"></script>
     <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
     <meta charset="utf-8" />
     <title></title>
 
     <script type="text/javascript">
         $(function () {
-
             $('#romFileSelect').change(function (e) {
                 var file = this.files[0];
                 var reader = new FileReader();
@@ -29,6 +29,10 @@
                 currentForm.runEmu();
             });
 
+            $('#buttonDebugMemory').click(function () {
+                currentForm.createWindow('memoryeditor');
+            });
+
             currentForm.on('emulog', function (logger, level, message) {
                 var logStyle = "logmessage";
 
@@ -43,7 +47,7 @@
                     case "debug": logStyle = "logmessage_debug"; break;
                 }
 
-                var output = ['<span class=', logStyle, '>', logger, ': ', message, '</span><br />'].join('');
+                var output = '<span class=' + logStyle + '>' + logger + ': ' + message + '</span><br />';
 
                 $('#emulog').append(output);
             });

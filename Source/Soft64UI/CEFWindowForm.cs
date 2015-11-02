@@ -2,6 +2,7 @@
 using CefSharp.WinForms;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -33,6 +34,12 @@ namespace Soft64UI
 
         protected virtual void InitializeComponent()
         {
+            this.AutoScaleDimensions = new SizeF(6F, 13F);
+            this.AutoScaleMode = AutoScaleMode.Font;
+            this.BackColor = Color.White;
+            this.ClientSize = new Size(883, 642);
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
         }
 
         protected virtual void RegisterJSObjects()
@@ -44,10 +51,8 @@ namespace Soft64UI
         {
             m_HostBrowser = new ChromiumWebBrowser(m_TargetUrl);
             Controls.Add(m_HostBrowser);
-
             m_HostBrowser.RegisterJsObject("currentForm", this);
             RegisterJSObjects();
-
             base.OnLoad(e);
         }
 
@@ -87,7 +92,7 @@ namespace Soft64UI
 
         public ChromiumWebBrowser HostBrowser => m_HostBrowser;
 
-        protected static String MakeLocalUrl(String pageName)
+        public static String MakeLocalUrl(String pageName)
         {
             return $"{Environment.CurrentDirectory}\\HTMLUI\\{pageName}.html";
         }

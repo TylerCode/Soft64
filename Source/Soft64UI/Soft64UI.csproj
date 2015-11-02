@@ -121,6 +121,7 @@
   <ItemGroup>
     <Compile Include="CEFWindowForm.cs" />
     <Compile Include="MainForm.cs" />
+    <Compile Include="MemoryEditorForm.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="HTMLUI\css\MainStyles.css">
@@ -131,6 +132,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="HTMLUI\img\tooplate_body.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="HTMLUI\MemoryEditor.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <EmbeddedResource Include="Properties\Resources.resx">

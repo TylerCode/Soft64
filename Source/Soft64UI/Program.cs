@@ -25,7 +25,8 @@ namespace Soft64UI
 
             ConfigureLogging();
 
-            Cef.Initialize();
+            CefSettings settings = new CefSettings();
+            Cef.Initialize(settings);
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

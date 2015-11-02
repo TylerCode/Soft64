@@ -14,14 +14,14 @@ using System.Threading.Tasks;
 using System.Web.UI;
 using System.Windows.Forms;
 
-using JSCallback = System.Action<System.Object[]>;
-
 namespace Soft64UI
 {
     public sealed class MainForm : CEFWindowForm
     {
         private BootBreakMode m_BreakOnBootMode;
         private static MainForm s_Current;
+
+        private MemoryEditorForm m_MemoryEditForm;
 
         public enum BootBreakMode
         {
@@ -38,15 +38,21 @@ namespace Soft64UI
         protected override void InitializeComponent()
         {
             this.Text = "Soft64 Emulator UI 1.0";
-            this.AutoScaleDimensions = new SizeF(6F, 13F);
-            this.AutoScaleMode = AutoScaleMode.Font;
-            this.BackColor = Color.White;
-            this.ClientSize = new Size(883, 642);
-            this.FormBorderStyle = FormBorderStyle.FixedSingle;
-            this.MaximizeBox = false;
             TargetUrl = MakeLocalUrl("Main");
 
             base.InitializeComponent();
+        }
+
+        public void CreateWindow(String name)
+        {
+            Invoke(new Action(() =>
+            {
+                switch (name.ToLower())
+                {
+                    default: break;
+                    case "memoryeditor": m_MemoryEditForm = new MemoryEditorForm(); m_MemoryEditForm.Show(); break;
+                }
+            }));
         }
 
         protected override void OnLoad(EventArgs e)
