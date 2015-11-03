@@ -1,4 +1,5 @@
 ﻿using Soft64;
+using Soft64UI.JAPI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,16 +25,8 @@ namespace Soft64UI
 
         protected override void RegisterJSObjects()
         {
-            HostBrowser.RegisterJsObject("memory", Machine.Current.N64MemorySafe);
+            HostBrowser.RegisterJsObject("memoryAPI", new MemoryJAPI());
 
-            base.RegisterJSObjects();
-        }
-
-        public Byte[] ReadMem(Int32 address, Int32 size)
-        {
-            Byte[] buffer = new Byte[size];
-            Machine.Current.N64MemorySafe.Read(buffer, 0, size);
-            return buffer;
         }
     }
 }

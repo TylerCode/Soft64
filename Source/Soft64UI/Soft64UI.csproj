@@ -120,6 +120,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CEFWindowForm.cs" />
+    <Compile Include="JAPI\MemoryJAPI.cs" />
     <Compile Include="MainForm.cs" />
     <Compile Include="MemoryEditorForm.cs" />
     <Compile Include="Program.cs" />
@@ -132,6 +133,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="HTMLUI\img\tooplate_body.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="HTMLUI\js\lib\memorytools.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="HTMLUI\js\require.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="HTMLUI\MemoryEditor.html">
