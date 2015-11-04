@@ -71,7 +71,9 @@ namespace Soft64UI
 
         protected void ExecuteJSCallback(String eventName, params Object[] arguments)
         {
-            m_JSCallbacks[eventName.ToLower()]?.Invoke(arguments);
+            eventName = eventName.ToLower();
+            if (m_JSCallbacks.ContainsKey(eventName))
+                m_JSCallbacks[eventName]?.Invoke(arguments);
         }
 
         protected void RemoveJSCallback(String eventName)

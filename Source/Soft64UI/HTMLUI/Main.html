@@ -1,72 +1,29 @@
 ﻿<!DOCTYPE html>
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
+    <title>Soft64 UI</title>
     <link rel="stylesheet" type="text/css" href="css/MainStyles.min.css" />
-    <script type="text/javascript" src="js/Globals.js"></script>
-    <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+    <script data-main="js/app/main" type="text/javascript" src="js/require.js"></script>
     <meta charset="utf-8" />
-    <title></title>
-
-    <script type="text/javascript">
-        $(function () {
-            $('#romFileSelect').change(function (e) {
-                var file = this.files[0];
-                var reader = new FileReader();
-
-                reader.onload = function (e) {
-                    currentForm.insertRomFile(btoa(this.result));
-                }
-
-                reader.readAsBinaryString(file);
-            });
-
-            $('#buttonShowDevConsole').click(function () {
-                currentForm.showDevTools();
-            });
-
-            $('#buttonEmuRun').click(function () {
-                currentForm.runEmu();
-            });
-
-            $('#buttonDebugMemory').click(function () {
-                currentForm.createWindow('memoryeditor');
-            });
-
-            currentForm.on('emulog', function (logger, level, message) {
-                var logStyle = "logmessage";
-
-                switch (level.toLowerCase())
-                {
-                    default:
-                    case "trace":
-                    case "info": break;
-                    case "fatal": logStyle = "logmessage_fatal"; break;
-                    case "error": logStyle = "logmessage_error"; break;
-                    case "warning": logStyle = "logmessage_warning"; break;
-                    case "debug": logStyle = "logmessage_debug"; break;
-                }
-
-                var output = '<span class=' + logStyle + '>' + logger + ': ' + message + '</span><br />';
-
-                $('#emulog').append(output);
-            });
-        });
-    </script>
 </head>
 
-
-
 <body>
+
     <div class="centered">
-        <input id="buttonShowDevConsole" type='button' value="Show Dev Console" />
-        <input type="button" id="buttonEmuRun" value="Run" />
-        <input type="button" id="buttonEmuPause" value="Pause" />
-        <input type="button" id="buttonEmuStop" value="Stop" />
-        <br />
-        <div style="margin-top: -10px;">
-            <input type="button" class="debugButton" id="buttonDebugMemory" value="Memory Edit" />
+        <div id="mainMenuBar">
+            <input data-cid="btnShowDevConsole" type='button' value="Show Dev Console" />
+            <input type="button" data-cid="btnEmuRun" value="Run" />
+            <input type="button" data-cid="btnEmuPause" value="Pause" />
+            <input type="button" data-cid="btnEmuStop" value="Stop" />
+            <br />
+            <div style="margin-top: -10px;">
+                <input type="button" class="debugButton" data-cid="btnDebugMemory" value="Memory Edit" />
+            </div>
         </div>
+
+
         <br />
         <b class="sectionHeader">Cartridge Configuration</b>
         <br />

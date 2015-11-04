@@ -135,6 +135,15 @@
     <Content Include="HTMLUI\img\tooplate_body.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="HTMLUI\js\lib\common.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="HTMLUI\js\app\main.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="HTMLUI\js\lib\MainUI.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="HTMLUI\js\lib\memorytools.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -181,7 +190,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Content Include="HTMLUI\js\jquery-1.11.3.min.js">
+    <Content Include="HTMLUI\js\lib\jquery-1.11.3.min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="HTMLUI\Main.html">

@@ -58,6 +58,15 @@ namespace Soft64UI
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
+
+            /* Uncomment to show the developer tools to debug scripts */
+            //HostBrowser.FrameLoadStart += HostBrowser_FrameLoadStart;
+        }
+
+        private void HostBrowser_FrameLoadStart(object sender, FrameLoadStartEventArgs e)
+        {
+            ShowDevTools();
+            Focus();
         }
 
         public static void OnLogMessage(String logger, String level, String message)
