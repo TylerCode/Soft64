@@ -5,37 +5,46 @@
 <head>
     <title>Soft64 UI</title>
     <link rel="stylesheet" type="text/css" href="css/MainStyles.min.css" />
+    <link rel="stylesheet" href="css/jquery-ui.css">
     <script data-main="js/app/main" type="text/javascript" src="js/require.js"></script>
     <meta charset="utf-8" />
 </head>
 
 <body>
-
     <div class="centered">
-        <div id="mainMenuBar">
-            <input data-cid="btnShowDevConsole" type='button' value="Show Dev Console" />
-            <input type="button" data-cid="btnEmuRun" value="Run" />
-            <input type="button" data-cid="btnEmuPause" value="Pause" />
-            <input type="button" data-cid="btnEmuStop" value="Stop" />
-            <br />
-            <div style="margin-top: -10px;">
-                <input type="button" class="debugButton" data-cid="btnDebugMemory" value="Memory Edit" />
+        <div id="mainMenuBar" class="ui-widget-content windowShell">
+            <div class="sectionHeader">Main Menu</div>
+            <div id="windowContent">
+                <input data-cid="btnShowDevConsole" type='button' value="Show Dev Console" />
+                <input type="button" data-cid="btnEmuRun" value="Run" />
+                <input type="button" data-cid="btnEmuPause" value="Pause" />
+                <input type="button" data-cid="btnEmuStop" value="Stop" />
+                <br />
+                <div style="margin-top: -10px;">
+                    <input type="button" class="debugButton" data-cid="btnDebugMemory" value="Memory Edit" />
+                </div>
             </div>
         </div>
 
 
         <br />
-        <b class="sectionHeader">Cartridge Configuration</b>
-        <br />
-        <div id="cartridgeBox">
-            <b>ROM File:</b><input id="romFileSelect" style="margin-left: 5px" type='file' />
+
+
+        <div id="cartridgeWidget" class="ui-widget-content windowShell">
+            <div class="sectionHeader">Cartridge Configuration</div>
+            <div id="windowContent">
+                <div id="cartridgeBox">
+                    <b>ROM File:</b><input id="romFileSelect" style="margin-left: 5px" type='file' />
+                </div>
+            </div>
         </div>
 
         <br />
-        <div class="sectionHeader">
-            <b>Emulation Log</b>
-            <br />
-            <div id="emulog">
+
+        <div id="emulogWidget" class="ui-widget-content windowShell">
+            <div class="sectionHeader">Emulation Log</div>
+            <div id="windowContent">
+                <div id="emulog"></div>
             </div>
         </div>
     </div>

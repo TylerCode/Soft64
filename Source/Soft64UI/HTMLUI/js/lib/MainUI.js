@@ -1,23 +1,83 @@
-﻿define('MainUI', ['jquery', 'common'], function (jquery, common) {
+﻿define('MainUI', ['jquery', 'common', 'jqueryui'], function (jquery, common, jqueryui) {
+
+    var lastWindow = null;
+    var windowList;
+
+    function compareZ(a, b) {
+        if (a.css('z-index') < css('z-index'))
+            return -1;
+        if (a.css('z-index') > b.css('z-index'))
+            return 1;
+        return 0;
+    }
+
     return {
+
         initialize: function () {
             var mainMenu = $('#mainMenuBar');
+            var cartridgeWidget = $('#cartridgeWidget');
+            var emulogWidget = $('#emulogWidget');
+            var windowList;
 
-            buttonAssignClick = function (cid, click) {
-                if (typeof click != 'function')
-                    throw new TypeError("click must be a function");
+            function reorderZ()  {
 
-                var results = common.findElementByCid(mainMenu, cid);
+                /* Create window list */
+                windowList = $('.windowShell');
 
-                if (results != null)
-                    results.click(click);
-                else
-                    throw new Error("found no control with matching cid");
-            };
+                /* Preset Z order */
+                for (var winIndex = 0; winIndex < windowList.length; winIndex++) {
+                    $(windowList[winIndex]).css('z-index', winIndex);
+                }
+            }
 
-            buttonAssignClick('btnShowDevConsole', function () { currentForm.showDevTools(); });
-            buttonAssignClick('btnEmuRun', function () { currentForm.runEmu(); });
+            reorderZ();
 
+            /* Add logic for Z-ordering each widget */
+            $('.windowShell').mousedown(function () {
+
+                /* Set to top*/
+                $(this).css('z-index', windowList.length - 1);
+
+                /* Now push each window down a z level except the one at the bottom*/
+                for (var i = 0; i < windowList.length; i++) {
+
+                    var window = $(windowList[i]);
+
+                    if (!window.is($(this))) {
+                        var z = parseInt(window.css('z-index'));
+
+                        if (z >= 1) {
+                            window.css('z-index', z - 1);
+                        }
+                    }
+                }
+            });
+
+            /* Enable draggable */
+            mainMenu.draggable();
+            cartridgeWidget.draggable();
+
+            emulogWidget.draggable({
+                cancel: '#windowContent'
+            });
+
+            /* Enable resizing */
+            mainMenu.resizable();
+            cartridgeWidget.resizable();
+            emulogWidget.resizable();
+
+            common.findElementByCid(mainMenu, 'btnShowDevConsole').click(function () {
+                currentForm.showDevTools();
+            });
+
+            common.findElementByCid(mainMenu, 'btnEmuRun').click(function () {
+                currentForm.runEmu();
+            });
+
+            mainMenu.on('drag', function (e) {
+                console.log('draggigng');
+                /*TODO: debug break here*/
+            });
 
             currentForm.on('emulog', function (logger, level, message) {
                 var logStyle = "logmessage";
