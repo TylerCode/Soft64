@@ -1,15 +1,5 @@
 ﻿define('MainUI', ['jquery', 'common', 'jqueryui'], function (jquery, common, jqueryui) {
-
-    var lastWindow = null;
     var windowList;
-
-    function compareZ(a, b) {
-        if (a.css('z-index') < css('z-index'))
-            return -1;
-        if (a.css('z-index') > b.css('z-index'))
-            return 1;
-        return 0;
-    }
 
     return {
 

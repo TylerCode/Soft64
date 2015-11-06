@@ -99,5 +99,13 @@ namespace Soft64UI
             VirtualCartridge cart = new VirtualCartridge(new MemoryStream(buffer));
             Machine.Current.CartridgeInsert(cart);
         }
+
+        public String LoadHtml(String url)
+        {
+            String fullpath = Environment.CurrentDirectory + "\\HTMLUI\\" + url;
+
+            var reader = File.OpenText(fullpath);
+            return reader.ReadToEnd();
+        }
     }
 }
