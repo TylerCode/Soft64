@@ -4,14 +4,16 @@
         jquery: 'jquery-1.11.3.min',
         jqueryui: 'jquery-ui.min',
         Window: 'Window.es5.min',
+        MemoryEditorWindow: 'MemoryEditorWindow',
     }
 });
 
 /* Initialize the main windows */
-require(['Window', 'jquery'],
+require(['Window', 'jquery', 'MemoryEditorWindow'],
 
     function (Window
-             , jquery) {
+             , jquery
+             , MemoryEditorWindow) {
 
         /* Main Menu Window */
         var menuWindow = new Window({ title: "Main Menu", idName: "mainMenuWindow" });
@@ -35,6 +37,12 @@ require(['Window', 'jquery'],
 
         menuWindow.getElementByCid('btnEmuRun').click(function () {
             currentForm.runEmu();
+        });
+
+        menuWindow.getElementByCid('btnDebugMemory').click(function () {
+            var win = new MemoryEditorWindow({ title: 'Memory Editor', idName: 'memoryEditorWindow' });
+            win.create('windows/MemoryEditorWindow.html');
+            win.initialize();
         });
 
         var emulogContainer = emulogWindow.getElementByCid('emulog');

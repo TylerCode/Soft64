@@ -190,6 +190,9 @@
     <Content Include="HTMLUI\js\lib\jquery-ui.min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="HTMLUI\js\lib\MemoryEditorWindow.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="HTMLUI\js\lib\memorytools.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -202,9 +205,6 @@
     </Content>
     <Content Include="HTMLUI\js\lib\Window.js" />
     <Content Include="HTMLUI\js\require.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="HTMLUI\MemoryEditor.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -226,6 +226,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="HTMLUI\windows\EmulogWindow.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="HTMLUI\windows\MemoryEditorWindow.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="HTMLUI\windows\MenuWindow.html">
