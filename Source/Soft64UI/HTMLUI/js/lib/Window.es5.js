@@ -1,4 +1,6 @@
-﻿define('Window', ['jquery', 'jqueryui'], function (jquery, jqueryui) {
+﻿'use strict';
+
+define('Window', ['jquery', 'jqueryui'], function (jquery, jqueryui) {
     var windowList = [];
 
     function Window(params) {
@@ -17,7 +19,7 @@
         });
 
         window.resizable();
-    }
+    };
 
     Window.prototype.register = function () {
         var window = this.getInstance();
@@ -28,12 +30,12 @@
         var _this = this;
         window.mousedown(function () {
             _this.setTop();
-        })
-    }
+        });
+    };
 
-    Window.prototype.getInstance = function() {
+    Window.prototype.getInstance = function () {
         return $('#' + this.idName);
-    }
+    };
 
     Window.prototype.title = "";
 
@@ -45,14 +47,12 @@
 
     Window.prototype.getElementByCid = function (cid) {
         var e = this.getInstance();
-        if (typeof e == 'undefined')
-            throw new TypeError("e cannot be null");
+        if (typeof e == 'undefined') throw new TypeError("e cannot be null");
 
-        if (typeof cid != 'string')
-            throw new TypeError("cid must be type of string");
+        if (typeof cid != 'string') throw new TypeError("cid must be type of string");
 
         return e.find('[data-cid=' + cid + ']');
-    }
+    };
 
     Window.prototype.create = function (url) {
         var window = $(document.createElement('div'));
@@ -74,7 +74,7 @@
         window.appendTo('body');
 
         this.register();
-    }
+    };
 
     Window.prototype.setTop = function () {
         var targetWindow = this.getInstance();
@@ -92,18 +92,19 @@
         targetWindow.css('z-index', topZ);
 
         /* Reorder Z indicies */
-        for (var i = 0; i < (topZ + 1) && count > 0; i++) {
+        for (var i = 0; i < topZ + 1 && count > 0; i++) {
             var window = $(windowList[i]);
             var windowZ = parseInt(window.css('z-index'));
             var isSelf = targetWindow.is(window);
-            var zMaskLevel = (topZ - diff);
+            var zMaskLevel = topZ - diff;
 
             if (!isSelf && windowZ > zMaskLevel) {
                 window.css('z-index', --windowZ);
                 count--;
             }
         }
-    }
+    };
 
     return Window;
 });
+

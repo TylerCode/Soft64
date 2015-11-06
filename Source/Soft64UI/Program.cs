@@ -11,6 +11,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using CmdPair = System.Collections.Generic.KeyValuePair<System.String, System.String>;
+
 namespace Soft64UI
 {
     static class Program

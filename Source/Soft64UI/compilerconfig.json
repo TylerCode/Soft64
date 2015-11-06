@@ -2,5 +2,13 @@
   {
     "outputFile": "HTMLUI/css/MainStyles.css",
     "inputFile": "HTMLUI/css/MainStyles.less"
+  },
+  {
+    "outputFile": "HTMLUI/js/app/main.es5.js",
+    "inputFile": "HTMLUI/js/app/main.js"
+  },
+  {
+    "outputFile": "HTMLUI/js/lib/Window.es5.js",
+    "inputFile": "HTMLUI/js/lib/Window.js"
   }
 ]

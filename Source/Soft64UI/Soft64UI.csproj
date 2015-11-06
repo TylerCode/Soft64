@@ -179,18 +179,28 @@
     <Content Include="HTMLUI\img\ui-icons_ffffff_256x240.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="HTMLUI\js\app\main.js">
+    <Content Include="HTMLUI\js\app\main.es5.js">
+      <DependentUpon>main.js</DependentUpon>
+    </Content>
+    <Content Include="HTMLUI\js\app\main.es5.min.js">
+      <DependentUpon>main.es5.js</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="HTMLUI\js\app\main.js" />
     <Content Include="HTMLUI\js\lib\jquery-ui.min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="HTMLUI\js\lib\memorytools.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="HTMLUI\js\lib\Window.js">
+    <Content Include="HTMLUI\js\lib\Window.es5.js">
+      <DependentUpon>Window.js</DependentUpon>
+    </Content>
+    <Content Include="HTMLUI\js\lib\Window.es5.min.js">
+      <DependentUpon>Window.es5.js</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="HTMLUI\js\lib\Window.js" />
     <Content Include="HTMLUI\js\require.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

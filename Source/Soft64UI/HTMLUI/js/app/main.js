@@ -3,7 +3,7 @@
     paths: {
         jquery: 'jquery-1.11.3.min',
         jqueryui: 'jquery-ui.min',
-        Window: 'Window',
+        Window: 'Window.es5.min',
     }
 });
 
@@ -14,23 +14,17 @@ require(['Window', 'jquery'],
              , jquery) {
 
         /* Main Menu Window */
-        var menuWindow = new Window();
-        menuWindow.title = "Main Menu";
-        menuWindow.idName = "mainMenuWindow";
+        var menuWindow = new Window({ title: "Main Menu", idName: "mainMenuWindow" });
         menuWindow.create('windows/MenuWindow.html');
         menuWindow.initialize();
 
         /* Cartridge Window */
-        var cartWindow = new Window();
-        cartWindow.title = "Cartridge";
-        cartWindow.idName = "cartridgeWindow";
+        var cartWindow = new Window({ title: "Cartridge", idName: "cartridgeWindow" });
         cartWindow.create('windows/CartridgeWindow.html');
         cartWindow.initialize();
 
         /* Emu log Window */
-        var emulogWindow = new Window();
-        emulogWindow.title = "Emulation Log";
-        emulogWindow.idName = "emulogWindow";
+        var emulogWindow = new Window({ title: "Emulation Log", idName: "emulogWindow" });
         emulogWindow.create('windows/EmulogWindow.html');
         emulogWindow.initialize();
 
