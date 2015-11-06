@@ -72,7 +72,7 @@ div {
   border-color: #b6ff2c;
   border-width: thin;
 }
-#emulog {
+.emulog {
   width: 670px;
   height: 300px;
   padding: 10px;

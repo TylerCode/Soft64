@@ -1,18 +1,33 @@
-﻿
-
-define('Window', ['common', 'jquery', 'jqueryui'], function (common, jquery, jqueryui) {
+﻿define('Window', ['jquery', 'jqueryui'], function (jquery, jqueryui) {
     var windowList = [];
 
     function Window() {
     }
 
     Window.prototype.initialize = function () {
-        this.rootElement.draggable();
-        this.rootElement.resizable();
+        var window = this.getInstance();
+
+        window.draggable({
+            cancel: '#windowContent'
+        });
+
+        window.resizable();
     }
 
     Window.prototype.register = function () {
-        windowList.push(this.rootElement);
+        var window = this.getInstance();
+        windowList.push('#' + this.idName);
+        window.css('z-index', windowList.length - 1);
+
+        /* register z-order hook */
+        var _this = this;
+        window.mousedown(function () {
+            _this.setTop();
+        })
+    }
+
+    Window.prototype.getInstance = function() {
+        return $('#' + this.idName);
     }
 
     Window.prototype.title = "";
@@ -23,31 +38,42 @@ define('Window', ['common', 'jquery', 'jqueryui'], function (common, jquery, jqu
 
     Window.prototype.Y = 0;
 
+    Window.prototype.getElementByCid = function (cid) {
+        var e = this.getInstance();
+        if (typeof e == 'undefined')
+            throw new TypeError("e cannot be null");
+
+        if (typeof cid != 'string')
+            throw new TypeError("cid must be type of string");
+
+        return e.find('[data-cid=' + cid + ']');
+    }
+
     Window.prototype.create = function (url) {
-        /* Generate the html for a window */
-        this.rootElement = $(document.createElement('div'));
-        this.rootElement.attr('id', this.idName);
-        this.rootElement.addClass('ui-widget-content windowShell');
-        this.rootElement.position(this.X, this.Y);
+        var window = $(document.createElement('div'));
+
+        window.attr('id', this.idName);
+        window.addClass('ui-widget-content windowShell');
+        window.position(this.X, this.Y);
 
         var header = $(document.createElement('div'));
         header.addClass('sectionHeader');
         header.html(this.title);
+        header.appendTo(window);
 
         var content = $(document.createElement('div'));
         content.attr('id', 'windowContent');
-
         content.html(currentForm.loadHtml(url));
+        content.appendTo(window);
+
+        window.appendTo('body');
 
         this.register();
-
-        var frag = document.createDocumentFragment();
-        frag.innerHTML = this.rootElement;
-        document.body.insertBefore(frag, document.body.childNodes[0]);
     }
 
     Window.prototype.setTop = function () {
-        var thisZ = parseInt($(this.rootElement).css('z-index'));
+        var targetWindow = this.getInstance();
+        var thisZ = parseInt(targetWindow.css('z-index'));
         var topZ = windowList.length - 1;
 
         /* Return if already top window */
@@ -58,13 +84,13 @@ define('Window', ['common', 'jquery', 'jqueryui'], function (common, jquery, jqu
         var count = diff;
 
         /* Set this to top */
-        $(this.rootElement).css('z-index', topZ);
+        targetWindow.css('z-index', topZ);
 
         /* Reorder Z indicies */
         for (var i = 0; i < (topZ + 1) && count > 0; i++) {
             var window = $(windowList[i]);
             var windowZ = parseInt(window.css('z-index'));
-            var isSelf = $(this.rootElement).is(window);
+            var isSelf = targetWindow.is(window);
             var zMaskLevel = (topZ - diff);
 
             if (!isSelf && windowZ > zMaskLevel) {
@@ -73,8 +99,6 @@ define('Window', ['common', 'jquery', 'jqueryui'], function (common, jquery, jqu
             }
         }
     }
-
-    Window.prototype.rootElement = "";
 
     return Window;
 });

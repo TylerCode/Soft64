@@ -43,18 +43,6 @@ namespace Soft64UI
             base.InitializeComponent();
         }
 
-        public void CreateWindow(String name)
-        {
-            Invoke(new Action(() =>
-            {
-                switch (name.ToLower())
-                {
-                    default: break;
-                    case "memoryeditor": m_MemoryEditForm = new MemoryEditorForm(); m_MemoryEditForm.Show(); break;
-                }
-            }));
-        }
-
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
@@ -66,7 +54,6 @@ namespace Soft64UI
         private void HostBrowser_FrameLoadStart(object sender, FrameLoadStartEventArgs e)
         {
             ShowDevTools();
-            Focus();
         }
 
         public static void OnLogMessage(String logger, String level, String message)
