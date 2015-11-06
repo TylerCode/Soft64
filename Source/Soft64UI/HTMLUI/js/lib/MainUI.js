@@ -34,21 +34,29 @@
 
             /* Add logic for Z-ordering each widget */
             $('.windowShell').mousedown(function () {
+                var thisZ = parseInt($(this).css('z-index'));
+                var topZ = windowList.length - 1;
 
-                /* Set to top*/
-                $(this).css('z-index', windowList.length - 1);
+                /* Return if already top window */
+                if (thisZ == topZ) return;
 
-                /* Now push each window down a z level except the one at the bottom*/
-                for (var i = 0; i < windowList.length; i++) {
+                /* Compute the number of windows to change */
+                var diff = topZ - thisZ;
+                var count = diff;
 
+                /* Set this to top */
+                $(this).css('z-index', topZ);
+                
+                /* Reorder Z indicies */
+                for (var i = 0; i < (topZ + 1) && count > 0; i++) {
                     var window = $(windowList[i]);
+                    var windowZ = parseInt(window.css('z-index'));
+                    var isSelf = $(this).is(window);
+                    var zMaskLevel = (topZ - diff);
 
-                    if (!window.is($(this))) {
-                        var z = parseInt(window.css('z-index'));
-
-                        if (z >= 1) {
-                            window.css('z-index', z - 1);
-                        }
+                    if (!isSelf && windowZ > zMaskLevel) {
+                        window.css('z-index', --windowZ);
+                        count--;
                     }
                 }
             });
