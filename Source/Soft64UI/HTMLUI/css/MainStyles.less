@@ -68,17 +68,19 @@ div {
 
 #cartridgeBox {
     width: @divContentWidth;
-    .sectionBorder;
 }
 
 .emulog {
     width: @divContentWidth;
-    height: 300px;
-    .sectionBorder;
     font-size: 12pt;
     font-weight: normal;
     font-family: 'Lucida Console';
-    overflow-y: scroll;
+}
+
+#emulogWindow #windowContent {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 300px;
 }
 
 input[type="button"] {

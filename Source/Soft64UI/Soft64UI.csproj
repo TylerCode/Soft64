@@ -122,6 +122,7 @@
     <Compile Include="CEFWindowForm.cs" />
     <Compile Include="MainForm.cs" />
     <Compile Include="MemoryEditorForm.cs" />
+    <Compile Include="N64MemoryScriptObject.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="HTMLUI\css\jquery-ui.css">

@@ -56,6 +56,18 @@ namespace Soft64UI
             ShowDevTools();
         }
 
+        protected override void RegisterJSObjects()
+        {
+            HostBrowser.RegisterJsObject("n64Memory", new N64MemoryScriptObject());
+
+            base.RegisterJSObjects();
+        }
+
+        public void TestBytes(dynamic a)
+        {
+            Console.ResetColor();
+        }
+
         public static void OnLogMessage(String logger, String level, String message)
         {
             s_Current?.LogMessage(logger, level, message);

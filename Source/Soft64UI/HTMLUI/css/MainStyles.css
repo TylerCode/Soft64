@@ -67,22 +67,17 @@ div {
 }
 #cartridgeBox {
   width: 670px;
-  padding: 10px;
-  border: solid;
-  border-color: #b6ff2c;
-  border-width: thin;
 }
 .emulog {
   width: 670px;
-  height: 300px;
-  padding: 10px;
-  border: solid;
-  border-color: #b6ff2c;
-  border-width: thin;
   font-size: 12pt;
   font-weight: normal;
   font-family: 'Lucida Console';
-  overflow-y: scroll;
+}
+#emulogWindow #windowContent {
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 300px;
 }
 input[type="button"] {
   font-family: 'PT Sans', arial, serif;
