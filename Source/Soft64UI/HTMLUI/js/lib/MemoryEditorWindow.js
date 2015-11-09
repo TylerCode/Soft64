@@ -10,6 +10,13 @@
             return s;
         }
 
+        function appendHexCell(x, y, value, width) {
+            $('#hexGrid').append('<span class=hexchar data-cid=' + x.toString() + y.toString() + ' >' + d2h(value) + '</span>');
+
+            if (x >= (width - 1))
+                $('#hexGrid').append("<br />");
+        }
+
         var MemoryEditorWindow = function (params) {
             if (typeof params == 'object') {
                 Window.call(this, params);
@@ -20,6 +27,9 @@
         MemoryEditorWindow.prototype.constructor = MemoryEditorWindow;
 
         MemoryEditorWindow.prototype.refresh = function () {
+            /* Clear the hex grid */
+            $('#hexGrid').html("");
+
             var gridPixelHeight = $('#hexGrid').height();
             var fontPixelHeight = parseFloat($('#hexGrid').css('font-size'));
             var numLines = gridPixelHeight / (fontPixelHeight + 3.5);
@@ -30,21 +40,14 @@
             n64Memory.virtualMemoryAddress = 0;
             var buffer = new Uint8Array(n64Memory.readVirtualMemory(length), 0, length);
 
-            /* TODO: convert loops into single loop based on length */
+            for (var i = 0; i < length; i++) {
+                if (typeof buffer[i] == 'undefined')
+                    continue;
 
-            for (var y = 0; y < numLines; y++) {
-                for (var x = 0; x < width; x++) {
-                    var bufferPosition = (y * width) + x;
+                var x = i % width;
+                var y = (i - x) / width;
 
-                    if (typeof buffer[bufferPosition] == 'undefined')
-                        continue;
-
-                    $('#hexGrid').append('<span class=\'hexchar\' id=' + x.toString() + y.toString() + '>' + d2h(buffer[bufferPosition]) + '</span>');
-                    //$('#asciiGrid').append("<span class='asciichar'>.</span>");
-                }
-
-                $('#hexGrid').append("<br />");
-                //$('#asciiGrid').append("<br />");
+                appendHexCell(x, y, buffer[i], width);
             }
         }
 
