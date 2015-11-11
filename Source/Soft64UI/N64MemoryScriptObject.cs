@@ -37,6 +37,7 @@ namespace Soft64UI
             if (m_VMemStream.TryGetTarget(out stream))
             {
                 Byte[] buffer = new Byte[_count];
+                stream.Position = m_VMemPosition;
                 stream.Read(buffer, 0, _count);
                 return buffer;
             }
@@ -46,5 +47,15 @@ namespace Soft64UI
             }
         }
 
+        public void WriteVirtualMemoryByte(dynamic b)
+        {
+            Stream stream = null;
+
+            if (m_VMemStream.TryGetTarget(out stream))
+            {
+                stream.Position = this.m_VMemPosition;
+                stream.WriteByte(Convert.ToByte(b));
+            }
+        }
     }
 }
