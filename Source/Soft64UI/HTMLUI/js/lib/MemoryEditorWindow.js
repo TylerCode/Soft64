@@ -15,7 +15,6 @@
             hexElement.addClass('hexchar');
             hexElement.attr('data-cellx', position.x.toString());
             hexElement.attr('data-celly', position.y.toString());
-            hexElement.css('width', parseInt(hexGrid.css('font-size')) * 2);
             hexElement.html(d2h(value));
             hexElement.appendTo(hexGrid);
             

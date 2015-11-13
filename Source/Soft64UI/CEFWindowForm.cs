@@ -38,8 +38,6 @@ namespace Soft64UI
             this.AutoScaleMode = AutoScaleMode.Font;
             this.BackColor = Color.White;
             this.ClientSize = new Size(883, 642);
-            this.FormBorderStyle = FormBorderStyle.FixedSingle;
-            this.MaximizeBox = false;
         }
 
         protected virtual void RegisterJSObjects()

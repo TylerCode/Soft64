@@ -3,6 +3,7 @@
   background-repeat: repeat;
   color: #b6ff2c;
   font-family: 'DejaVu Sans';
+  overflow: hidden;
 }
 .info {
   font-weight: 100;
@@ -101,20 +102,26 @@ input[type="button"] {
   color: white !important;
   background: rgba(255, 70, 0, 0.41) !important;
 }
+.hexEditorStyle {
+  font-size: small;
+}
 .hexchar {
+  font-size: small;
   padding-right: 7px;
   padding-left: 7px;
   border-bottom: 1px solid white;
   border-left: 1px solid white;
-  color: #ffd070;
+  color: #ad00de;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   display: inline-block;
+  width: 16px;
 }
 .asciichar {
   margin: 0, 5px, 10px, 0;
 }
 .hexGrid {
   height: 400px;
-  background-color: rgba(0, 64, 60, 0.44);
+  background-color: #2e2e2e;
   display: inline-block;
 }
 .windowShell {

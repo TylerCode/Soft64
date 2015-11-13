@@ -8,6 +8,7 @@ body {
     background-repeat: repeat;
     color: @forecolor;
     font-family: 'DejaVu Sans';
+    overflow: hidden;
 }
 
 .info {
@@ -122,13 +123,21 @@ input[type="button"] {
     background: rgba(255, 70, 0, 0.41) !important;
 }
 
+.hexEditorStyle {
+    font-size: small;
+}
+
 .hexchar {
-    padding-right: 7px;
-    padding-left: 7px;
+    .hexEditorStyle;
+    @pad: 7px;
+    padding-right: @pad;
+    padding-left:@pad;
     border-bottom: 1px solid white;
     border-left: 1px solid white;
-    color: #ffd070;
+    color: #ad00de;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     display: inline-block;
+    width: 16px;
 }
 
 .asciichar {
@@ -137,7 +146,7 @@ input[type="button"] {
 
 .hexGrid {
     height: 400px;
-    background-color: rgba(0, 64, 60, 0.44);
+    background-color: rgb(46, 46, 46);
     display:inline-block;
 }
 

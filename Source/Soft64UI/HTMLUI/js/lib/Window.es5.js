@@ -41,25 +41,15 @@ define('Window', ['jquery', 'jqueryui'], function (jquery, jqueryui) {
 
     Window.prototype.idName = "";
 
-    Window.prototype.X = 0;
-
-    Window.prototype.Y = 0;
-
     Window.prototype.getElementByCid = function (cid) {
-        var e = this.getInstance();
-        if (typeof e == 'undefined') throw new TypeError("e cannot be null");
-
-        if (typeof cid != 'string') throw new TypeError("cid must be type of string");
-
-        return e.find('[data-cid=' + cid + ']');
+        return this.getInstance().find('[data-cid=' + cid + ']');
     };
 
-    Window.prototype.create = function (url) {
+    Window.prototype.create = function (url, offset) {
         var window = $(document.createElement('div'));
 
         window.attr('id', this.idName);
         window.addClass('ui-widget-content windowShell');
-        window.position(this.X, this.Y);
 
         var header = $(document.createElement('div'));
         header.addClass('sectionHeader');

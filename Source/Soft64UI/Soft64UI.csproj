@@ -125,13 +125,10 @@
     <Compile Include="N64MemoryScriptObject.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Content Include="HTMLUI\css\jquery-ui.css">
+    <Content Include="HTMLUI\css\jquery-ui.min.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="HTMLUI\css\jquery-ui.structure.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="HTMLUI\css\jquery-ui.theme.css">
+    <Content Include="HTMLUI\css\jquery-ui.structure.min.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="HTMLUI\css\MainStyles.css">
@@ -144,40 +141,7 @@
     <Content Include="HTMLUI\img\tooplate_body.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="HTMLUI\img\ui-bg_glass_20_555555_1x400.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="HTMLUI\img\ui-bg_glass_40_0078a3_1x400.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="HTMLUI\img\ui-bg_glass_40_ffc73d_1x400.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="HTMLUI\img\ui-bg_gloss-wave_25_333333_500x100.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="HTMLUI\img\ui-bg_highlight-soft_80_eeeeee_1x100.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="HTMLUI\img\ui-bg_inset-soft_25_000000_1x100.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="HTMLUI\img\ui-bg_inset-soft_30_f58400_1x100.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="HTMLUI\img\ui-icons_222222_256x240.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="HTMLUI\img\ui-icons_4b8e0b_256x240.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="HTMLUI\img\ui-icons_a83300_256x240.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="HTMLUI\img\ui-icons_cccccc_256x240.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="HTMLUI\img\ui-icons_ffffff_256x240.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="HTMLUI\js\app\main.es5.js">
