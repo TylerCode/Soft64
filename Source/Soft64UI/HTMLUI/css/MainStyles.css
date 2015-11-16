@@ -103,21 +103,31 @@ input[type="button"] {
   background: rgba(255, 70, 0, 0.41) !important;
 }
 .hexEditorStyle {
-  font-size: small;
-}
-.hexchar {
-  font-size: small;
-  padding-right: 7px;
-  padding-left: 7px;
-  border-bottom: 1px solid white;
-  border-left: 1px solid white;
-  color: #ad00de;
+  color: #cede00;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   display: inline-block;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+}
+.hexchar {
+  color: #cede00;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  display: inline-block;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+  padding-right: 7px;
+  padding-left: 7px;
   width: 16px;
 }
 .asciichar {
-  margin: 0, 5px, 10px, 0;
+  color: #cede00;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  display: inline-block;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+  padding-right: 4px;
+  padding-left: 4px;
+  width: 8px;
 }
 .hexGrid {
   height: 400px;
@@ -134,4 +144,7 @@ input[type="button"] {
 }
 .hexCaret {
   background-color: rgba(0, 0, 255, 0.34);
+}
+#memoryEditorWindow #windowContent {
+  padding: 5px;
 }

@@ -10,17 +10,34 @@
             return s.toUpperCase();
         }
 
-        function appendHexCell(hexGrid, position, value, width) {
+        function ascii(v) {
+            return String.fromCharCode(v).replace(/[^\x21-\x7E]+/g, '.');
+        }
+
+        function appendHexCell(grid, position, value, width) {
             var hexElement = $(document.createElement('div'));
             hexElement.addClass('hexchar');
             hexElement.attr('data-cellx', position.x.toString());
             hexElement.attr('data-celly', position.y.toString());
             hexElement.html(d2h(value));
-            hexElement.appendTo(hexGrid);
+            hexElement.appendTo(grid);
             
 
             if (position.x >= (width - 1))
-                hexGrid.append("<br />");
+                grid.append("<br />");
+        }
+
+        function appendAsciiCell(grid, position, value, width) {
+            var asciiElement = $(document.createElement('div'));
+            asciiElement.addClass('asciichar');
+            asciiElement.attr('data-cellx', position.x.toString());
+            asciiElement.attr('data-celly', position.y.toString());
+            asciiElement.html(ascii(value));
+            asciiElement.appendTo(grid);
+
+
+            if (position.x >= (width - 1))
+                grid.append("<br />");
         }
 
         function getCell (grid, x, y) {
@@ -49,7 +66,9 @@
         MemoryEditorWindow.prototype.refresh = function () {
             /* Clear the hex grid */
             var hexGrid = this.getElementByCid('hexGrid');
+            var asciiGrid = this.getElementByCid('asciiGrid');
             hexGrid.html("");
+            asciiGrid.html("");
 
             var gridPixelHeight = hexGrid.height();
             var fontPixelHeight = parseFloat(hexGrid.css('font-size'));
@@ -66,6 +85,8 @@
 
             this.memoryBuffer = new Uint8Array(n64Memory.readVirtualMemory(length), 0, length);
 
+            this.moveCaret(0, 0);
+
             for (var i = 0; i < length; i++) {
                 if (typeof this.memoryBuffer[i] == 'undefined')
                     continue;
@@ -74,16 +95,27 @@
                 var y = (i - x) / this.gridWidth;
 
                 appendHexCell(hexGrid, { x: x, y: y }, this.memoryBuffer[i], this.gridWidth);
+                appendAsciiCell(asciiGrid, { x: x, y: y }, this.memoryBuffer[i], this.gridWidth);
 
                 /* Register cell events */
                 var thisWindow = this;
-                var cell = getCell(hexGrid, x, y);
+                var cellHex = getCell(hexGrid, x, y);
 
                 (function (x, y, cell) {
                     cell.click(function () {
+                        thisWindow.editTypeMode = 0;
                         thisWindow.moveCaret(x, y);
                     })
-                })(x, y, cell); //pass in the current value
+                })(x, y, cellHex); //pass in the current value
+
+                var cellAscii = getCell(asciiGrid, x, y);
+
+                (function (x, y, cell) {
+                    cell.click(function () {
+                        thisWindow.editTypeMode = 1;
+                        thisWindow.moveCaret(x, y);
+                    })
+                })(x, y, cellAscii); //pass in the current value
             }
         }
 
@@ -105,10 +137,19 @@
         MemoryEditorWindow.prototype.leftNibble = false;
 
         MemoryEditorWindow.prototype.moveCaret = function (x, y) {
+            var targetGrid = null;
+
+            if (this.editTypeMode == 0) {
+                targetGrid = this.getElementByCid('hexGrid');
+            }
+            else {
+                targetGrid = this.getElementByCid('asciiGrid');
+            }
+
             this.leftNibble = false;
             this.selectedCell.x = x;
             this.selectedCell.y = y;
-            var cell = getCell(this.getElementByCid('hexGrid'), x, y);
+            var cell = getCell(targetGrid, x, y);
             var hexGridCaret = this.getElementByCid('hexGridCaret');
             hexGridCaret.css('height', cell.outerHeight());
             hexGridCaret.css('width', cell.outerWidth());
@@ -119,7 +160,15 @@
             getCell(this.getElementByCid('hexGrid'), x, y).html(d2h(newValue));
         }
 
+        MemoryEditorWindow.prototype.updateAsciiValue = function (x, y, newValue) {
+            getCell(this.getElementByCid('asciiGrid'), x, y).html(ascii(newValue));
+        }
+
+        MemoryEditorWindow.prototype.editTypeMode = 0;
+
         MemoryEditorWindow.prototype.writeNextNibble = function (value) {
+            this.editTypeMode = 0;
+
             var bufferOffset = (this.selectedCell.y * this.gridWidth) + this.selectedCell.x;
             var oldValue = this.memoryBuffer[bufferOffset];
 
@@ -132,12 +181,29 @@
 
             this.memoryBuffer[bufferOffset] = byteValue;
             this.updateHexValue(this.selectedCell.x, this.selectedCell.y, byteValue);
+            this.updateAsciiValue(this.selectedCell.x, this.selectedCell.y, byteValue);
 
             n64Memory.virtualMemoryAddress = this.currentAddress + bufferOffset;
             n64Memory.writeVirtualMemoryByte(byteValue);
 
             if (!this.leftNibble)
                 this.moveCaretNext();
+        }
+
+        MemoryEditorWindow.prototype.writeNextChar = function (char) {
+            this.editTypeMode = 1;
+
+            var bufferOffset = (this.selectedCell.y * this.gridWidth) + this.selectedCell.x;
+            var byteValue = char.charCodeAt(0);
+
+            this.memoryBuffer[bufferOffset] = byteValue;
+            this.updateHexValue(this.selectedCell.x, this.selectedCell.y, byteValue);
+            this.updateAsciiValue(this.selectedCell.x, this.selectedCell.y, byteValue);
+
+            n64Memory.virtualMemoryAddress = this.currentAddress + bufferOffset;
+            n64Memory.writeVirtualMemoryByte(byteValue);
+
+            this.moveCaretNext();
         }
 
         MemoryEditorWindow.prototype.initialize = function () {
@@ -149,9 +215,13 @@
                 thisWindow.refresh();
             });
 
+            this.getElementByCid('buttonPC').click(function () {
+                thisWindow.getElementByCid('txtBoxAddress').val(n64Memory.getPC().toString(16));
+                thisWindow.refresh();
+            })
+
             /* Register hex grid key events */
-            var hexGrid = this.getElementByCid('hexGrid');
-            hexGrid.keypress(function (e) {
+            this.getElementByCid('hexGrid').keypress(function (e) {
                 var char = String.fromCharCode(e.keyCode);
 
                 switch (char.toLowerCase()) {
@@ -179,6 +249,10 @@
                     default: break;
                 }
             })
+
+            this.getElementByCid('asciiGrid').keypress(function (e) {
+                thisWindow.writeNextChar(String.fromCharCode(e.keyCode));
+            });
 
             /* call the base function*/
             Window.prototype.initialize.call(this);

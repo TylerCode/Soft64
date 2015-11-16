@@ -124,7 +124,12 @@ input[type="button"] {
 }
 
 .hexEditorStyle {
-    font-size: small;
+    color: #cede00;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    display: inline-block;
+    @borderColor: rgba(255, 255, 255, 0.12);
+    border-bottom: 1px solid @borderColor;
+    border-left: 1px solid @borderColor;
 }
 
 .hexchar {
@@ -132,16 +137,15 @@ input[type="button"] {
     @pad: 7px;
     padding-right: @pad;
     padding-left:@pad;
-    border-bottom: 1px solid white;
-    border-left: 1px solid white;
-    color: #ad00de;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    display: inline-block;
     width: 16px;
 }
 
 .asciichar {
-    margin: 0, 5px, 10px, 0;
+    .hexEditorStyle;
+    @pad: 4px;
+    padding-right: @pad;
+    padding-left:@pad;
+    width: 8px;
 }
 
 .hexGrid {
@@ -161,4 +165,8 @@ input[type="button"] {
 
 .hexCaret {
     background-color: rgba(0, 0, 255, 0.34);
+}
+
+#memoryEditorWindow #windowContent {
+    padding: 5px;
 }

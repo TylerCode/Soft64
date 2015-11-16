@@ -28,6 +28,11 @@ namespace Soft64UI
             }
         }
 
+        public dynamic GetPC()
+        {
+            return Machine.Current.DeviceCPU.State.PC;
+        }
+
         public dynamic ReadVirtualMemory (dynamic count)
         {
             Stream stream = null;
