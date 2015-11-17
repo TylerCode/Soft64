@@ -1,4 +1,5 @@
 ﻿using Soft64;
+using Soft64.MipsR4300.Debugging;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,7 +16,7 @@ namespace Soft64UI
 
         public N64MemoryScriptObject()
         {
-            m_VMemStream = new WeakReference<Stream>(Machine.Current.DeviceCPU.VirtualMemoryStream);
+            m_VMemStream = new WeakReference<Stream>(new VMemViewStream());
         }
 
         public dynamic VirtualMemoryAddress
@@ -24,7 +25,7 @@ namespace Soft64UI
 
             set
             {
-                m_VMemPosition = Convert.ToInt64(value);
+                m_VMemPosition = (Int64)(UInt32)(UInt64)value;
             }
         }
 

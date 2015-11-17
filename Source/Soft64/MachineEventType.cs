@@ -25,9 +25,9 @@ using System.Threading.Tasks;
 
 namespace Soft64
 {
-    public enum MachineEventType
+    public enum MachineEventType : int
     {
-        Started,
+        Started = 0,
         PreBooted,
         Booted,
         Running,

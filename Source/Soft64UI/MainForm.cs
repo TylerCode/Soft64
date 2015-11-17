@@ -106,5 +106,10 @@ namespace Soft64UI
             var reader = File.OpenText(fullpath);
             return reader.ReadToEnd();
         }
+
+        public void SetDebugStart()
+        {
+            m_BreakOnBootMode = BootBreakMode.Post;
+        }
     }
 }

@@ -79,9 +79,8 @@
             this.gridHeight = (length / this.gridWidth) | 0;
 
             var addressField = this.getElementByCid('txtBoxAddress');
-            this.currentAddress = parseInt(addressField.value, 16) | 0;
-
-            n64Memory.virtualMemoryAddress = isNaN(this.currentAddress) ? 0 | 0 : this.currentAddress;
+            this.currentAddress = parseInt(addressField.val(), 16) | 0;
+            n64Memory.virtualMemoryAddress = this.currentAddress;
 
             this.memoryBuffer = new Uint8Array(n64Memory.readVirtualMemory(length), 0, length);
 

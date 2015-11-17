@@ -43,6 +43,11 @@ require(['Window', 'jquery', 'MemoryEditorWindow'], function (Window, jquery, Me
         win.initialize();
     });
 
+    menuWindow.getElementByCid('btnDebugStart').click(function () {
+        currentForm.setDebugStart();
+        currentForm.runEmu();
+    });
+
     var emulogContainer = emulogWindow.getElementByCid('emulog');
 
     /* Register emulation log events */
