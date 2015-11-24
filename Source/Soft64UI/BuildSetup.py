@@ -40,42 +40,38 @@ for dirName, subdirList, fileList in os.walk(htmluiDir):
 	for fname in fileList:
 		fileCopyList.append(dirName + "/" + fname)
 		
+def processFile(ext, filelist, basename, debugMode):
+	minifiedFound = bool(minifiedRE.search(basename))
+	originFile = file.split('.')[0] + ext
+	
+	# If we are processing the orignal source file, add it to the list for now
+	if not minifiedFound and originFile in filelist:
+		filesToCopy.append(file)
+	else:
+		# if the file is minified, do some checks
+		if minifiedFound and originFile in filelist:
+			if debugMode:
+				if not originFile in filesToCopy:
+					# In debug mode, copy the original file if doesn't exist yet
+					filesToCopy.append(originFile)
+			else:
+				# Use the minified version and remove original copy if its there
+				if originFile in fileCopyList:
+					filesToCopy.remove(originFile);
+				filesToCopy.append(file)
+		
 def processJavascriptFile(filelist, file, basename, debugMode):
 	if bool(es5Re.search(basename)):
 		return
 
-	minifiedFound = bool(minifiedRE.search(basename))
-	originFile = file.split('.')[0] + ".js"
-	
-	if minifiedFound and originFile in filelist:
-		print("Javascript: Detected minified: " + basename)
-	
-		if debugMode:
-			print("Javascript: File copy skipped for debug build")
-			filesToCopy.append(originFile)
-		else:
-			filesToCopy.append(file)
-	else:
-		filesToCopy.append(file)
+	processFile(".js", filelist, basename, debugMode)
 		
 
 def removeFile(filelist, file, basename, debugMode):
 	return
 	
 def processCssFile(filelist, file, basename, debugMode):
-	minifiedFound = bool(minifiedRE.search(basename))
-	originFile = file.split('.')[0] + ".css"
-	
-	if minifiedFound and originFile in filelist:
-		print("CSS: Detected minified: " + basename)
-	
-		if debugMode:
-			print("CSS: File copy skipped for debug build")
-			filesToCopy.append(originFile)
-		else:
-			filesToCopy.append(file)
-	else:
-		filesToCopy.append(file)
+	processFile(".css", filelist, basename, debugMode)
 		
 fileProcess = {
 	".js": processJavascriptFile,
