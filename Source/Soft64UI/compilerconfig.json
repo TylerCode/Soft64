@@ -1,14 +1,17 @@
-﻿[
+[
   {
     "outputFile": "HTMLUI/css/MainStyles.css",
-    "inputFile": "HTMLUI/css/MainStyles.less"
-  },
-  {
-    "outputFile": "HTMLUI/js/app/main.es5.js",
-    "inputFile": "HTMLUI/js/app/main.js"
+    "inputFile": "HTMLUI/css/MainStyles.less",
+    "sourceMap": false
   },
   {
     "outputFile": "HTMLUI/js/lib/Window.es5.js",
-    "inputFile": "HTMLUI/js/lib/Window.js"
+    "inputFile": "HTMLUI/js/lib/Window.js",
+    "sourceMap": false
+  },
+  {
+    "outputFile": "HTMLUI/js/lib/MemoryEditorWindow.es5.js",
+    "inputFile": "HTMLUI/js/lib/MemoryEditorWindow.js",
+    "sourceMap": false
   }
 ]

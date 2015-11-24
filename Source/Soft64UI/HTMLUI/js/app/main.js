@@ -1,10 +1,18 @@
-﻿require.config({
+﻿var jsMinExt = ".es5.min";
+var cssMinExt = ".min.css";
+
+if (mode == 'debug') {
+    jsMinExt = ""
+    cssMinExt = ".css"
+}
+
+require.config({
     baseUrl: 'js/lib',
     paths: {
         jquery: 'jquery-1.11.3.min',
         jqueryui: 'jquery-ui.min',
-        Window: 'Window.es5.min',
-        MemoryEditorWindow: 'MemoryEditorWindow',
+        Window: 'Window' + jsMinExt,
+        MemoryEditorWindow: 'MemoryEditorWindow' + jsMinExt,
     }
 });
 
@@ -14,6 +22,10 @@ require(['Window', 'jquery', 'MemoryEditorWindow'],
     function (Window
              , jquery
              , MemoryEditorWindow) {
+
+
+
+        $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "css/MainStyles" + cssMinExt));
 
         /* Main Menu Window */
         var menuWindow = new Window({ title: "Main Menu", idName: "mainMenuWindow" });
