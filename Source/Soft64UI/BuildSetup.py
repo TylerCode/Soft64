@@ -61,8 +61,9 @@ def processFile(ext, filelist, basename, debugMode):
 				filesToCopy.append(file)
 		
 def processJavascriptFile(filelist, file, basename, debugMode):
-	if bool(es5Re.search(basename)):
-		return
+	if not bool(minifiedRE.search(basename)):
+		if bool(es5Re.search(basename)):
+			return
 
 	processFile(".js", filelist, basename, debugMode)
 		
