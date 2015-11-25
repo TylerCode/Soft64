@@ -40,13 +40,21 @@ for dirName, subdirList, fileList in os.walk(htmluiDir):
 	for fname in fileList:
 		fileCopyList.append(dirName + "/" + fname)
 		
+def checkForMin(ext, fname, list):
+	regex = re.compile(fname + "+[.es5]*.min" + ext)
+	for f in list:
+		if bool(regex.match(os.path.basename(f))):
+			return True
+	return False
+		
 def processFile(ext, filelist, basename, debugMode):
 	minifiedFound = bool(minifiedRE.search(basename))
 	originFile = file.split('.')[0] + ext
 	
 	# If we are processing the orignal source file, add it to the list for now
-	if not minifiedFound and originFile in filelist:
-		filesToCopy.append(file)
+	if not minifiedFound and originFile in filelist and not file in filesToCopy:
+		if debugMode or not checkForMin(ext, basename.split('.')[0], filesToCopy):
+			filesToCopy.append(file)
 	else:
 		# if the file is minified, do some checks
 		if minifiedFound and originFile in filelist:
@@ -59,12 +67,14 @@ def processFile(ext, filelist, basename, debugMode):
 				if originFile in filesToCopy:
 					filesToCopy.remove(originFile);
 				filesToCopy.append(file)
+		else:
+			if not file in filesToCopy:
+				filesToCopy.append(file)
 		
 def processJavascriptFile(filelist, file, basename, debugMode):
 	if bool(es5Re.search(basename)) and not bool(minifiedRE.search(basename)):
 		return
 	else:
-		print("JS: " + file)
 		processFile(".js", filelist, basename, debugMode)
 		
 
