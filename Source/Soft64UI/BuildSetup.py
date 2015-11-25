@@ -56,16 +56,16 @@ def processFile(ext, filelist, basename, debugMode):
 					filesToCopy.append(originFile)
 			else:
 				# Use the minified version and remove original copy if its there
-				if originFile in fileCopyList:
+				if originFile in filesToCopy:
 					filesToCopy.remove(originFile);
 				filesToCopy.append(file)
 		
 def processJavascriptFile(filelist, file, basename, debugMode):
-	if not bool(minifiedRE.search(basename)):
-		if bool(es5Re.search(basename)):
-			return
-
-	processFile(".js", filelist, basename, debugMode)
+	if bool(es5Re.search(basename)) and not bool(minifiedRE.search(basename)):
+		return
+	else:
+		print("JS: " + file)
+		processFile(".js", filelist, basename, debugMode)
 		
 
 def removeFile(filelist, file, basename, debugMode):
