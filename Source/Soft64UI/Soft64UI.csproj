@@ -154,7 +154,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="HTMLUI\img\tooplate_body.png" />
-    <Content Include="HTMLUI\img\ui-bg_gloss-wave_25_333333_500x100.png" />
     <Content Include="HTMLUI\js\app\main.js" />
     <Content Include="HTMLUI\js\lib\jquery-ui.min.js" />
     <Content Include="HTMLUI\js\lib\MemoryEditorWindow.es5.js">

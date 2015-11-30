@@ -215,7 +215,7 @@
             });
 
             this.getElementByCid('buttonPC').click(function () {
-                thisWindow.getElementByCid('txtBoxAddress').val(n64Memory.getPC().toString(16));
+                thisWindow.getElementByCid('txtBoxAddress').val(n64Memory.getPC().toString(16).toUpperCase());
                 thisWindow.refresh();
             })
 

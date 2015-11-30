@@ -14,8 +14,9 @@ body {
 .info {
     font-weight: 100;
     color: @infocolor;
-    font-size: small;
-    font-family: 'Lucida Console';
+    font-size: 12px;
+    font-weight: bold;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .logmessage {
@@ -53,11 +54,15 @@ div {
 }
 
 .sectionHeader {
-    font-family: 'Lucida Console';
-    font-size: medium;
-    background-image: url(../img/ui-bg_gloss-wave_25_333333_500x100.png);
-    background-size: contain;
-    padding: 5px;
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+    @bcolor: rgba(0,0,0,0.5);
+    border: 1px solid  @bcolor;
+	border-bottom: 3px solid @bcolor;
+    background: rgba(198, 198, 198, 0.41);
+    padding: 3px;
 }
 
 .sectionBorder {
@@ -85,25 +90,11 @@ div {
 }
 
 input[type="button"] {
-	font-family: 'PT Sans', arial, serif;
-	color:@forecolor;
-	text-align:center;
-	font-size:12pt;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	color:white;
+	font-size:13px;
 	font-weight:bold;
 	padding:7px;
-
-    text-shadow:
-    -1px -1px 0 #000, 
-    1px -1px 0 #000, 
-    -1px 1px 0 #000, 
-    1px 1px 0 #000;
-
-    @buttonBoxShadow:
-         0 2px 8px rgba(0,0,0,0.5),
-        inset 0 1px rgba(255,255,255,0.3),
-        inset 0 10px rgba(255,255,255,0.2),
-        inset 0 10px 20px rgba(255,255,255,0.25),
-        inset 0 -15px 30px rgba(0,0,0,0.3);
 
     @buttonBorderColor: rgba(0,0,0,0.5);
 
@@ -112,31 +103,26 @@ input[type="button"] {
 	border-radius: 3px;
     margin:10px 2px;
 	background: rgba(168, 255, 0, 0.41);
-	box-shadow:  @buttonBoxShadow;
     display: inline-block;
 	text-decoration: none;
 }
 
 .debugButton {
-    font-size: 10px !important;
-    color: white !important;
     background: rgba(255, 70, 0, 0.41) !important;
 }
 
 .hexEditorStyle {
-    color: #cede00;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: limegreen;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 10pt;
     display: inline-block;
-    @borderColor: rgba(255, 255, 255, 0.12);
-    border-bottom: 1px solid @borderColor;
-    border-left: 1px solid @borderColor;
+    background-color: black;
 }
 
 .hexchar {
     .hexEditorStyle;
     padding-right: 8px;
-    padding-left:3px;
-    width: 16px;
+    width: 14px;
 }
 
 .asciichar {
@@ -144,12 +130,12 @@ input[type="button"] {
     @pad: 4px;
     padding-right: @pad;
     padding-left:@pad;
-    width: 8px;
+    width: 4px;
 }
 
 .hexGrid {
     height: 400px;
-    background-color: rgb(46, 46, 46);
+    background-color: black;
     display:inline-block;
 }
 

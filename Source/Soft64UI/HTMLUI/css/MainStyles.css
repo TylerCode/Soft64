@@ -8,42 +8,48 @@
 .info {
   font-weight: 100;
   color: #00b1ff;
-  font-size: small;
-  font-family: 'Lucida Console';
+  font-size: 12px;
+  font-weight: bold;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 .logmessage {
   font-weight: 100;
   color: #00b1ff;
-  font-size: small;
-  font-family: 'Lucida Console';
+  font-size: 12px;
+  font-weight: bold;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 .logmessage_fatal {
   font-weight: 100;
   color: #00b1ff;
-  font-size: small;
-  font-family: 'Lucida Console';
+  font-size: 12px;
+  font-weight: bold;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: white;
   color: red;
 }
 .logmessage_warning {
   font-weight: 100;
   color: #00b1ff;
-  font-size: small;
-  font-family: 'Lucida Console';
+  font-size: 12px;
+  font-weight: bold;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: yellow;
 }
 .logmessage_error {
   font-weight: 100;
   color: #00b1ff;
-  font-size: small;
-  font-family: 'Lucida Console';
+  font-size: 12px;
+  font-weight: bold;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: red;
 }
 .logmessage_debug {
   font-weight: 100;
   color: #00b1ff;
-  font-size: small;
-  font-family: 'Lucida Console';
+  font-size: 12px;
+  font-weight: bold;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: #b367ff;
 }
 .centered {
@@ -54,11 +60,14 @@ div {
   display: block;
 }
 .sectionHeader {
-  font-family: 'Lucida Console';
-  font-size: medium;
-  background-image: url(../img/ui-bg_gloss-wave_25_333333_500x100.png);
-  background-size: contain;
-  padding: 5px;
+  color: white;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 13px;
+  font-weight: bold;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-bottom: 3px solid rgba(0, 0, 0, 0.5);
+  background: rgba(198, 198, 198, 0.41);
+  padding: 3px;
 }
 .sectionBorder {
   padding: 10px;
@@ -81,57 +90,51 @@ div {
   height: 300px;
 }
 input[type="button"] {
-  font-family: 'PT Sans', arial, serif;
-  color: #b6ff2c;
-  text-align: center;
-  font-size: 12pt;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: white;
+  font-size: 13px;
   font-weight: bold;
   padding: 7px;
-  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
   border: 1px solid rgba(0, 0, 0, 0.5);
   border-bottom: 3px solid rgba(0, 0, 0, 0.5);
   border-radius: 3px;
   margin: 10px 2px;
   background: rgba(168, 255, 0, 0.41);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5), inset 0 1px rgba(255, 255, 255, 0.3), inset 0 10px rgba(255, 255, 255, 0.2), inset 0 10px 20px rgba(255, 255, 255, 0.25), inset 0 -15px 30px rgba(0, 0, 0, 0.3);
   display: inline-block;
   text-decoration: none;
 }
 .debugButton {
-  font-size: 10px !important;
-  color: white !important;
   background: rgba(255, 70, 0, 0.41) !important;
 }
 .hexEditorStyle {
-  color: #cede00;
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  color: limegreen;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 10pt;
   display: inline-block;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-  border-left: 1px solid rgba(255, 255, 255, 0.12);
+  background-color: black;
 }
 .hexchar {
-  color: #cede00;
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  color: limegreen;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 10pt;
   display: inline-block;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-  border-left: 1px solid rgba(255, 255, 255, 0.12);
+  background-color: black;
   padding-right: 8px;
-  padding-left: 3px;
-  width: 16px;
+  width: 14px;
 }
 .asciichar {
-  color: #cede00;
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  color: limegreen;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 10pt;
   display: inline-block;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-  border-left: 1px solid rgba(255, 255, 255, 0.12);
+  background-color: black;
   padding-right: 4px;
   padding-left: 4px;
-  width: 8px;
+  width: 4px;
 }
 .hexGrid {
   height: 400px;
-  background-color: #2e2e2e;
+  background-color: black;
   display: inline-block;
 }
 .windowShell {
