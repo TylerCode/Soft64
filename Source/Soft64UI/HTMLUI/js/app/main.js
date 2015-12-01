@@ -13,6 +13,7 @@ require.config({
         jqueryui: 'jquery-ui.min',
         Window: 'Window' + jsMinExt,
         MemoryEditorWindow: 'MemoryEditorWindow' + jsMinExt,
+        HexEditor: 'HexEditor' + jsMinExt,
     }
 });
 
@@ -22,8 +23,6 @@ require(['Window', 'jquery', 'MemoryEditorWindow'],
     function (Window
              , jquery
              , MemoryEditorWindow) {
-
-
 
         $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "css/MainStyles" + cssMinExt));
 
@@ -81,6 +80,8 @@ require(['Window', 'jquery', 'MemoryEditorWindow'],
             var output = '<span class=' + logStyle + '>' + logger + ': ' + message + '</span><br />';
 
             emulogContainer.append(output);
+            var logContent = $("#emulogWindow #windowContent");
+            logContent.scrollTop(logContent.height());
         });
 
         /* Event for when user selects cartridge file */

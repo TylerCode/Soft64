@@ -155,6 +155,13 @@
     </Content>
     <Content Include="HTMLUI\img\tooplate_body.png" />
     <Content Include="HTMLUI\js\app\main.js" />
+    <Content Include="HTMLUI\js\lib\HexEditor.es5.js">
+      <DependentUpon>HexEditor.js</DependentUpon>
+    </Content>
+    <Content Include="HTMLUI\js\lib\HexEditor.es5.min.js">
+      <DependentUpon>HexEditor.es5.js</DependentUpon>
+    </Content>
+    <Content Include="HTMLUI\js\lib\HexEditor.js" />
     <Content Include="HTMLUI\js\lib\jquery-ui.min.js" />
     <Content Include="HTMLUI\js\lib\MemoryEditorWindow.es5.js">
       <DependentUpon>MemoryEditorWindow.js</DependentUpon>
