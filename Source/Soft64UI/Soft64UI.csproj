@@ -146,13 +146,6 @@
     <Content Include="BuildSetup.py" />
     <Content Include="HTMLUI\css\jquery-ui.min.css" />
     <Content Include="HTMLUI\css\jquery-ui.structure.min.css" />
-    <Content Include="HTMLUI\css\MainStyles.css">
-      <DependentUpon>MainStyles.less</DependentUpon>
-    </Content>
-    <Content Include="HTMLUI\css\MainStyles.min.css">
-      <DependentUpon>MainStyles.css</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="HTMLUI\img\tooplate_body.png" />
     <Content Include="HTMLUI\js\app\main.js" />
     <Content Include="HTMLUI\js\lib\HexEditor.es5.js">
