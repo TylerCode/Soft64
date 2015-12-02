@@ -30,3 +30,5 @@ Source/ipch
 /Source/CompareEngine.Mupen/mupen64plus-core/projects/VisualStudio2013/x64/Debug
 Source/Soft64Compare/CompareEngine.Mupen/Debug
 
+/Source/Soft64UI/HTMLUI/css/MainStyles.css
+/Source/Soft64UI/HTMLUI/css/MainStyles.min.css

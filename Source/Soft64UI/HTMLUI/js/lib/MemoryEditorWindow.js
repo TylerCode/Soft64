@@ -1,10 +1,16 @@
 ﻿define('MemoryEditorWindow', ['jquery', 'jqueryui', 'Window', "HexEditor"],
     function (jquery, jqueryui, Window, HexEditor) {
-
         var MemoryEditorWindow = function (params) {
             if (typeof params == 'object') {
                 Window.call(this, params);
             }
+        }
+
+        function merge_options(obj1, obj2) {
+            var obj3 = {};
+            for (var attrname in obj1) { obj3[attrname] = obj1[attrname]; }
+            for (var attrname in obj2) { obj3[attrname] = obj2[attrname]; }
+            return obj3;
         }
 
         MemoryEditorWindow.prototype.hexEditor = null;
@@ -19,14 +25,19 @@
         }
 
         MemoryEditorWindow.prototype.initialize = function () {
-            this.hexEditor = new HexEditor({
+            var hexConfig = {
                 'hexGrid': this.getElementByCid('hexGrid'),
                 'asciiGrid': this.getElementByCid('asciiGrid'),
                 'editorCaret': this.getElementByCid('hexGridCaret'),
-                'getVAddress': function () { return n64Memory.virtualMemoryAddress | 0 },
-                'setVAddress': function (address) { n64Memory.virtualMemoryAddress = address | 0 },
-                'readVMemory': function (length) { return new Uint8Array(n64Memory.readVirtualMemory(length | 0), 0, length | 0); }
-            });
+            };
+
+            var virtualMemoryConfig = {
+                'setOffset': function (address) { n64Memory.virtualMemoryAddress = address | 0 },
+                'readBytes': function (length) { return new Uint8Array(n64Memory.readVirtualMemory(length | 0), 0, length | 0); },
+                'writeByte': function (value) { n64Memory.writeVirtualMemoryByte(value); },
+            };
+
+            this.hexEditor = new HexEditor(merge_options(hexConfig, virtualMemoryConfig));
 
             this.refresh();
 

@@ -55,11 +55,11 @@
     HexEditor.prototype.editTypeMode = 0;
 
     /* Overridden by configuration */
-    HexEditor.prototype.getVAddress = function () { return 0 };
-    HexEditor.prototype.setVAddress = function (v) { };
-    HexEditor.prototype.readVMemory = function (length) {
+    HexEditor.prototype.setOffset = function (v) { };
+    HexEditor.prototype.readBytes = function (length) {
         return new Uint8Array([], 0, 0);
     }
+    HexEditor.prototype.writeByte = function (v) { }
 
     HexEditor.prototype.refresh = function () {
         /* Clear the hex grid */
@@ -76,9 +76,9 @@
         length -= length % this.gridWidth;
         this.gridHeight = (length / this.gridWidth) | 0;
 
-        this.setVAddress(this.currentAddress);
+        this.setOffset(this.currentAddress);
 
-        this.memoryBuffer = this.readVMemory(length);
+        this.memoryBuffer = this.readBytes(length);
 
         this.moveCaret(0, 0);
 
@@ -94,23 +94,18 @@
 
             /* Register cell events */
             var thisEditor = this;
-            var cellHex = getCell(hexGrid, x, y);
 
-            (function (x, y, cell) {
-                cell.click(function () {
+            (function (x, y, hexCell, asciiCell) {
+                hexCell.click(function () {
                     thisEditor.editTypeMode = 0;
                     thisEditor.moveCaret(x, y);
                 })
-            })(x, y, cellHex); //pass in the current value
 
-            var cellAscii = getCell(asciiGrid, x, y);
-
-            (function (x, y, cell) {
-                cell.click(function () {
+                asciiCell.click(function () {
                     thisEditor.editTypeMode = 1;
                     thisEditor.moveCaret(x, y);
                 })
-            })(x, y, cellAscii); //pass in the current value
+            })(x, y, getCell(hexGrid, x, y), getCell(asciiGrid, x, y)); //pass in the current value
         }
     }
 
@@ -174,8 +169,8 @@
         this.updateHexValue(this.selectedCell.x, this.selectedCell.y, byteValue);
         this.updateAsciiValue(this.selectedCell.x, this.selectedCell.y, byteValue);
 
-        n64Memory.virtualMemoryAddress = this.currentAddress + bufferOffset;
-        n64Memory.writeVirtualMemoryByte(byteValue);
+        this.setOffset(this.currentAddress + bufferOffset);
+        this.writeByte(byteValue);
 
         if (!this.leftNibble)
             this.moveCaretNext();
@@ -191,8 +186,8 @@
         this.updateHexValue(this.selectedCell.x, this.selectedCell.y, byteValue);
         this.updateAsciiValue(this.selectedCell.x, this.selectedCell.y, byteValue);
 
-        n64Memory.virtualMemoryAddress = this.currentAddress + bufferOffset;
-        n64Memory.writeVirtualMemoryByte(byteValue);
+        this.setOffset(this.currentAddress + bufferOffset);
+        this.writeByte(byteValue);
 
         this.moveCaretNext();
     }
