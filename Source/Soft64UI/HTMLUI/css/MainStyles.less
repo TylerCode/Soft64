@@ -6,7 +6,6 @@
 body {
     background-image:url(../img/tooplate_body.png);
     background-repeat: repeat;
-    color: @forecolor;
     font-family: 'DejaVu Sans';
     overflow: hidden;
 }
@@ -124,6 +123,14 @@ input[type="button"] {
     width: 14px;
 }
 
+@hexGridHeight: 400px;
+
+.memoryEditorSlider {
+    display: inline-block;
+    height: @hexGridHeight;
+    //bottom: -25px;
+}
+
 .asciichar {
     .hexEditorStyle;
     @pad: 4px;
@@ -133,7 +140,7 @@ input[type="button"] {
 }
 
 .hexGrid {
-    height: 400px;
+    height: @hexGridHeight;
     padding-left: 8px;
     padding-right: 2px;
     background-color: black;
@@ -147,6 +154,7 @@ input[type="button"] {
     position: absolute;
     z-index: 0;
     overflow: hidden;
+    color: @forecolor;
 }
 
 .hexCaret {

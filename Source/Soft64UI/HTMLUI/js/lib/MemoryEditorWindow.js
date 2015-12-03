@@ -24,6 +24,10 @@
             this.hexEditor.refresh();
         }
 
+        MemoryEditorWindow.prototype.setAddressField = function(address) {
+            this.getElementByCid('txtBoxAddress').val((address | 0).toString(16).toUpperCase());
+        }
+
         MemoryEditorWindow.prototype.initialize = function () {
             var hexConfig = {
                 'hexGrid': this.getElementByCid('hexGrid'),
@@ -48,9 +52,24 @@
             });
 
             this.getElementByCid('buttonPC').click(function () {
-                thisWindow.getElementByCid('txtBoxAddress').val(n64Memory.getPC().toString(16).toUpperCase());
+                thisWindow.setAddressField(n64Memory.getPC());
                 thisWindow.refresh();
             })
+
+            /* Memory Slider */
+            this.getElementByCid('scroller').slider({
+                orientation: "vertical",
+                range: "min",
+                min: 0,
+                max: (4294967295 / (16 * this.hexEditor.numLines)) | 0,
+                value: 0,
+                slide: function (event, ui) {
+                    value = (ui.value | 0);
+                    thisWindow.hexEditor.currentAddress = value;
+                    thisWindow.setAddressField(value);
+                    thisWindow.refresh();
+                }
+            });
 
             this.hexEditor.initialize();
 

@@ -146,7 +146,25 @@
     <Content Include="BuildSetup.py" />
     <Content Include="HTMLUI\css\jquery-ui.min.css" />
     <Content Include="HTMLUI\css\jquery-ui.structure.min.css" />
+    <Content Include="HTMLUI\css\jquery-ui.theme.min.css" />
+    <Content Include="HTMLUI\css\MainStyles.css">
+      <DependentUpon>MainStyles.less</DependentUpon>
+    </Content>
+    <Content Include="HTMLUI\css\MainStyles.min.css">
+      <DependentUpon>MainStyles.css</DependentUpon>
+    </Content>
     <Content Include="HTMLUI\img\tooplate_body.png" />
+    <Content Include="HTMLUI\img\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="HTMLUI\img\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="HTMLUI\img\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="HTMLUI\img\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="HTMLUI\img\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="HTMLUI\img\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="HTMLUI\img\ui-icons_222222_256x240.png" />
+    <Content Include="HTMLUI\img\ui-icons_2e83ff_256x240.png" />
+    <Content Include="HTMLUI\img\ui-icons_454545_256x240.png" />
+    <Content Include="HTMLUI\img\ui-icons_888888_256x240.png" />
+    <Content Include="HTMLUI\img\ui-icons_cd0a0a_256x240.png" />
     <Content Include="HTMLUI\js\app\main.js" />
     <Content Include="HTMLUI\js\lib\HexEditor.es5.js">
       <DependentUpon>HexEditor.js</DependentUpon>
