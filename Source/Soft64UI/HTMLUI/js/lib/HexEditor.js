@@ -72,7 +72,7 @@
 
         var gridPixelHeight = hexGrid.height();
         var fontPixelHeight = parseFloat(hexGrid.css('font-size'));
-        this.numLines = gridPixelHeight / (fontPixelHeight + 3.5);
+        this.numLines = (gridPixelHeight / (fontPixelHeight + 3.5)) | 0;
         this.gridWidth = 16 | 0;
         var length = parseInt((this.numLines * this.gridWidth).toFixed()) | 0;
         length -= length % this.gridWidth;

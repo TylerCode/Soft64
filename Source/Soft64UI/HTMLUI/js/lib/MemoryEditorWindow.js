@@ -26,6 +26,8 @@
 
         MemoryEditorWindow.prototype.setAddressField = function(address) {
             this.getElementByCid('txtBoxAddress').val((address | 0).toString(16).toUpperCase());
+            var pageSize = (16 * this.hexEditor.numLines);
+            this.getElementByCid('scroller').slider("value", 0 | (4294967295 % (address - (address % pageSize))));
         }
 
         MemoryEditorWindow.prototype.initialize = function () {
