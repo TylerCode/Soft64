@@ -4,6 +4,17 @@
 Address <input data-cid="txtBoxAddress" type="text" style="width: 200px; margin-left: 10px" />
 <br />
 <br />
+Memory Region
+<br />
+<select data-cid="regionSelector" style="width: 400px">
+    <option selected="selected" disabled="disabled">Select a region ...</option>
+    <option value="0x80000000">0x80000000 RDRAM</option>
+    <option value="0x83F00000">0x83F00000 RDRAM Registers</option>
+    <option value="0x84000000">0x84000000 SP DMEM</option>
+    <option value="0x84001000">0x84001000 SP IMEM</option>
+    <option value="0x84002000">0x84002000 SP Memory</option>
+</select>
+<br />
 <div>
     <div data-cid="hexGridCaret" class="hexCaret" style="position: absolute; z-index: 1"/>
     <div data-cid="hexGrid" class="hexGrid" style="z-index: 0" tabindex="0"   />

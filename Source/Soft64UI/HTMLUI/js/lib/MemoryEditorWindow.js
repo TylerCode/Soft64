@@ -71,6 +71,13 @@
                 thisWindow.refresh();
             })
 
+            this.getElementByCid('regionSelector').selectmenu({
+                change: function (event, data) {
+                    thisWindow.setAddressField(parseInt(data.item.value));
+                    thisWindow.refresh();
+                }
+            });
+
             /* Memory Slider */
             this.getElementByCid('scroller').slider({
                 orientation: "vertical",
