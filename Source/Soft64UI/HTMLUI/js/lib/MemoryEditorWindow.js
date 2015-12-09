@@ -1,10 +1,13 @@
 ﻿define('MemoryEditorWindow', ['jquery', 'jqueryui', 'Window', "HexEditor"],
     function (jquery, jqueryui, Window, HexEditor) {
+        var maxAddress = 0xFFFFFFFF;
+
         var MemoryEditorWindow = function (params) {
             if (typeof params == 'object') {
                 Window.call(this, params);
             }
         }
+
 
         function merge_options(obj1, obj2) {
             var obj3 = {};
@@ -20,14 +23,22 @@
 
         MemoryEditorWindow.prototype.refresh = function () {
             var addressField = this.getElementByCid('txtBoxAddress');
-            this.hexEditor.currentAddress = parseInt(addressField.val(), 16) | 0;
+            this.hexEditor.currentAddress = parseInt(addressField.val(), 16) >>> 0;
             this.hexEditor.refresh();
         }
 
         MemoryEditorWindow.prototype.setAddressField = function(address) {
-            this.getElementByCid('txtBoxAddress').val((address | 0).toString(16).toUpperCase());
-            var pageSize = (16 * this.hexEditor.numLines);
-            this.getElementByCid('scroller').slider("value", 0 | (4294967295 % (address - (address % pageSize))));
+            this.getElementByCid('txtBoxAddress').val(address.toString(16).toUpperCase());
+            this.getElementByCid('scroller').slider("value", this.getNearestAddressIndex(address));
+        }
+
+        MemoryEditorWindow.prototype.getHexViewSize = function () {
+            return this.hexEditor.gridWidth * this.hexEditor.gridHeight;
+        }
+
+        MemoryEditorWindow.prototype.getNearestAddressIndex = function(address) {
+            var remainder = (address >>> 0) % this.getHexViewSize();
+            return ((address - remainder) / this.getHexViewSize()) >>> 0;
         }
 
         MemoryEditorWindow.prototype.initialize = function () {
@@ -35,10 +46,12 @@
                 'hexGrid': this.getElementByCid('hexGrid'),
                 'asciiGrid': this.getElementByCid('asciiGrid'),
                 'editorCaret': this.getElementByCid('hexGridCaret'),
+                'gridWidth': 16,
+                'gridHeight': 20,
             };
 
             var virtualMemoryConfig = {
-                'setOffset': function (address) { n64Memory.virtualMemoryAddress = address | 0 },
+                'setOffset': function (address) { n64Memory.virtualMemoryAddress = address >>> 0; },
                 'readBytes': function (length) { return new Uint8Array(n64Memory.readVirtualMemory(length | 0), 0, length | 0); },
                 'writeByte': function (value) { n64Memory.writeVirtualMemoryByte(value); },
             };
@@ -63,12 +76,14 @@
                 orientation: "vertical",
                 range: "min",
                 min: 0,
-                max: (4294967295 / (16 * this.hexEditor.numLines)) | 0,
+                max: (maxAddress / this.getHexViewSize()) | 0,
                 value: 0,
                 slide: function (event, ui) {
-                    value = (ui.value | 0);
+                    value = ((ui.value | 0) * thisWindow.getHexViewSize()) >>> 0;
                     thisWindow.hexEditor.currentAddress = value;
                     thisWindow.setAddressField(value);
+                },
+                stop: function () {
                     thisWindow.refresh();
                 }
             });

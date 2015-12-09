@@ -61,8 +61,6 @@
     }
     HexEditor.prototype.writeByte = function (v) { }
 
-    HexEditor.prototype.numLines = 0;
-
     HexEditor.prototype.refresh = function () {
         /* Clear the hex grid */
         var hexGrid = this.hexGrid;
@@ -70,16 +68,9 @@
         hexGrid.html("");
         asciiGrid.html("");
 
-        var gridPixelHeight = hexGrid.height();
-        var fontPixelHeight = parseFloat(hexGrid.css('font-size'));
-        this.numLines = (gridPixelHeight / (fontPixelHeight + 3.5)) | 0;
-        this.gridWidth = 16 | 0;
-        var length = parseInt((this.numLines * this.gridWidth).toFixed()) | 0;
-        length -= length % this.gridWidth;
-        this.gridHeight = (length / this.gridWidth) | 0;
-
         this.setOffset(this.currentAddress);
 
+        var length = this.gridWidth * this.gridHeight;
         this.memoryBuffer = this.readBytes(length);
 
         this.moveCaret(0, 0);

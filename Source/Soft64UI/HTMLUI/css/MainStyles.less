@@ -109,12 +109,14 @@ input[type="button"] {
     background: rgba(255, 70, 0, 0.41) !important;
 }
 
+@hexEditorForecolor: limegreen;
+@hexEditorBackcolor: black;
+
 .hexEditorStyle {
-    color: limegreen;
+    color: @hexEditorForecolor;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 10pt;
     display: inline-block;
-    background-color: black;
 }
 
 .hexchar {
@@ -123,12 +125,10 @@ input[type="button"] {
     width: 14px;
 }
 
-@hexGridHeight: 400px;
-
 .memoryEditorSlider {
     display: inline-block;
-    height: @hexGridHeight;
-    //bottom: -25px;
+    height: 350px;
+    top: -15px;
 }
 
 .asciichar {
@@ -140,11 +140,10 @@ input[type="button"] {
 }
 
 .hexGrid {
-    height: @hexGridHeight;
     padding-left: 8px;
     padding-right: 2px;
-    background-color: black;
     display:inline-block;
+    background: @hexEditorBackcolor;
 }
 
 .windowShell {
