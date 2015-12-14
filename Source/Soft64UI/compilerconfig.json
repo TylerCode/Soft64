@@ -14,5 +14,9 @@
   {
     "outputFile": "HTMLUI/js/lib/HexEditor.es5.js",
     "inputFile": "HTMLUI/js/lib/HexEditor.js"
+  },
+  {
+    "outputFile": "HTMLUI/js/lib/PyWindow.es5.js",
+    "inputFile": "HTMLUI/js/lib/PyWindow.js"
   }
 ]

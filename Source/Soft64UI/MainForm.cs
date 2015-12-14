@@ -1,4 +1,6 @@
 ﻿using CefSharp;
+using IronPython.Hosting;
+using Microsoft.Scripting.Hosting;
 using NLog;
 using NLog.Config;
 using NLog.Targets;
@@ -20,8 +22,7 @@ namespace Soft64UI
     {
         private BootBreakMode m_BreakOnBootMode;
         private static MainForm s_Current;
-
-        private MemoryEditorForm m_MemoryEditForm;
+        private ScriptEngine m_PyEngine;
 
         public enum BootBreakMode
         {
@@ -33,6 +34,10 @@ namespace Soft64UI
         public MainForm() : base()
         {
             s_Current = this;
+            m_PyEngine = Python.CreateEngine();
+            m_PyEngine.Runtime.LoadAssembly(typeof(Machine).Assembly);
+            m_PyEngine.Runtime.LoadAssembly(typeof(Console).Assembly);
+            m_PyEngine.Runtime.LoadAssembly(typeof(MessageBox).Assembly);
         }
 
         protected override void InitializeComponent()
@@ -90,6 +95,18 @@ namespace Soft64UI
             }
 
             Machine.Current.Run();
+        }
+
+        public void ExecutePython(String script)
+        {
+            try
+            {
+                m_PyEngine.Execute(script);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Python Runtime Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         public void InsertRomFile(String stringBuffer)

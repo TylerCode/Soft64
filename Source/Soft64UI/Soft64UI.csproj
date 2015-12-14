@@ -139,7 +139,6 @@
   <ItemGroup>
     <Compile Include="CEFWindowForm.cs" />
     <Compile Include="MainForm.cs" />
-    <Compile Include="MemoryEditorForm.cs" />
     <Compile Include="N64MemoryScriptObject.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -181,6 +180,13 @@
       <DependentUpon>MemoryEditorWindow.es5.js</DependentUpon>
     </Content>
     <Content Include="HTMLUI\js\lib\MemoryEditorWindow.js" />
+    <Content Include="HTMLUI\js\lib\PyWindow.es5.js">
+      <DependentUpon>PyWindow.js</DependentUpon>
+    </Content>
+    <Content Include="HTMLUI\js\lib\PyWindow.es5.min.js">
+      <DependentUpon>PyWindow.es5.js</DependentUpon>
+    </Content>
+    <Content Include="HTMLUI\js\lib\PyWindow.js" />
     <Content Include="HTMLUI\js\lib\Window.es5.js">
       <DependentUpon>Window.js</DependentUpon>
     </Content>
@@ -189,6 +195,7 @@
     </Content>
     <Content Include="HTMLUI\js\lib\Window.js" />
     <Content Include="HTMLUI\js\require.js" />
+    <Content Include="HTMLUI\windows\PyWindow.html" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

@@ -14,15 +14,21 @@ require.config({
         Window: 'Window' + jsMinExt,
         MemoryEditorWindow: 'MemoryEditorWindow' + jsMinExt,
         HexEditor: 'HexEditor' + jsMinExt,
+        PyWindow: 'PyWindow' + jsMinExt,
     }
 });
 
 /* Initialize the main windows */
-require(['Window', 'jquery', 'MemoryEditorWindow'],
+require(
+    [   'Window'
+        , 'jquery'
+        , 'MemoryEditorWindow'
+        , 'PyWindow'],
 
     function (Window
              , jquery
-             , MemoryEditorWindow) {
+             , MemoryEditorWindow
+             , PyWindow) {
 
         $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "css/MainStyles" + cssMinExt));
 
@@ -48,6 +54,12 @@ require(['Window', 'jquery', 'MemoryEditorWindow'],
 
         menuWindow.getElementByCid('btnEmuRun').click(function () {
             currentForm.runEmu();
+        });
+
+        menuWindow.getElementByCid('btnPyWin').click(function () {
+            var win = new PyWindow({ title: 'Python Script Window', idName: 'pyWindow' });
+            win.create('windows/PyWindow.html');
+            win.initialize();
         });
 
         menuWindow.getElementByCid('btnDebugMemory').click(function () {
