@@ -13,7 +13,9 @@
         var window = this.getInstance();
 
         window.draggable({
-            cancel: '#windowContent'
+            snap: true,
+            cancel: '#windowContent',
+            containment: 'window'
         });
 
         window.resizable();
