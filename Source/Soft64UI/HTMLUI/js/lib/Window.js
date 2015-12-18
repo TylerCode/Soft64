@@ -15,7 +15,7 @@
         window.draggable({
             snap: true,
             cancel: '#windowContent',
-            containment: 'window'
+            containment: 'window',
         });
 
         window.resizable();

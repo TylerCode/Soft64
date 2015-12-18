@@ -32,10 +32,6 @@ require(
 
         $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "css/MainStyles" + cssMinExt));
 
-        $(window).resize(function () {
-            /* TODO: Cause all windows to resnap */
-        });
-
         /* Main Menu Window */
         var menuWindow = new Window({ title: "Main Menu", idName: "mainMenuWindow" });
         menuWindow.create('windows/MenuWindow.html');
