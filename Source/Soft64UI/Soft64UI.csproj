@@ -214,7 +214,6 @@
     <Content Include="HTMLUI\windows\CartridgeWindow.html" />
     <Content Include="HTMLUI\windows\EmulogWindow.html" />
     <Content Include="HTMLUI\windows\MemoryEditorWindow.html" />
-    <Content Include="HTMLUI\windows\MenuWindow.html" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

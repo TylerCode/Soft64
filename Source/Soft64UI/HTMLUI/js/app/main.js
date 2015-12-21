@@ -32,11 +32,6 @@ require(
 
         $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "css/MainStyles" + cssMinExt));
 
-        /* Main Menu Window */
-        var menuWindow = new Window({ title: "Main Menu", idName: "mainMenuWindow" });
-        menuWindow.create('windows/MenuWindow.html');
-        menuWindow.initialize();
-
         /* Cartridge Window */
         var cartWindow = new Window({ title: "Cartridge", idName: "cartridgeWindow" });
         cartWindow.create('windows/CartridgeWindow.html');
@@ -48,27 +43,31 @@ require(
         emulogWindow.initialize();
 
         /* Hook in window logic */
-        menuWindow.getElementByCid('btnShowDevConsole').click(function () {
+        $('#btnShowDevConsole').click(function () {
             currentForm.showDevTools();
         });
 
-        menuWindow.getElementByCid('btnEmuRun').click(function () {
+        $('#btnEmuRun').click(function () {
             currentForm.runEmu();
         });
 
-        menuWindow.getElementByCid('btnPyWin').click(function () {
+        $('#btnTileWindows').click(function () {
+            tileWindows();
+        });
+
+        $('#btnPyWin').click(function () {
             var win = new PyWindow({ title: 'Python Script Window', idName: 'pyWindow' });
             win.create('windows/PyWindow.html');
             win.initialize();
         });
 
-        menuWindow.getElementByCid('btnDebugMemory').click(function () {
+        $('#btnDebugMemory').click(function () {
             var win = new MemoryEditorWindow({ title: 'Memory Editor', idName: 'memoryEditorWindow' });
             win.create('windows/MemoryEditorWindow.html');
             win.initialize();
         });
 
-        menuWindow.getElementByCid('btnDebugStart').click(function () {
+        $('#btnDebugStart').click(function () {
             currentForm.setDebugStart();
             currentForm.runEmu();
         });
