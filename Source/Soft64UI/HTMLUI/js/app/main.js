@@ -9,12 +9,13 @@ if (mode == 'debug') {
 require.config({
     baseUrl: 'js/lib',
     paths: {
-        jquery: 'jquery-1.11.3.min',
-        jqueryui: 'jquery-ui.min',
-        Window: 'Window' + jsMinExt,
-        MemoryEditorWindow: 'MemoryEditorWindow' + jsMinExt,
-        HexEditor: 'HexEditor' + jsMinExt,
-        PyWindow: 'PyWindow' + jsMinExt,
+        jquery: 'jquery-1.11.3.min'
+        , jqueryui: 'jquery-ui.min'
+        , Window: 'Window' + jsMinExt
+        , MemoryEditorWindow: 'MemoryEditorWindow' + jsMinExt
+        , HexEditor: 'HexEditor' + jsMinExt
+        , PyWindow: 'PyWindow' + jsMinExt
+        , CpuDebuggerWindow: 'CpuDebuggerWindow' + jsMinExt
     }
 });
 
@@ -23,12 +24,14 @@ require(
     [   'Window'
         , 'jquery'
         , 'MemoryEditorWindow'
-        , 'PyWindow'],
+        , 'PyWindow'
+        , 'CpuDebuggerWindow'],
 
     function (Window
              , jquery
              , MemoryEditorWindow
-             , PyWindow) {
+             , PyWindow
+             , CpuDebuggerWindow) {
 
         $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "css/MainStyles" + cssMinExt));
 
@@ -64,6 +67,12 @@ require(
         $('#btnDebugMemory').click(function () {
             var win = new MemoryEditorWindow({ title: 'Memory Editor', idName: 'memoryEditorWindow' });
             win.create('windows/MemoryEditorWindow.html');
+            win.initialize();
+        });
+
+        $('#btnCpuDebugger').click(function () {
+            var win = new CpuDebuggerWindow({ title: 'MIPS R4300 CPU Debugger', idName: 'cpuDebuggerWindow' });
+            win.create('windows/CpuDebuggerWindow.html');
             win.initialize();
         });
 

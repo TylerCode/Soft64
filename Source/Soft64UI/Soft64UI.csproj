@@ -165,6 +165,7 @@
     <Content Include="HTMLUI\css\images\ui-icons_888888_256x240.png" />
     <Content Include="HTMLUI\css\images\ui-icons_cd0a0a_256x240.png" />
     <Content Include="HTMLUI\js\app\main.js" />
+    <Content Include="HTMLUI\js\lib\CpuDebuggerWindow.js" />
     <Content Include="HTMLUI\js\lib\HexEditor.es5.js">
       <DependentUpon>HexEditor.js</DependentUpon>
     </Content>
@@ -195,6 +196,7 @@
     </Content>
     <Content Include="HTMLUI\js\lib\Window.js" />
     <Content Include="HTMLUI\js\require.js" />
+    <Content Include="HTMLUI\windows\CpuDebugger.html" />
     <Content Include="HTMLUI\windows\PyWindow.html" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
