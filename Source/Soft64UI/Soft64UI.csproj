@@ -196,7 +196,7 @@
     </Content>
     <Content Include="HTMLUI\js\lib\Window.js" />
     <Content Include="HTMLUI\js\require.js" />
-    <Content Include="HTMLUI\windows\CpuDebugger.html" />
+    <Content Include="HTMLUI\windows\CpuDebuggerWindow.html" />
     <Content Include="HTMLUI\windows\PyWindow.html" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
