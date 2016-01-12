@@ -1,13 +1,13 @@
-﻿module internal Unmanaged
+﻿module Unmanaged
 
 open System
 open System.Runtime.InteropServices
-open FSharp.NativeInterop;
+open Microsoft.FSharp.NativeInterop
 open System.IO
 
 #nowarn "9"
 
-type internal UnmanagedStream(p:nativeint, size:int64) =
+type UnmanagedStream(p:nativeint, size:int64) =
     inherit Stream()
     let mutable _Position = 0L
     let _Pointer = NativePtr.ofNativeInt<byte> p
@@ -31,7 +31,7 @@ type internal UnmanagedStream(p:nativeint, size:int64) =
         for i = 0 to count do
             NativePtr.set<byte> _Pointer i buffer.[index + i]
 
-type internal UnmanagedHeap(size:int32) =
+type UnmanagedHeap(size:int32) =
     let _P = Marshal.AllocHGlobal(size)
     let _S = new UnmanagedStream(_P, int64 size) :> Stream
     member this.HeapStream with get() = _S

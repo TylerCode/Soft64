@@ -44,22 +44,22 @@ type DpStatus =
     | StartValid=0b0000010000000000us
 
 
-    [<Literal>]
-    let DACRATE_NTSC = 48681812
+[<Literal>]
+let DACRATE_NTSC = 48681812
 
-    [<Literal>]
-    let DACRATE_PAL  = 49656530
+[<Literal>]
+let DACRATE_PAL  = 49656530
 
-    [<Literal>]
-    let DACRATE_MPAL = 48628316
+[<Literal>]
+let DACRATE_MPAL = 48628316
 
-    let R4300SpIntr = 1
+let R4300SpIntr = 1
 
-    (* Little endian or big endian control *)
-    let littleEndian = true // TODO: Set this based on the detected target host
+(* Little endian or big endian control *)
+let littleEndian = true // TODO: Set this based on the detected target host
 
-    let testLittleEndian t f = if littleEndian then t else f
-    
-    let ByteAddrXor = testLittleEndian 3 0
-    let WordAddrXor = testLittleEndian 1 0
-    let Byte4XorBE a = testLittleEndian (a ^^^ 3uy) a
+let testLittleEndian t f = if littleEndian then t else f
+
+let ByteAddrXor = testLittleEndian 3 0
+let WordAddrXor = testLittleEndian 1 0
+let Byte4XorBE a = testLittleEndian (a ^^^ 3uy) a

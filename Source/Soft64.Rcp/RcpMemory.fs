@@ -4,9 +4,9 @@
 #nowarn "9"
 
 open System
+open Microsoft.FSharp.NativeInterop
 open RspConstants
 open Unmanaged
-open FSharp.NativeInterop
 open System.IO
 
 type RspMemoryRegisters() =
