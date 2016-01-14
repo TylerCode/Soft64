@@ -232,6 +232,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Soft64.Rcp\Soft64.Rcp.fsproj">
+      <Project>{e97b6f99-8758-4d22-85ec-0762de3d832f}</Project>
+      <Name>Soft64.Rcp</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Soft64\Soft64.dll.csproj">
       <Project>{44364805-1711-4454-A237-A4C4DFE2E1F6}</Project>
       <Name>Soft64.dll</Name>

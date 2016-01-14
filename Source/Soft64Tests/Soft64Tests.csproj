@@ -64,11 +64,16 @@
     <Compile Include="PJ64BootTests.cs" />
     <Compile Include="MachineClassTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="MemoryTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Soft64.Rcp\Soft64.Rcp.fsproj">
+      <Project>{e97b6f99-8758-4d22-85ec-0762de3d832f}</Project>
+      <Name>Soft64.Rcp</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Soft64\Soft64.dll.csproj">
       <Project>{44364805-1711-4454-a237-a4c4dfe2e1f6}</Project>
       <Name>Soft64.dll</Name>

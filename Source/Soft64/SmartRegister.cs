@@ -93,7 +93,7 @@ namespace Soft64
                getter = () =>
                {
                    dynamic value = Activator.CreateInstance(fieldType);
-                   dynamic maskedRegValue = m_Register;
+                   dynamic maskedRegValue = InternalRegister;
                    maskedRegValue &= (T)mask;
                    maskedRegValue >>= def.FieldOffset;
                    return Convert.ChangeType(maskedRegValue, fieldType);
@@ -104,10 +104,10 @@ namespace Soft64
                    dynamic newValue = Convert.ToUInt64(v);
                    newValue <<= def.FieldOffset;
 
-                   dynamic maskedRegValue = m_Register;
+                   dynamic maskedRegValue = InternalRegister;
                    maskedRegValue &= ~mask;
                    maskedRegValue |= newValue;
-                   m_Register = (T)maskedRegValue;
+                   InternalRegister = (T)maskedRegValue;
                };
 
 
@@ -118,13 +118,19 @@ namespace Soft64
 
         public T RegisterValue
         {
-            get { return m_Register; }
-            set { m_Register = value; }
+            get { return InternalRegister; }
+            set { InternalRegister = value; }
         }
 
         protected dynamic AutoRegisterProps
         {
             get { return m_DynamicObject; }
+        }
+
+        protected virtual T InternalRegister
+        {
+            get { return m_Register; }
+            set { m_Register = value; }
         }
     }
 }

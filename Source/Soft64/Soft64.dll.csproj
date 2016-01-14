@@ -105,6 +105,7 @@
     <Compile Include="MipsR4300\OpcodeHookAttribute.cs" />
     <Compile Include="RCP\CartridgeChangedEventArgs.cs" />
     <Compile Include="RCP\DmaEngine.cs" />
+    <Compile Include="RCP\IRspMemory.cs" />
     <Compile Include="RCP\MipsInterface.cs" />
     <Compile Include="RCP\RdramRegisters.cs" />
     <Compile Include="RCP\PIRegisters.cs" />
@@ -211,12 +212,6 @@
       <Link>Soft64Common.licenseheader</Link>
     </None>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Soft64.Rcp\Soft64.Rcp.fsproj">
-      <Project>{e97b6f99-8758-4d22-85ec-0762de3d832f}</Project>
-      <Name>Soft64.Rcp</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="BootStateSnapshots.xml" />

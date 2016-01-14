@@ -56,10 +56,13 @@
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="RcpConstants.fs" />
     <Compile Include="Unmanaged.fs" />
-    <Compile Include="RspStructures.fs" />
     <Compile Include="RcpMemory.fs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Dynamitey">
+      <HintPath>..\packages\Dynamitey.1.0.2.0\lib\net40\Dynamitey.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="FSCL.Compiler">
       <HintPath>..\packages\FSCL.Compiler.2.0.1\lib\net45\FSCL.Compiler.dll</HintPath>
       <Private>True</Private>
@@ -104,10 +107,15 @@
       <HintPath>..\packages\FSCL.Runtime.2.0.1\lib\net451\FSCL.Runtime.Scheduling.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="mscorlib" />
-    <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <Reference Include="FSharp.Core">
+      <HintPath>..\packages\FSharp.Core.3.1.2.1\lib\net40\FSharp.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="FSharp.Interop.Dynamic">
+      <HintPath>..\packages\FSharp.Interop.Dynamic.3.0.0.0\lib\portable-net45+sl50+win\FSharp.Interop.Dynamic.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="mscorlib" />
     <Reference Include="NLog">
       <HintPath>..\packages\NLog.4.2.3\lib\net45\NLog.dll</HintPath>
       <Private>True</Private>
@@ -119,6 +127,13 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Soft64\Soft64.dll.csproj">
+      <Name>Soft64.dll</Name>
+      <Project>{44364805-1711-4454-a237-a4c4dfe2e1f6}</Project>
+      <Private>True</Private>
+    </ProjectReference>
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
