@@ -9,7 +9,7 @@ open RspConstants
 open Unmanaged
 open System.IO
 
-type RspMemoryRegisters() =
+type internal RspRegisterHeap() =
     let _Heap = new UnmanagedHeap(1024 * 1024)
     let _pUInt32 = _Heap.getPointer<uint32>()
     let read o = NativePtr.get<uint32> _pUInt32 o
