@@ -41,12 +41,67 @@ type RspRegisterDramAddress(p, o) =
 [<RegisterField("Length", 0, 12, typeof<int32>);
   RegisterField("Count", 12, 8, typeof<int32>);
   RegisterField("Skip", 20, 12, typeof<int32>)>]
-type RspRegisterReadLength(p, o) =
+type RspRegisterIoLength(p, o) =
     inherit RspRegisterBase(p, o)
-    interface IRspRegReadLength with
+    interface IRspRegIoLength with
         member this.Length with get() : int32 = this.AutoRegisterProps?GetLength and set(v:int32) = this.AutoRegisterProps?SetLength v
         member this.Count with get() : int32 = this.AutoRegisterProps?GetCount and set(v:int32) = this.AutoRegisterProps?SetCount v
         member this.Skip with get() : int32 = this.AutoRegisterProps?GetSkip and set(v:int32) = this.AutoRegisterProps?SetSkip v
+    end
+
+[<RegisterField("CH", 00, 1, typeof<bool>);
+  RegisterField("SH", 01, 1, typeof<bool>);
+  RegisterField("CB", 02, 1, typeof<bool>);
+  RegisterField("CI", 03, 1, typeof<bool>);
+  RegisterField("SI", 04, 1, typeof<bool>);
+  RegisterField("CS", 05, 1, typeof<bool>);
+  RegisterField("SS", 06, 1, typeof<bool>);
+  RegisterField("CIB", 07, 1, typeof<bool>);
+  RegisterField("SIB", 08, 1, typeof<bool>);
+  RegisterField("CS0", 09, 1, typeof<bool>);
+  RegisterField("SS0", 10, 1, typeof<bool>);
+  RegisterField("CS1", 11, 1, typeof<bool>);
+  RegisterField("SS1", 12, 1, typeof<bool>);
+  RegisterField("CS2", 13, 1, typeof<bool>);
+  RegisterField("SS2", 14, 1, typeof<bool>);
+  RegisterField("CS3", 15, 1, typeof<bool>);
+  RegisterField("SS3", 16, 1, typeof<bool>);
+  RegisterField("CS4", 17, 1, typeof<bool>);
+  RegisterField("SS4", 18, 1, typeof<bool>);
+  RegisterField("CS5", 19, 1, typeof<bool>);
+  RegisterField("SS5", 20, 1, typeof<bool>);
+  RegisterField("CS6", 21, 1, typeof<bool>);
+  RegisterField("SS6", 22, 1, typeof<bool>);
+  RegisterField("CS7", 23, 1, typeof<bool>);
+  RegisterField("SS7", 24, 1, typeof<bool>);>]
+type RspRegisterWriteStatus(p, o) =
+    inherit RspRegisterBase(p, o)
+    interface IRspRegWriteStatus with
+        member this.ClearHalt with get() :        bool = this.AutoRegisterProps?GetCH and set(v:bool) = this.AutoRegisterProps?SetCH v
+        member this.SetHalt with get() :          bool = this.AutoRegisterProps?GetSH and set(v:bool) = this.AutoRegisterProps?SetSH v
+        member this.ClearBroke with get() :       bool = this.AutoRegisterProps?GetCB and set (v:bool) = this.AutoRegisterProps?SetCB v
+        member this.ClearIntr with get() :        bool = this.AutoRegisterProps?GetCI and set (v:bool) = this.AutoRegisterProps?SetCI v
+        member this.SetIntr with get() :          bool = this.AutoRegisterProps?GetSI and set (v:bool) = this.AutoRegisterProps?SetSI v
+        member this.ClearSingleStep with get() :  bool = this.AutoRegisterProps?GetCS and set (v:bool) = this.AutoRegisterProps?SetCS v
+        member this.SetSingleStep with get() :    bool = this.AutoRegisterProps?GetSS and set(v:bool) = this.AutoRegisterProps?SetSS v
+        member this.ClearIntrOnBreak with get() : bool = this.AutoRegisterProps?GetCIB and set (v:bool) = this.AutoRegisterProps?SetCIB v
+        member this.SetIntrOnBreak with get() :   bool = this.AutoRegisterProps?GetSIB and set (v:bool) = this.AutoRegisterProps?SetSIB v
+        member this.ClearSignal0 with get() :     bool = this.AutoRegisterProps?GetCS0 and set (v:bool) = this.AutoRegisterProps?SetCS0 v
+        member this.SetSignal0 with get() :       bool = this.AutoRegisterProps?GetSS0 and set (v:bool) = this.AutoRegisterProps?SetSS0 v
+        member this.ClearSignal1 with get() :     bool = this.AutoRegisterProps?GetCS1 and set (v:bool) = this.AutoRegisterProps?SetCS1 v
+        member this.SetSignal1 with get() :       bool = this.AutoRegisterProps?GetSS1 and set (v:bool) = this.AutoRegisterProps?SetSS1 v
+        member this.ClearSignal2 with get() :     bool = this.AutoRegisterProps?GetCS2 and set (v:bool) = this.AutoRegisterProps?SetCS2 v
+        member this.SetSignal2 with get() :       bool = this.AutoRegisterProps?GetSS2 and set (v:bool) = this.AutoRegisterProps?SetSS2 v
+        member this.ClearSignal3 with get() :     bool = this.AutoRegisterProps?GetCS3 and set (v:bool) = this.AutoRegisterProps?SetCS3 v
+        member this.SetSignal3 with get() :       bool = this.AutoRegisterProps?GetSS3 and set (v:bool) = this.AutoRegisterProps?SetSS3 v
+        member this.ClearSignal4 with get() :     bool = this.AutoRegisterProps?GetCS4 and set (v:bool) = this.AutoRegisterProps?SetCS4 v
+        member this.SetSignal4 with get() :       bool = this.AutoRegisterProps?GetSS4 and set (v:bool) = this.AutoRegisterProps?SetSS4 v
+        member this.ClearSignal5 with get() :     bool = this.AutoRegisterProps?GetCS5 and set (v:bool) = this.AutoRegisterProps?SetCS5 v
+        member this.SetSignal5 with get() :       bool = this.AutoRegisterProps?GetSS5 and set (v:bool) = this.AutoRegisterProps?SetSS5 v
+        member this.ClearSignal6 with get() :     bool = this.AutoRegisterProps?GetCS6 and set (v:bool) = this.AutoRegisterProps?SetCS6 v
+        member this.SetSignal6 with get() :       bool = this.AutoRegisterProps?GetSS6 and set (v:bool) = this.AutoRegisterProps?SetSS6 v
+        member this.ClearSignal7 with get() :     bool = this.AutoRegisterProps?GetCS7 and set (v:bool) = this.AutoRegisterProps?SetCS7 v
+        member this.SetSignal7 with get() :       bool = this.AutoRegisterProps?GetSS7 and set (v:bool) = this.AutoRegisterProps?SetSS7 v
     end
 
 type RspMemory() =
@@ -55,8 +110,10 @@ type RspMemory() =
     let _RegisterHeap = new UnmanagedHeap(1024 * 1024)
     let _p = _RegisterHeap.getPointer()
     let _1 = new RspRegisterMemoryAddress(_p, 0)
-    let _2 = new RspRegisterDramAddress(_p, 0x4)
-    let _3 = new RspRegisterReadLength(_p, 0x8)
+    let _2 = new RspRegisterDramAddress(_p, 4)
+    let _3 = new RspRegisterIoLength(_p, 8)
+    let _4 = new RspRegisterIoLength(_p, 12)
+    let _5 = new RspRegisterWriteStatus(_p, 16)
 
     interface IDisposable with 
         member this.Dispose() = 
@@ -85,9 +142,11 @@ type RspMemory() =
         member this.RegisterStream with get() = _RegisterHeap.HeapStream
         member this.RegMemoryAddress with get() = _1 :> IRspRegMemoryAddress
         member this.RegDramAddress with get()   = _2 :> IRspRegDramAddress
-        member this.RegReadLength with get()    = _3 :> IRspRegReadLength
+        member this.RegReadLength with get()    = _3 :> IRspRegIoLength
+        member this.RegWriteLength with get()   = _4 :> IRspRegIoLength
+        member this.RegWriteonlyStatus with get()= _5 :> IRspRegWriteStatus
 
-        member this.RegWriteLength with get() = null
+
         member this.RegStatus with get() = null
         member this.RegDmaFull with get() = null
         member this.RegDmaBusy with get() = null

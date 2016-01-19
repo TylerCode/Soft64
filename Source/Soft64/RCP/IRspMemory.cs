@@ -34,9 +34,17 @@ namespace Soft64.RCP
 
         IRspRegDramAddress RegDramAddress { get; }
 
-        IRspRegReadLength RegReadLength { get; }
+        /// <summary>
+        /// Controls reads from RDRAM to I or D memory
+        /// </summary>
+        IRspRegIoLength RegReadLength { get; }
 
-        SmartRegister<UInt32> RegWriteLength { get; }
+        /// <summary>
+        /// Controls reads from I or D memory to RDRAM
+        /// </summary>
+        IRspRegIoLength RegWriteLength { get; }
+
+        IRspRegWriteStatus RegWriteonlyStatus { get; }
 
         SmartRegister<UInt32> RegStatus { get; }
 
@@ -63,12 +71,74 @@ namespace Soft64.RCP
         Int32 Address { get; set; }
     }
 
-    public interface IRspRegReadLength
+    public interface IRspRegIoLength
     {
         Int32 Length { get; set; }
 
         Int32 Count { get; set; }
 
         Int32 Skip { get; set; }
+    }
+
+    public interface IRspRegReadStatus
+    {
+        Boolean Halt { get; }
+
+        Boolean Broke { get; }
+
+        Boolean DmaBusy { get; }
+
+        Boolean DmaFull { get; }
+
+        Boolean IoFull { get; }
+
+        Boolean SingleStep { get; }
+
+        Boolean InterruptOnBreak { get; }
+
+        Boolean Signal0Set { get; }
+
+        Boolean Signal1Set { get; }
+
+        Boolean Signal2Set { get; }
+
+        Boolean Signal3Set { get; }
+
+        Boolean Signal4Set { get; }
+        
+        Boolean Signal5Set { get; }
+
+        Boolean Signal6Set { get; }
+
+        Boolean Signal7Set { get; }
+    }
+
+    public interface IRspRegWriteStatus
+    {
+        Boolean ClearHalt { get; set; }
+        Boolean SetHalt { get; set; }
+        Boolean ClearBroke { get; set; }
+        Boolean ClearIntr { get; set; }
+        Boolean SetIntr { get; set; }
+        Boolean ClearSingleStep { get; set; }
+        Boolean SetSingleStep { get; set; }
+        Boolean ClearIntrOnBreak { get; set; }
+        Boolean SetIntrOnBreak { get; set; }
+        Boolean ClearSignal0 { get; set; }
+        Boolean SetSignal0 { get; set; }
+        Boolean ClearSignal1 { get; set; }
+        Boolean SetSignal1 { get; set; }
+        Boolean ClearSignal2 { get; set; }
+        Boolean SetSignal2 { get; set; }
+        Boolean ClearSignal3 { get; set; }
+        Boolean SetSignal3 { get; set; }
+        Boolean ClearSignal4 { get; set; }
+        Boolean SetSignal4 { get; set; }
+        Boolean ClearSignal5 { get; set; }
+        Boolean SetSignal5 { get; set; }
+        Boolean ClearSignal6 { get; set; }
+        Boolean SetSignal6 { get; set; }
+        Boolean ClearSignal7 { get; set; }
+        Boolean SetSignal7 { get; set; }
     }
 }
