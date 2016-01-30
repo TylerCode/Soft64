@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Soft64Tests
+namespace Soft64.TestUnits
 {
     public class MachineClassTests
     {

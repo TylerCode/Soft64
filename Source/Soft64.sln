@@ -17,7 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		WebEssentials2015-Settings.json = WebEssentials2015-Settings.json
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Soft64Tests", "Soft64Tests\Soft64Tests.csproj", "{9713AE73-6B7E-4B88-B1E4-B407D5E09A07}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Soft64.TestsUnits", "Soft64Tests\Soft64.TestsUnits.csproj", "{9713AE73-6B7E-4B88-B1E4-B407D5E09A07}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Soft64.Rcp", "Soft64.Rcp\Soft64.Rcp.fsproj", "{E97B6F99-8758-4D22-85EC-0762DE3D832F}"
 EndProject

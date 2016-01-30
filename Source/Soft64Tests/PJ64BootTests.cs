@@ -8,7 +8,7 @@ using Soft64.PI;
 using Xunit;
 using Soft64.MipsR4300.Debugging;
 
-namespace Soft64Tests
+namespace Soft64.TestUnits
 {
     public sealed class PJ64BootTests
     {

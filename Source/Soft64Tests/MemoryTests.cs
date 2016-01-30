@@ -7,7 +7,7 @@ using Soft64.RCP;
 using System.IO;
 using Xunit;
 
-namespace Soft64Tests
+namespace Soft64.TestUnits
 {
     public class MemoryTests
     {

@@ -8,8 +8,8 @@
     <ProjectGuid>{9713AE73-6B7E-4B88-B1E4-B407D5E09A07}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Soft64Tests</RootNamespace>
-    <AssemblyName>Soft64Tests</AssemblyName>
+    <RootNamespace>Soft64.TestUnits</RootNamespace>
+    <AssemblyName>Soft64.TestUnits</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
