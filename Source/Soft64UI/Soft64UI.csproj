@@ -151,6 +151,12 @@
     <Compile Include="N64MemoryScriptObject.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="..\..\Resources\BinaryFiles\Tests\MachinePauseCheck.py">
+      <Link>Python\MachinePauseCheck.py</Link>
+    </Content>
+    <Content Include="..\..\Resources\BinaryFiles\Tests\Tests_TLB.py">
+      <Link>Python\Tests_TLB.py</Link>
+    </Content>
     <Content Include="BuildSetup.py" />
     <Content Include="HTMLUI\css\jquery-ui.min.css" />
     <Content Include="HTMLUI\css\jquery-ui.structure.min.css" />

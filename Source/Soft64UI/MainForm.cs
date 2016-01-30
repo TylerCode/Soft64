@@ -38,6 +38,7 @@ namespace Soft64UI
             m_PyEngine.Runtime.LoadAssembly(typeof(Machine).Assembly);
             m_PyEngine.Runtime.LoadAssembly(typeof(Console).Assembly);
             m_PyEngine.Runtime.LoadAssembly(typeof(MessageBox).Assembly);
+            m_PyEngine.Runtime.LoadAssembly(typeof(NLog.Logger).Assembly);
         }
 
         protected override void InitializeComponent()

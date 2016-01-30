@@ -1,5 +1,6 @@
-from Soft64 import Machine
-from System import String
-from System.Windows.Forms import MessageBox
+from System import *
+from Soft64 import *
+from NLog import *
 
-MessageBox.Show(String.Format("Machine Paused: {0}", Machine.Current.IsPaused == True))
+logger = LogManager.GetLogger("Machine Status Checker Script")
+logger.Info(String.Format("Machine is paused: {0}", Machine.Current.IsPaused == True))
