@@ -54,9 +54,6 @@
   <ItemGroup>
     <Content Include="packages.config" />
     <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="RcpConstants.fs" />
-    <Compile Include="Unmanaged.fs" />
-    <Compile Include="RcpMemory.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Dynamitey">

@@ -1,21 +1,65 @@
-﻿module RcpMemory
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading.Tasks;
 
-// Avoid warnings for unmanaged code
-#nowarn "9"
+namespace Soft64.RCP
+{
+    public enum RspMemMode : int
+    {
+        Dmem = 0,
+        Imem = 1
+    }
 
-open System
-open Microsoft.FSharp.NativeInterop
-open RspConstants
-open Unmanaged
-open System.IO
-open Soft64
-open Soft64.RCP
-open FSharp.Interop.Dynamic
+    public class _RspMemory
+    {
+    }
 
-type SRU32 = SmartRegister<UInt32>
+    [RegisterField("Address", 0, 12, typeof(UInt32))]
+    [RegisterField("Mode", 12, 1, typeof(Boolean))]
+    public sealed class RspRegister_MemoryAddress : MemoryMappedRegister32
+    {
+        internal RspRegister_MemoryAddress(IntPtr p, Int32 o) : base (p, o)
+        {
+
+        }
+
+        public Int64 Address
+        {
+            get { return (Int32)AutoRegisterProps.GetAddress(); }
+            set { AutoRegisterProps.SetAddress((UInt32)(Int32)value); }
+        }
+
+        public RspMemMode Mode
+        {
+            get { return (RspMemMode)((Boolean)AutoRegisterProps.GetMode()).BoolToInt32(); }
+            set { AutoRegisterProps.SetMode(((Int32)value).Int32ToBool()); }
+        }
+    }
+
+    internal static class RegExtensions
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public unsafe static Int32 BoolToInt32(this Boolean b)
+        {
+            return *(Int32*)(&b);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public unsafe static Boolean Int32ToBool(this Int32 i)
+        {
+            return *(Boolean*)(&i);
+        }
+    }
+
+}
 
 
+/* 
 
+    (* Define a special register base that uses unmanaged code *)
 type RspRegisterBase(p:nativeptr<uint32>, offset:int32) = 
     inherit SmartRegister<uint32>()
     override this.InternalRegister with get() = NativePtr.get<uint32> p offset and set(v) = NativePtr.set<uint32> p offset v
@@ -154,3 +198,4 @@ type RspMemory() =
         member this.RegPc with get() = null
         member this.RegImemBist with get() = null
     end
+*/

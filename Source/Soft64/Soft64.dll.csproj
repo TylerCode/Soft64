@@ -90,6 +90,7 @@
     <Compile Include="BootSnapReader.cs" />
     <Compile Include="Cartridge.cs" />
     <Compile Include="CartridgeInfo.cs" />
+    <Compile Include="FastHeapStream.cs" />
     <Compile Include="MipsR4300\CoreClock.cs" />
     <Compile Include="CPUProcessor.cs" />
     <Compile Include="MipsR4300\Fcr32Register.cs" />
@@ -106,6 +107,7 @@
     <Compile Include="RCP\CartridgeChangedEventArgs.cs" />
     <Compile Include="RCP\DmaEngine.cs" />
     <Compile Include="RCP\IRspMemory.cs" />
+    <Compile Include="MemoryMappedRegister32.cs" />
     <Compile Include="RCP\MipsInterface.cs" />
     <Compile Include="RCP\RdramRegisters.cs" />
     <Compile Include="RCP\PIRegisters.cs" />
@@ -138,6 +140,7 @@
     <Compile Include="RCP\ParallelStream.cs" />
     <Compile Include="RCP\FakeSysADBus.cs" />
     <Compile Include="RCP\RdramStream.cs" />
+    <Compile Include="RCP\RspConstants.cs" />
     <Compile Include="RCP\SPMemory.cs" />
     <Compile Include="DiskDrive.cs" />
     <Compile Include="FormatVerifyFlag.cs" />
@@ -199,6 +202,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RCP\RcpException.cs" />
     <Compile Include="RCPProcessor.cs" />
+    <Compile Include="RCP\_RspMemory.cs" />
     <Compile Include="RegionType.cs" />
     <Compile Include="PI\RomChecksum.cs" />
     <Compile Include="SmartRegister.cs" />

@@ -127,6 +127,11 @@ namespace Soft64
             get { return m_DynamicObject; }
         }
 
+        protected ExpandoObject AutoRegisterPropsExpando
+        {
+            get { return m_DynamicObject; }
+        }
+
         protected virtual T InternalRegister
         {
             get { return m_Register; }
