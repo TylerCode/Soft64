@@ -14,12 +14,11 @@ namespace Soft64.TestUnits
         [Fact]
         public void RspMemoryTests()
         {
-            //var rspMem = (IRspMemory) new RcpMemory.RspMemory();
-            //var writer = new BinaryWriter(rspMem.RegisterStream);
-            //var reader = new BinaryReader(rspMem.RegisterStream);
-
-            //writer.Write(0xDEAD);
-            //Assert.Equal(0xDEAD, rspMem.RegMemoryAddress.Address);
+            var rspMem = new RspMemory();
+            var writer = new BinaryWriter(rspMem.RegMemoryStream);
+            var reader = new BinaryReader(rspMem.RegMemoryStream);
+            writer.Write(0xBEAU);
+            Assert.Equal(0xBEAU, rspMem.RegMemoryAddress.Address);
         }
     }
 }

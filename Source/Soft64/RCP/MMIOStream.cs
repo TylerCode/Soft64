@@ -25,6 +25,8 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
+// TODO: Replace this with the improved Rsp like class where register memory is allocated on a heap, and we turn them into smart regs
+
 namespace Soft64.RCP
 {
     public abstract class MmioStream : Stream

@@ -20,6 +20,7 @@ namespace Soft64
         {
             m_HeapSize = heapSize;
             m_Pointer = Marshal.AllocHGlobal(heapSize);
+            // TODO: make sure mem is zero'd out?
             m_RawMemPointer = (Byte*)m_Pointer.ToPointer();
         }
 
@@ -136,6 +137,11 @@ namespace Soft64
 
                 m_Disposed = true;
             }
+        }
+
+        internal IntPtr HeapPointer
+        {
+            get { return m_Pointer; }
         }
     }
 }

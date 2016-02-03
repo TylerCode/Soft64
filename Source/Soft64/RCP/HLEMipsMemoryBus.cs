@@ -26,9 +26,9 @@ using Soft64.IO;
 namespace Soft64.RCP
 {
     /// <summary>
-    /// Simulates the RCP A/D Bus stream
+    /// Uses high level approach which used in place of Mips SysAD bus line.
     /// </summary>
-    public sealed class FakeSysADBus : UnifiedStream
+    public sealed class HLEMipsMemoryBus : UnifiedStream
     {
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
 

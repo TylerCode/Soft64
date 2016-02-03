@@ -10,6 +10,8 @@ namespace Soft64
     {
         private UInt32 * m_BasePointer;
 
+        internal event Action WriteNotification;
+
         protected MemoryMappedRegister32(IntPtr memoryPointer, Int32 memoryOffset) : base()
         {
             m_BasePointer = (UInt32 *)IntPtr.Add(memoryPointer, memoryOffset).ToPointer();
@@ -25,6 +27,7 @@ namespace Soft64
             set
             {
                 *m_BasePointer = value;
+                WriteNotification?.Invoke();
             }
         }
     }
