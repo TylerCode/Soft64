@@ -10,16 +10,14 @@ namespace Soft64.RCP
 {
     public class RspMemory : IDisposable
     {
-        private FastHeapStream m_IMemoryHeap;
-        private FastHeapStream m_DMemoryHeap;
+        private FastHeapStream m_SPRam;
         private FastHeapStream m_RspRegisterHeap;
         private IntPtr m_RspRegisterPtr;
         private Boolean m_Disposed;
 
         public RspMemory()
         {
-            m_IMemoryHeap = new FastHeapStream(0x1000);
-            m_DMemoryHeap = new FastHeapStream(0x1000);
+            m_SPRam = new FastHeapStream(0x1000 * 2);
             m_RspRegisterHeap = new FastHeapStream(1024 ^ 2);
             m_RspRegisterPtr = m_RspRegisterHeap.HeapPointer;
             RegMemoryAddress = new RspRegisterAddressMode(m_RspRegisterPtr, 4 * 0);
@@ -35,8 +33,7 @@ namespace Soft64.RCP
             {
                 if (disposing)
                 {
-                    m_IMemoryHeap.Dispose();
-                    m_DMemoryHeap.Dispose();
+                    m_SPRam.Dispose();
                     m_RspRegisterHeap.Dispose();
                 }
 
@@ -50,9 +47,8 @@ namespace Soft64.RCP
             Dispose(true);
         }
 
-        public Stream IMemoryStream => m_IMemoryHeap;
-        public Stream DMemoryStream => m_DMemoryHeap;
-        public Stream RegMemoryStream => m_RspRegisterHeap;
+        public FastHeapStream SPRam => m_SPRam;
+        public FastHeapStream RegMemoryStream => m_RspRegisterHeap;
         public RspRegisterAddressMode RegMemoryAddress { get; private set; }
         public RspRegisterAddress RegDramAddress { get; private set; }
         public RspRegisterLength RegReadLength { get; private set; }

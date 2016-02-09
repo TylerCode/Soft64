@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 
 namespace Soft64
 {
-    public unsafe sealed class FastHeapStream : Stream
+    public unsafe class FastHeapStream : Stream
     {
         [ThreadStatic]
         private Int64 m_Position;
@@ -17,13 +17,30 @@ namespace Soft64
         private Byte* m_RawMemPointer;
         private Int64 m_HeapSize;
         private Boolean m_Disposed;
+        private HeapAccessMode m_Mode;
 
         public FastHeapStream(Int32 heapSize)
         {
             m_HeapSize = heapSize;
-            m_Pointer = Marshal.AllocHGlobal(heapSize);
+            Allocate(heapSize);
+        }
+
+        protected virtual void Allocate(Int32 size)
+        {
             // TODO: make sure mem is zero'd out?
+            SetPointer(Marshal.AllocHGlobal(size));
+        }
+
+        protected void SetPointer(IntPtr p)
+        {
+            m_Pointer = p;
             m_RawMemPointer = (Byte*)m_Pointer.ToPointer();
+        }
+
+        public HeapAccessMode AccessMode
+        {
+            get { return m_Mode; }
+            set { m_Mode = value; }
         }
 
         public Boolean IsDisposed
@@ -83,6 +100,7 @@ namespace Soft64
         public override int Read(byte[] buffer, int offset, int count)
         {
             Int32 _count = 0;
+            m_Mode = HeapAccessMode.Read;
 
             try
             {
@@ -112,6 +130,8 @@ namespace Soft64
 
         public override void Write(byte[] buffer, int offset, int count)
         {
+            m_Mode = HeapAccessMode.Write;
+
             try
             {
                 for (Int32 i = 0; i < count; i++)
@@ -145,5 +165,11 @@ namespace Soft64
         {
             get { return m_Pointer; }
         }
+    }
+
+    public enum HeapAccessMode : int
+    {
+        Read,
+        Write
     }
 }

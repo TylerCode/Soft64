@@ -23,9 +23,15 @@ using System.Linq;
 using Soft64.IO;
 using Soft64.PI;
 
-/* Notes
- * ---------------------------
- * Cartridges have a JTAG clock pin that could probably let the N64 debug it?
+/* Cartridge IC notes
+ * Every cart contains a security IC called the CIC, a 4-bit sharp calc based IC
+ * Cartridge board uses +3.3V power supply
+ * There are like 16 address lanes for the masked rom, I forget, but it uses its own data multiplexer
+ * Looks like they have JTAG support
+ * Each has its own kind of way of storing save files such as EEPROM or Flash, or SRAM
+ * Cartridge uses clock signal from MIPS R4300I clock out pin
+ * Cartridge sits on a parallel data bus which is connected to the main SysAD bus line
+ * Cartridge can stream stereo over 2 pins, I don't know if these are analog or digital, perhaps its configurable
  */
 
 namespace Soft64
