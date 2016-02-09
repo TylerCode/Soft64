@@ -209,6 +209,7 @@
     <Compile Include="SychronizedStream.cs" />
     <Compile Include="VirtualCartridge.cs" />
     <Compile Include="RomFormat.cs" />
+    <Compile Include="XN64Memory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Soft64Common.licenseheader">

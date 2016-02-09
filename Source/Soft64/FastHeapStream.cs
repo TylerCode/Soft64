@@ -10,7 +10,9 @@ namespace Soft64
 {
     public unsafe sealed class FastHeapStream : Stream
     {
+        [ThreadStatic]
         private Int64 m_Position;
+ 
         private IntPtr m_Pointer;
         private Byte* m_RawMemPointer;
         private Int64 m_HeapSize;
