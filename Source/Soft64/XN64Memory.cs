@@ -15,7 +15,7 @@ namespace Soft64
         private FastHeapStream m_RDRam;
         private RspMemory m_RspMemory;
         private FastHeapStream m_PifMemory;
-        private PtrWrappedCartridge m_CartMemory;
+        private CartridgeHeapStream m_CartMemory;
         private Dictionary<Int32, FastHeapStream> m_Regions;
         [ThreadStatic]
         private Int64 m_Position;
@@ -75,7 +75,7 @@ namespace Soft64
             m_RDRam = new FastHeapStream(0x100000);
             m_PifMemory = new FastHeapStream(0x800);
             m_RspMemory = new RspMemory();
-            m_CartMemory = new PtrWrappedCartridge(Machine.Current.DeviceRCP.Interface_Parallel.InsertedCartridge);
+            m_CartMemory = new CartridgeHeapStream(Machine.Current.DeviceRCP.Interface_Parallel.InsertedCartridge);
 
             /* Setup the region hashtable */
             m_Regions.Add(0x0000, m_RDRam);
@@ -132,8 +132,13 @@ namespace Soft64
 
         public override void Write(byte[] buffer, int offset, int count)
         {
-            // TODO
-            throw new NotImplementedException();
+            FastHeapStream mem = GetRegion(m_Position);
+
+            if (mem != null)
+            {
+                mem.AccessMode = HeapAccessMode.Write;
+                mem.Write(buffer, offset, count);
+            }
         }
     }
 }

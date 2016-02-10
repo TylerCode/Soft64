@@ -15,9 +15,11 @@ namespace Soft64
  
         private IntPtr m_Pointer;
         private Byte* m_RawMemPointer;
-        private Int64 m_HeapSize;
+        private Int32 m_HeapSize;
         private Boolean m_Disposed;
         private HeapAccessMode m_Mode;
+        private GCHandle m_PinnedBufferHandle;
+        private Byte[] m_Buffer;
 
         public FastHeapStream(Int32 heapSize)
         {
@@ -27,8 +29,14 @@ namespace Soft64
 
         protected virtual void Allocate(Int32 size)
         {
-            // TODO: make sure mem is zero'd out?
-            SetPointer(Marshal.AllocHGlobal(size));
+            /* Create an instance of a managed byte buffer, to ensure everythign is set to 0 */
+            m_Buffer = new Byte[size];
+
+            /* Pin the buffer so garbage collector doesn't move it around in memory */
+            m_PinnedBufferHandle = GCHandle.Alloc(m_Buffer, GCHandleType.Pinned);
+
+            /* Setup the pointers */
+            SetPointer(m_PinnedBufferHandle.AddrOfPinnedObject());
         }
 
         protected void SetPointer(IntPtr p)
@@ -41,6 +49,11 @@ namespace Soft64
         {
             get { return m_Mode; }
             set { m_Mode = value; }
+        }
+
+        public virtual Boolean CanUsePointer
+        {
+            get { return true; }
         }
 
         public Boolean IsDisposed
@@ -99,48 +112,88 @@ namespace Soft64
 
         public override int Read(byte[] buffer, int offset, int count)
         {
-            Int32 _count = 0;
-            m_Mode = HeapAccessMode.Read;
-
-            try
+            unsafe
             {
-                for (Int32 i = 0; i < count; i++)
+                Int32 givenCount = count;
+
+                m_Mode = HeapAccessMode.Read;
+
+                /* Check for possible memory violations */
+                Check(buffer, ref offset, ref count);
+
+                try
                 {
-                    buffer[i + offset] = *(m_RawMemPointer + i);
-                    _count++;
+                    Byte* ptr = GetPointer();
+                    for (Int32 i = 0; i < count; i++)
+                    {
+                        buffer[i + offset] = *(ptr + i);
+                    }
+                }
+                catch
+                {
+                    return givenCount;
+                }
+
+                return givenCount;
+            }
+        }
+
+        private void Check(byte[] buffer, ref int offset, ref int count)
+        {
+            if (m_Position > Int32.MaxValue)
+                throw new InvalidOperationException("Position cannot be greater than the max value of int32");
+
+            if ((Int32)m_Position >= m_HeapSize)
+                count = 0;
+            else
+            {
+                /* Crop the count if we need too, to avoid pointer violations */
+                if (((Int32)m_Position + count) >= m_HeapSize)
+                {
+                    count = Math.Min(0, count -= (m_HeapSize + ((Int32)m_Position + count)) - m_HeapSize);
                 }
             }
-            catch
-            {
-                return _count;
-            }
 
-            return _count;
+            if (offset >= buffer.Length || (offset + count) >= buffer.Length)
+                throw new ArgumentOutOfRangeException();
+        }
+
+        private unsafe Byte * GetPointer()
+        {
+            return (Byte*)(m_RawMemPointer + (Int32)m_Position);
         }
 
         public override long Seek(long offset, SeekOrigin origin)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         public override void SetLength(long value)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         public override void Write(byte[] buffer, int offset, int count)
         {
-            m_Mode = HeapAccessMode.Write;
+            unsafe
+            {
+                m_Mode = HeapAccessMode.Write;
 
-            try
-            {
-                for (Int32 i = 0; i < count; i++)
+                /* Check for possible memory violations */
+                Check(buffer, ref offset, ref count);
+
+                try
                 {
-                    *(m_RawMemPointer + i) = buffer[i + offset];
+                    Byte* ptr = GetPointer();
+                    for (Int32 i = 0; i < count; i++)
+                    {
+                        *(ptr + i) = buffer[i + offset];
+                    }
                 }
-            }
-            catch
-            {
+                catch
+                {
+                    return;
+                }
             }
         }
 
@@ -155,7 +208,9 @@ namespace Soft64
 
                 }
 
-                Marshal.FreeHGlobal(m_Pointer);
+                /* Unpin the buffer */
+                m_PinnedBufferHandle.Free();
+                SetPointer(IntPtr.Zero);
 
                 m_Disposed = true;
             }
