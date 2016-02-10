@@ -19,6 +19,7 @@ namespace Soft64
         private Dictionary<Int32, FastHeapStream> m_Regions;
         [ThreadStatic]
         private Int64 m_Position;
+        private Boolean m_Disposed;
 
         public override bool CanRead
         {
@@ -65,6 +66,11 @@ namespace Soft64
             }
         }
 
+        public Boolean Disposed
+        {
+            get { return m_Disposed; }
+        }
+
         public XN64Memory()
         {
             m_Regions = new Dictionary<Int32, FastHeapStream>();
@@ -72,6 +78,7 @@ namespace Soft64
 
         public void Initialize()
         {
+            CheckDispose();
             m_RDRam = new FastHeapStream(0x100000);
             m_PifMemory = new FastHeapStream(0x800);
             m_RspMemory = new RspMemory();
@@ -86,6 +93,7 @@ namespace Soft64
 
         public override void Flush()
         {
+            CheckDispose();
             foreach (var s in m_Regions.Values)
             {
                 s.Flush();
@@ -102,9 +110,21 @@ namespace Soft64
             throw new NotImplementedException();
         }
 
+        private IEnumerable<Int32> GetRegions(Int64 address, Int32 count)
+        {
+            /* LINQ query on which sections are requested for access */
+            Int32 lowestKey = GetKey(address);
+            Int32 highestKey = GetKey(address + count);
+
+            return
+                from key in m_Regions.Keys.ToArray<Int32>()
+                where key >= lowestKey && key <= highestKey
+                select key;
+        }
+
         private FastHeapStream GetRegion(Int64 address)
         {
-            Int32 key = (Int32)((0xFFFF0000L & address) >> 16);
+            int key = GetKey(address);
             FastHeapStream stream = null;
 
             if (m_Regions.TryGetValue(key, out stream))
@@ -117,27 +137,110 @@ namespace Soft64
             }
         }
 
+        private static int GetKey(long address)
+        {
+            return (Int32)((0xFFFF0000L & address) >> 16);
+        }
+
         public override int Read(byte[] buffer, int offset, int count)
         {
-            FastHeapStream mem = GetRegion(m_Position);
+            CheckDispose();
+            var keys = GetRegions(m_Position, count);
+            var givenCount = count;
+            var newOffset = offset;
+            Array.Clear(buffer, offset, count);
+            Int64 lastPosition = 0;
 
-            if (mem != null)
+            foreach (var key in keys)
             {
-                mem.AccessMode = HeapAccessMode.Read;
-                mem.Read(buffer, offset, count);
+                /* Store the last position */
+                lastPosition = Position;
+
+                /* Turn the key into the section's offset */
+                Int64 keyOffset = (Int64)(key << 16);
+                FastHeapStream stream = m_Regions[key]; /* Get the associated stream */
+                Position = keyOffset;
+
+                /* If we skipped over non-accessable section, increment the buffer offset */
+                if (Position >= lastPosition)
+                {
+                    newOffset += (Int32)(Position - lastPosition);
+                }
+
+                /* Do a full read when count goes past the section bounrary */
+                Int64 end = Position + count;
+                Int64 sEnd = Position + stream.Length;
+                Int32 newCount = (Int32)((end >= sEnd) ? (end - sEnd) : (sEnd - end));
+                stream.AccessMode = HeapAccessMode.Read;
+                stream.Position = Position - keyOffset;
+                stream.Read(buffer, newOffset, newCount);
+                count -= newCount;
+                newOffset += newCount;
+                Position += newCount;
             }
 
-            return count;
+            return givenCount;
         }
 
         public override void Write(byte[] buffer, int offset, int count)
         {
-            FastHeapStream mem = GetRegion(m_Position);
+            CheckDispose();
+            var keys = GetRegions(m_Position, count);
+            var newOffset = offset;
+            Int64 lastPosition = 0;
 
-            if (mem != null)
+            foreach (var key in keys)
             {
-                mem.AccessMode = HeapAccessMode.Write;
-                mem.Write(buffer, offset, count);
+                /* Store the last position */
+                lastPosition = Position;
+
+                /* Turn the key into the section's offset */
+                Int64 keyOffset = (Int64)(key << 16);
+                FastHeapStream stream = m_Regions[key]; /* Get the associated stream */
+                Position = keyOffset;
+
+                /* If we skipped over non-accessable section, increment the buffer offset */
+                if (Position >= lastPosition)
+                {
+                    newOffset += (Int32)(Position - lastPosition);
+                }
+
+                /* Do a full read when count goes past the section bounrary */
+                Int64 end = Position + count;
+                Int64 sEnd = Position + stream.Length;
+                Int32 newCount = (Int32)((end >= sEnd) ? (end - sEnd) : (sEnd - end));
+                stream.AccessMode = HeapAccessMode.Write;
+                stream.Position = Position - keyOffset;
+                stream.Write(buffer, newOffset, newCount);
+                count -= newCount;
+                newOffset += newCount;
+                Position += newCount;
+            }
+        }
+
+        private void CheckDispose()
+        {
+            if (Disposed)
+                throw new ObjectDisposedException(nameof(XN64Memory));
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (!m_Disposed)
+            {
+                base.Dispose(disposing);
+
+                if (disposing)
+                {
+
+                }
+
+                foreach (var s in m_Regions.Values)
+                {
+                    s.Dispose();
+                }
+
+                m_Disposed = true;
             }
         }
     }
