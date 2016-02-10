@@ -105,7 +105,6 @@
     <Compile Include="MupenHelper.cs" />
     <Compile Include="MipsR4300\OpcodeHookAttribute.cs" />
     <Compile Include="RCP\CartridgeChangedEventArgs.cs" />
-    <Compile Include="RCP\DmaEngine.cs" />
     <Compile Include="MemoryMappedRegister32.cs" />
     <Compile Include="RCP\CartridgeHeapStream.cs" />
     <Compile Include="MachineEvent.cs" />
