@@ -44,10 +44,9 @@ namespace Soft64
         private static Logger logger = LogManager.GetCurrentClassLogger();
         private EmulatorEngine m_CurrentEngine;
         private static ExpandoObject s_Config = new ExpandoObject();
-        private SychronizedStream m_N64Memory;
-        private SychronizedStream m_SafeMemory;
         private Boolean m_Disposed;
         private Boolean m_DebugServiceAttached;
+        private XN64Memory m_N64PhysicalMemory;
 
         /* Events */
         public event EventHandler<MachineEventNotificationArgs> MachineEventNotification;
@@ -58,6 +57,8 @@ namespace Soft64
             Config.UI = new ExpandoObject();
             Config.Machine.SystemBootMode = (Int32)BootMode.HLE_IPL;
 
+            m_N64PhysicalMemory = new XN64Memory();
+
             Current = this;
             DeviceRCP = new RcpProcessor();
             DeviceCPU = new CPUProcessor();
@@ -66,10 +67,6 @@ namespace Soft64
 
             m_CurrentEngine = new SimpleEngine();
             m_CurrentEngine.EngineStatusChanged += m_CurrentEngine_EngineStatusChanged;
-
-            m_N64Memory = new SychronizedStream(DeviceRCP.ADBusStream);
-            m_SafeMemory = new SychronizedStream(DeviceRCP.ADBusStream.GetSafeStream());
-            DeviceCPU.SysAdBus = m_SafeMemory;
         }
 
         void m_CurrentEngine_EngineStatusChanged(object sender, EngineStatusChangedArgs e)
@@ -298,12 +295,7 @@ namespace Soft64
 
         public Stream N64Memory
         {
-            get { return m_N64Memory; }
-        }
-
-        public Stream N64MemorySafe
-        {
-            get { return m_SafeMemory; }
+            get { return m_N64PhysicalMemory; }
         }
 
         public static Machine Current

@@ -90,8 +90,8 @@ namespace Soft64.MipsR4300
                 return count;
             }
 
-            Machine.Current.N64MemorySafe.Position = translatedAddress - 0x80000000;
-            Machine.Current.N64MemorySafe.Read(buffer, 0, buffer.Length);
+            Machine.Current.N64Memory.Position = translatedAddress - 0x80000000;
+            Machine.Current.N64Memory.Read(buffer, 0, buffer.Length);
 
             return count;
         }
@@ -129,8 +129,8 @@ namespace Soft64.MipsR4300
                 //SystemEventLog.WriteWarn("Invalid TLB Mapping [Write]: " + translatedAddress.ToString("X16"), LogType.CPU);
                 return;
             }
-            Machine.Current.N64MemorySafe.Position = translatedAddress - 0x80000000;
-            Machine.Current.N64MemorySafe.Write(buffer, 0, buffer.Length);
+            Machine.Current.N64Memory.Position = translatedAddress - 0x80000000;
+            Machine.Current.N64Memory.Write(buffer, 0, buffer.Length);
         }
     }
 }

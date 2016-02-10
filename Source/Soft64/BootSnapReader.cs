@@ -63,7 +63,7 @@ namespace Soft64
         {
             List<GprRegWrite> regs = new List<GprRegWrite>();
             List<Mem32Write> mem32 = new List<Mem32Write>();
-            BinaryWriter bw = new BinaryWriter(Machine.Current.N64MemorySafe);
+            BinaryWriter bw = new BinaryWriter(Machine.Current.N64Memory);
 
             StreamReader reader = new StreamReader(m_BootSnapStream);
             XDocument doc = XDocument.Load(reader, LoadOptions.None);

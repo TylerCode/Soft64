@@ -59,12 +59,6 @@ namespace Soft64
 
         /* IO Interfaces */
         private ParallelInterface m_PIInterface;
-        private RdramRegisters m_RdramRegs;
-        private MipsInterface m_MIInterface;
-        private HLEMipsMemoryBus m_MemoryBus;
-        private N64MemoryStream m_MemoryStream;
-        private RdramStream m_RdRam;
-        private SPMemory m_SPMemory;
 
         /* Processor Devices */
         /* TODO: RSP Processor */
@@ -72,29 +66,11 @@ namespace Soft64
 
         public RcpProcessor()
         {
-            m_MemoryBus = new HLEMipsMemoryBus();
-            m_MemoryStream = new N64MemoryStream(m_MemoryBus);
-            m_PIInterface = new ParallelInterface(m_MemoryBus);
-            m_RdramRegs = new RdramRegisters();
-            m_MIInterface = new MipsInterface();
+            m_PIInterface = new ParallelInterface();
         }
 
         public void Initialize()
         {
-            m_RdRam = new RdramStream();
-            m_SPMemory = new SPMemory();
-
-            m_MemoryBus.Add(0x00000000, m_RdRam);
-            m_MemoryBus.Add(0x03F00000, m_RdramRegs);
-            m_MemoryBus.Add(0x04000000, m_SPMemory);
-            m_MemoryBus.Add(0x04300000, m_MIInterface);
-            m_MemoryBus.Add(0x04600000, m_PIInterface.ParellelRegisters);
-            m_MemoryBus.Add(0x05000000, m_PIInterface.ParallelBusStream);
-
-            if (Machine.Current.DevicePIF.RomStream != null)
-                m_MemoryBus.Add(0x1FC00000, Machine.Current.DevicePIF.RomStream);
-
-            m_MemoryBus.Add(0x1FC007C0, Machine.Current.DevicePIF.RamStream);
         }
 
         public void Shutdown()
@@ -108,8 +84,6 @@ namespace Soft64
             {
                 if (disposing)
                 {
-                    m_MemoryStream.Dispose();
-                    m_MemoryBus.Dispose();
                 }
 
                 m_Disposed = true;
@@ -128,17 +102,10 @@ namespace Soft64
         }
 
 
-        /* ///////////////////////////////////
-           Reality CoProcessor A/D Bus
-           /////////////////////////////////// */
-        internal HLEMipsMemoryBus ADBusStream => m_MemoryBus;
-
         /* //////////////////////////////////
            Reality CoProcessor Interfaces
            ////////////////////////////////// */
 
         public ParallelInterface Interface_Parallel => m_PIInterface;
-        public RdramRegisters Interface_RDRAM => m_RdramRegs;
-        public MipsInterface Interface_MIPS => m_MIInterface;
     }
 }

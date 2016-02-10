@@ -23,21 +23,13 @@ using NLog;
 
 namespace Soft64.RCP
 {
-    public sealed class ParallelInterface : DmaEngine
+    public sealed class ParallelInterface
     {
         private Cartridge m_CurrentCartridge;
         private DiskDrive m_CurrentDiskDrive;
-        private ParallelStream m_ParallelBus;
-        private PIRegisters m_Registers;
         private static Logger logger = LogManager.GetCurrentClassLogger();
 
         public event EventHandler<CartridgeChangedEventArgs> CartridgeChanged;
-
-        public ParallelInterface(HLEMipsMemoryBus bus) : base(bus)
-        {
-            m_ParallelBus = new ParallelStream();
-            m_Registers = new PIRegisters();
-        }
 
         public void MountCartridge(Cartridge cartridge)
         {
@@ -49,7 +41,6 @@ namespace Soft64.RCP
 
             m_CurrentCartridge = cartridge;
             m_CurrentCartridge.Open();
-            m_ParallelBus.MountCartridge(cartridge);
 
             OnCartridgeChanged(cartridge);
 
@@ -69,7 +60,6 @@ namespace Soft64.RCP
         {
             if (m_CurrentCartridge != null)
             {
-                m_ParallelBus.UnmountCartridge();
                 m_CurrentCartridge = null;
                 OnCartridgeChanged(null);
             }
@@ -80,7 +70,6 @@ namespace Soft64.RCP
             logger.Warn("This method is more of a stub than something functional");
 
             m_CurrentDiskDrive = drive;
-            m_ParallelBus.MountDiskDrive(drive);
             logger.Debug("A disk drive has been inserted into the slot");
         }
 
@@ -110,87 +99,5 @@ namespace Soft64.RCP
         public Cartridge InsertedCartridge => m_CurrentCartridge;
 
         public DiskDrive InsertedDiskDrive => m_CurrentDiskDrive;
-
-        public Stream ParallelBusStream => m_ParallelBus;
-
-        public Stream ParellelRegisters => m_Registers;
-
-        public UInt32 DramAddress
-        {
-            get { return m_Registers.DramAddress; }
-            set { m_Registers.DramAddress = value; }
-        }
-
-        public UInt32 CartridgeAddress
-        {
-            get { return m_Registers.CartridgeAddress; }
-            set { m_Registers.CartridgeAddress = value; }
-        }
-
-        public UInt32 ReadLength
-        {
-            get { return m_Registers.ReadLength; }
-            set { m_Registers.ReadLength = value; }
-        }
-
-        public UInt32 WriteLength
-        {
-            get { return m_Registers.WriteLength; }
-            set { m_Registers.WriteLength = value; }
-        }
-
-        public UInt32 Status
-        {
-            get { return m_Registers.Status; }
-            set { m_Registers.Status = value; }
-        }
-
-        public UInt32 Domain1Latency
-        {
-            get { return m_Registers.Domain1Latency; }
-            set { m_Registers.Domain1Latency = value; }
-        }
-
-        public UInt32 Domain1PulseWidth
-        {
-            get { return m_Registers.Domain1PulseWidth; }
-            set { m_Registers.Domain1PulseWidth = value; }
-        }
-
-        public UInt32 Domain1PageSize
-        {
-            get { return m_Registers.Domain1PageSize; }
-            set { m_Registers.Domain1PageSize = value; }
-        }
-
-        public UInt32 Domain1Release
-        {
-            get { return m_Registers.Domain1Release; }
-            set { m_Registers.Domain1Release = value; }
-        }
-
-        public UInt32 Domain2Latency
-        {
-            get { return m_Registers.Domain2Latency; }
-            set { m_Registers.Domain2Latency = value; }
-        }
-
-        public UInt32 Domain2PulseWidth
-        {
-            get { return m_Registers.Domain2PulseWidth; }
-            set { m_Registers.Domain2PulseWidth = value; }
-        }
-
-        public UInt32 Domain2PageSize
-        {
-            get { return m_Registers.Domain2PageSize; }
-            set { m_Registers.Domain2PageSize = value; }
-        }
-
-        public UInt32 Domain2Release
-        {
-            get { return m_Registers.Domain2Release; }
-            set { m_Registers.Domain2Release = value; }
-        }
     }
 }
