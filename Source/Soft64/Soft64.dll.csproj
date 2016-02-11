@@ -90,7 +90,7 @@
     <Compile Include="BootSnapReader.cs" />
     <Compile Include="Cartridge.cs" />
     <Compile Include="CartridgeInfo.cs" />
-    <Compile Include="FastHeapStream.cs" />
+    <Compile Include="MemorySection.cs" />
     <Compile Include="MipsR4300\CoreClock.cs" />
     <Compile Include="CPUProcessor.cs" />
     <Compile Include="MipsR4300\Fcr32Register.cs" />

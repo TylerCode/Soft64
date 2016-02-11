@@ -8,11 +8,11 @@ using System.Runtime.InteropServices;
 
 namespace Soft64
 {
-    public unsafe class FastHeapStream : Stream
+    public unsafe class MemorySection : Stream
     {
         [ThreadStatic]
         private Int64 m_Position;
- 
+        private Int64 m_BaseAddress;
         private IntPtr m_Pointer;
         private Byte* m_RawMemPointer;
         private Int32 m_HeapSize;
@@ -21,8 +21,9 @@ namespace Soft64
         private GCHandle m_PinnedBufferHandle;
         private Byte[] m_Buffer;
 
-        public FastHeapStream(Int32 heapSize)
+        public MemorySection(Int32 heapSize, Int64 baseAddress)
         {
+            m_BaseAddress = baseAddress;
             m_HeapSize = heapSize;
             Allocate(heapSize);
         }
@@ -49,11 +50,6 @@ namespace Soft64
         {
             get { return m_Mode; }
             set { m_Mode = value; }
-        }
-
-        public virtual Boolean CanUsePointer
-        {
-            get { return true; }
         }
 
         public Boolean IsDisposed
@@ -219,6 +215,11 @@ namespace Soft64
         internal IntPtr HeapPointer
         {
             get { return m_Pointer; }
+        }
+
+        public Int64 BasePosition
+        {
+            get { return m_BaseAddress; }
         }
     }
 

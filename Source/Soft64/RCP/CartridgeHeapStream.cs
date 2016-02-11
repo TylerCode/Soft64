@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Soft64.RCP
 {
-    public class CartridgeHeapStream : FastHeapStream
+    public class CartridgeHeapStream : MemorySection
     {
         private Cartridge m_Cartridge;
 
-        public CartridgeHeapStream(Cartridge cart) : base(0x100000)
+        public CartridgeHeapStream(Cartridge cart) : base(0x100000, 0x05000000)
         {
             m_Cartridge = cart;
         }
