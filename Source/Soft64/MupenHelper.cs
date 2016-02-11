@@ -540,8 +540,8 @@ namespace Soft64
             set { m_Core.State.CP0Regs.ErrorEPC = value; }
         }
 
-        private static UInt64 MI_INTR_REG => Machine.Current.DeviceRCP.Interface_MIPS.Interrupts;
-        private static UInt64 MI_INTR_MASK_REG => Machine.Current.DeviceRCP.Interface_MIPS.InterruptMask;
+        private static UInt64 MI_INTR_REG => Machine.Current.Memory.MI.Interrupts;
+        private static UInt64 MI_INTR_MASK_REG => Machine.Current.Memory.MI.InterruptMask;
 
         private class InterruptEvent
         {
@@ -591,7 +591,7 @@ namespace Soft64
         public const UInt32 MI_INTR_DP = 32;
 
 
-        public static Boolean MipsInterface_UpdateInitMode(MipsInterface mi, UInt32 write)
+        public static Boolean MipsInterface_UpdateInitMode(RcpInterfaceMemory mi, UInt32 write)
         {
             Boolean clearDp = false;
 
@@ -617,7 +617,7 @@ namespace Soft64
             return clearDp;
         }
 
-        public static void MipsInterface_UpdateInterruptMask(MipsInterface mi, UInt32 write)
+        public static void MipsInterface_UpdateInterruptMask(RcpInterfaceMemory mi, UInt32 write)
         {
             /* Clear / Set SP Mask */
             if ((write & 0x1) != 0) mi.InterruptMask &= ~0x1U;
@@ -644,7 +644,7 @@ namespace Soft64
             if ((write & 0x800) != 0) mi.InterruptMask |= 0x20;
         }
 
-        public static void MipsInterface_RaiseRcpException(MipsInterface mi, UInt32 intr)
+        public static void MipsInterface_RaiseRcpException(RcpInterfaceMemory mi, UInt32 intr)
         {
             mi.Interrupts |= intr;
 
@@ -654,19 +654,19 @@ namespace Soft64
             }
         }
 
-        public static void MipsInterface_SignalRcpInterrupt(MipsInterface mi, UInt32 intr)
+        public static void MipsInterface_SignalRcpInterrupt(RcpInterfaceMemory mi, UInt32 intr)
         {
             mi.Interrupts |= intr;
             CheckInterrupt();
         }
 
-        public static void MipsInterface_ClearRcpInterrupt(MipsInterface mi, UInt32 intr)
+        public static void MipsInterface_ClearRcpInterrupt(RcpInterfaceMemory mi, UInt32 intr)
         {
             mi.Interrupts &= ~intr;
             CheckInterrupt();
         }
 
-        public static void MipsInterface_RegWrite(MipsInterface mi, Int32 address, UInt32 value, UInt32 mask)
+        public static void MipsInterface_RegWrite(RcpInterfaceMemory mi, Int32 address, UInt32 value, UInt32 mask)
         {
             var reg = (mi_registers)address;
 

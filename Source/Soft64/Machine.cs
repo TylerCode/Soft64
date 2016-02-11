@@ -46,7 +46,7 @@ namespace Soft64
         private static ExpandoObject s_Config = new ExpandoObject();
         private Boolean m_Disposed;
         private Boolean m_DebugServiceAttached;
-        private XN64Memory m_N64PhysicalMemory;
+        private N64Memory m_N64PhysicalMemory;
 
         /* Events */
         public event EventHandler<MachineEventNotificationArgs> MachineEventNotification;
@@ -57,7 +57,7 @@ namespace Soft64
             Config.UI = new ExpandoObject();
             Config.Machine.SystemBootMode = (Int32)BootMode.HLE_IPL;
 
-            m_N64PhysicalMemory = new XN64Memory();
+            m_N64PhysicalMemory = new N64Memory();
 
             Current = this;
             DeviceRCP = new RcpProcessor();
@@ -293,7 +293,7 @@ namespace Soft64
             get { return m_CurrentEngine.Status == EngineStatus.Stopped; }
         }
 
-        public Stream N64Memory
+        public N64Memory Memory
         {
             get { return m_N64PhysicalMemory; }
         }

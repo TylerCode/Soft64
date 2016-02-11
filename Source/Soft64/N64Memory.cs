@@ -10,7 +10,7 @@ namespace Soft64
 {
     /* Experimental WIP fast n64 physical memory system */
 
-    public class XN64Memory : Stream
+    public class N64Memory : Stream
     {
         private FastHeapStream m_RDRam;
         private RspMemory m_RspMemory;
@@ -71,7 +71,7 @@ namespace Soft64
             get { return m_Disposed; }
         }
 
-        public XN64Memory()
+        public N64Memory()
         {
             m_Regions = new Dictionary<Int32, FastHeapStream>();
         }
@@ -221,7 +221,7 @@ namespace Soft64
         private void CheckDispose()
         {
             if (Disposed)
-                throw new ObjectDisposedException(nameof(XN64Memory));
+                throw new ObjectDisposedException(nameof(N64Memory));
         }
 
         protected override void Dispose(bool disposing)
@@ -243,5 +243,12 @@ namespace Soft64
                 m_Disposed = true;
             }
         }
+
+        public RspMemory Rsp => m_RspMemory;
+
+        public FastHeapStream Ram => m_RDRam;
+
+        public RcpInterfaceMemory MI { get; internal set; }
+        public ParallelInterfaceMemory PI { get; internal set; }
     }
 }

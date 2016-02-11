@@ -64,7 +64,7 @@ namespace Soft64.MipsR4300
             switch (accessMode)
             {
                 case MemoryAccessMode.Physical:
-                    m_Source = Machine.Current.N64Memory; break;
+                    m_Source = Machine.Current.Memory; break;
 
                 case MemoryAccessMode.DebugVirtual:
                     m_Source = new VMemViewStream(); break;

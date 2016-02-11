@@ -131,6 +131,8 @@
     <Compile Include="MipsR4300\MipsSnapshot.cs" />
     <Compile Include="N64MemRegions.cs" />
     <Compile Include="RCP\ParallelInterface.cs" />
+    <Compile Include="RCP\ParallelInterfaceMemory.cs" />
+    <Compile Include="RCP\RcpInterfaceMemory.cs" />
     <Compile Include="RCP\RspConstants.cs" />
     <Compile Include="DiskDrive.cs" />
     <Compile Include="FormatVerifyFlag.cs" />
@@ -200,7 +202,7 @@
     <Compile Include="SychronizedStream.cs" />
     <Compile Include="VirtualCartridge.cs" />
     <Compile Include="RomFormat.cs" />
-    <Compile Include="XN64Memory.cs" />
+    <Compile Include="N64Memory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Soft64Common.licenseheader">

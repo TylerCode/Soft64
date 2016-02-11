@@ -56,13 +56,7 @@ namespace Soft64
     {
         private Boolean m_Disposed;
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
-
-        /* IO Interfaces */
         private ParallelInterface m_PIInterface;
-
-        /* Processor Devices */
-        /* TODO: RSP Processor */
-        /* TODO: RDP Processor */
 
         public RcpProcessor()
         {
@@ -100,11 +94,6 @@ namespace Soft64
         {
             get { return m_Disposed; }
         }
-
-
-        /* //////////////////////////////////
-           Reality CoProcessor Interfaces
-           ////////////////////////////////// */
 
         public ParallelInterface Interface_Parallel => m_PIInterface;
     }
