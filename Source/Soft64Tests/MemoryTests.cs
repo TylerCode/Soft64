@@ -24,17 +24,15 @@ namespace Soft64.TestUnits
         [Fact]
         public void MachineMemoryTests()
         {
-            //N64Memory memory = new N64Memory();
-            //memory.Initialize();
-            //Byte[] buffer = new byte[10];
-            //memory.Position = 0;
-            //memory.Read(buffer, 0, 4);
-            //Assert.Equal(0, buffer[0]);
-            //Assert.Equal(0, buffer[1]);
-            //Assert.Equal(0, buffer[2]);
-            //Assert.Equal(0, buffer[3]);
-
-            Stream[] readTable = new Stream[0x10000 - 0xFFFF];
+            N64Memory memory = new N64Memory();
+            memory.Initialize();
+            Byte[] buffer = new byte[10];
+            memory.Position = 0;
+            memory.Read(buffer, 0, 4);
+            Assert.Equal(0, buffer[0]);
+            Assert.Equal(0, buffer[1]);
+            Assert.Equal(0, buffer[2]);
+            Assert.Equal(0, buffer[3]);
         }
     }
 }

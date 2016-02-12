@@ -30,12 +30,5 @@ namespace Soft64.RCP
             base.Write(buffer, offset, count);
         }
 
-        public override bool CanUsePointer
-        {
-            get
-            {
-                return false;
-            }
-        }
     }
 }

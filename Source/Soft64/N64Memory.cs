@@ -99,10 +99,7 @@ namespace Soft64
         public override void Flush()
         {
             CheckDispose();
-            foreach (var s in m_Regions.Values)
-            {
-                s.Flush();
-            }
+            // TODO:
         }
 
         public override long Seek(long offset, SeekOrigin origin)
@@ -113,33 +110,6 @@ namespace Soft64
         public override void SetLength(long value)
         {
             throw new NotImplementedException();
-        }
-
-        private IEnumerable<Int32> GetRegions(Int64 address, Int32 count)
-        {
-            /* LINQ query on which sections are requested for access */
-            Int32 lowestKey = GetKey(address);
-            Int32 highestKey = GetKey(address + count);
-
-            return
-                from key in m_Regions.Keys.ToArray<Int32>()
-                where key >= lowestKey && key <= highestKey
-                select key;
-        }
-
-        private MemorySection GetRegion(Int64 address)
-        {
-            int key = GetKey(address);
-            MemorySection stream = null;
-
-            if (m_Regions.TryGetValue(key, out stream))
-            {
-                return stream;
-            }
-            else
-            {
-                return null;
-            }
         }
 
         private static int GetKey(long address)
@@ -154,7 +124,9 @@ namespace Soft64
 
         }
 
-        private void Read(byte[] buffer, int offset, int count, Int32 key)
+        private void Access(Action<Stream,byte[],int,int> op, 
+                            byte[] buffer, int offset, int count, 
+                            Int32 key)
         {
             if (count <= 0)
                 return;
@@ -165,88 +137,41 @@ namespace Soft64
             /* If the section exists, read from its data */
             if (section != null)
             {
+                /* Set the position on the stream */
                 section.Position = Position - section.BasePosition;
-                Int32 read = section.Read(buffer, offset, count);
-                offset += read;
-                count -= read;
-                Position += read;
-                Read(buffer, offset, count, (Int32)Position >> 16);
+
+                /* Compute the number of bytes to access */
+                Int32 length = (Int32)(Math.Min(section.BasePosition + section.Length, section.Position + count) - section.Position);
+
+                /* Call the access op */
+                op(section, buffer, offset, length);
+
+                /* Increment buffer offset, decrement count, and increment position */
+                offset += length;
+                count -= length;
+                Position += length;
+
+                /* Access possible section */
+                Access(op, buffer, offset, count, (Int32)Position >> 16);
             }
             else
             {
+                /* Skip non-existing section */
                 Position += 0x10000;
-                Read(buffer, offset + 0x10000, count -= 0x10000, key + 1);
-            }
-        }
-
-        private void Write(byte[] buffer, int offset, int count, Int32 key)
-        {
-            if (count <= 0)
-                return;
-
-            /* Pull out the memory section */
-            MemorySection section = m_SectionMap[key];
-
-            /* If the section exists, read from its data */
-            if (section != null)
-            {
-                // TODO
-                section.Position = Position - section.BasePosition;
-                var write = count;
-                section.Write(buffer, offset, count);
-                offset += write;
-                count -= write;
-                Position += write;
-                Write(buffer, offset, count, (Int32)Position >> 16);
-            }
-            else
-            {
-                Position += 0x10000;
-                Write(buffer, offset + 0x10000, count -= 0x10000, key + 1);
+                Access(op, buffer, offset + 0x10000, count -= 0x10000, key + 1);
             }
         }
 
         public override int Read(byte[] buffer, int offset, int count)
         {
             Array.Clear(buffer, offset, count);
-            Read(buffer, offset, count, (Int32)Position >> 16);
+            Access((a, b, c, d) => a.Read(b, c, d), buffer, offset, count, (Int32)Position >> 16);
             return count;
         }
 
         public override void Write(byte[] buffer, int offset, int count)
         {
-            CheckDispose();
-            var keys = GetRegions(m_Position, count);
-            var newOffset = offset;
-            Int64 lastPosition = 0;
-
-            foreach (var key in keys)
-            {
-                /* Store the last position */
-                lastPosition = Position;
-
-                /* Turn the key into the section's offset */
-                Int64 keyOffset = (Int64)(key << 16);
-                MemorySection stream = m_Regions[key]; /* Get the associated stream */
-                Position = keyOffset;
-
-                /* If we skipped over non-accessable section, increment the buffer offset */
-                if (Position >= lastPosition)
-                {
-                    newOffset += (Int32)(Position - lastPosition);
-                }
-
-                /* Do a full read when count goes past the section bounrary */
-                Int64 end = Position + count;
-                Int64 sEnd = Position + stream.Length;
-                Int32 newCount = (Int32)((end >= sEnd) ? (end - sEnd) : (sEnd - end));
-                stream.AccessMode = HeapAccessMode.Write;
-                stream.Position = Position - keyOffset;
-                stream.Write(buffer, newOffset, newCount);
-                count -= newCount;
-                newOffset += newCount;
-                Position += newCount;
-            }
+            Access((a, b, c, d) => a.Write(b, c, d), buffer, offset, count, (Int32)Position >> 16);
         }
 
         private void CheckDispose()
@@ -266,10 +191,7 @@ namespace Soft64
 
                 }
 
-                foreach (var s in m_Regions.Values)
-                {
-                    s.Dispose();
-                }
+                /* TODO: */
 
                 m_Disposed = true;
             }
