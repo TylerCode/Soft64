@@ -288,6 +288,15 @@ namespace Soft64.RCP
             set { AutoRegisterProps.SetSS7(value); }
         }
     }
+
+
+    public sealed class RspRegisterStatusR : MemoryMappedRegister32
+    {
+        public RspRegisterStatusR(IntPtr p, Int32 o) : base(p, 0)
+        {
+
+        }
+    }
 }
 
 
