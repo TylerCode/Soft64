@@ -115,7 +115,7 @@ namespace Soft64
                 m_Mode = HeapAccessMode.Read;
 
                 /* Check for possible memory violations */
-                Check(buffer, ref offset, ref count);
+                Check(BasePosition, buffer, ref offset, ref count);
 
                 try
                 {
@@ -134,23 +134,22 @@ namespace Soft64
             }
         }
 
-        private void Check(byte[] buffer, ref int offset, ref int count)
+        private void Check(Int64 baseOffset, byte[] buffer, ref int offset, ref int count)
         {
-            if (m_Position > Int32.MaxValue)
-                throw new InvalidOperationException("Position cannot be greater than the max value of int32");
+            Int64 sectionPos = m_Position - baseOffset;
 
-            if ((Int32)m_Position >= m_HeapSize)
+            if ((Int32)sectionPos >= m_HeapSize)
                 count = 0;
             else
             {
                 /* Crop the count if we need too, to avoid pointer violations */
-                if (((Int32)m_Position + count) >= m_HeapSize)
+                if (((Int32)sectionPos + count) >= m_HeapSize)
                 {
-                    count = Math.Min(0, count -= (m_HeapSize + ((Int32)m_Position + count)) - m_HeapSize);
+                    count = Math.Min(0, count -= (m_HeapSize + ((Int32)sectionPos + count)) - m_HeapSize);
                 }
             }
 
-            if (offset >= buffer.Length || (offset + count) >= buffer.Length)
+            if (offset >= buffer.Length || (offset + (count - 1)) >= buffer.Length)
                 throw new ArgumentOutOfRangeException();
         }
 
@@ -176,7 +175,7 @@ namespace Soft64
                 m_Mode = HeapAccessMode.Write;
 
                 /* Check for possible memory violations */
-                Check(buffer, ref offset, ref count);
+                Check(BasePosition, buffer, ref offset, ref count);
 
                 try
                 {

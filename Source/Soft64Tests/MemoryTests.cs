@@ -31,13 +31,13 @@ namespace Soft64.TestUnits
             memory.Initialize();
 
             /* RDRAM zero test */
-            StreamTest(new Byte[] { 0, 0, 0, 0 }, false, 0, memory);
+            StreamTest("RDRAM Zero Test", new Byte[] { 0, 0, 0, 0 }, false, 0, memory);
 
             /* RDRAM read/write test */
-            StreamTest(new Byte[] { 0xD, 0xE, 0xA, 0xD }, true, 0, memory);
+            StreamTest("RDRAM Read/Write Test", new Byte[] { 0xD, 0xE, 0xA, 0xD }, true, 0, memory);
         }
 
-        private void StreamTest(Byte[] testData, Boolean writeTest, Int64 position, Stream stream)
+        private void StreamTest(String testName, Byte[] testData, Boolean writeTest, Int64 position, Stream stream)
         {
             Byte[] read = new byte[testData.Length];
             stream.Position = position;
@@ -49,11 +49,11 @@ namespace Soft64.TestUnits
 
             Int32 readLength = stream.Read(read, 0, read.Length);
 
-            Assert.True(readLength == read.Length, "Test read length doesn't match test data length");
+            Assert.True(readLength == read.Length, $"Test read length doesn't match test data length for test {testName}");
 
             for (Int32 i = 0; i < read.Length; i++)
             {
-                Assert.Equal(testData[i], read[i]);
+                Assert.True(testData[i] == read[i], $"Byte sample differs from test data at index {i} for test {testName}");
             }
         }
     }

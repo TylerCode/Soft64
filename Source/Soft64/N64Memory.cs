@@ -1,4 +1,5 @@
-﻿using Soft64.RCP;
+﻿using NLog;
+using Soft64.RCP;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -21,6 +22,7 @@ namespace Soft64
         [ThreadStatic]
         private Int64 m_Position;
         private Boolean m_Disposed;
+        private readonly static Logger logger = LogManager.GetLogger("N64 Memory");
 
         public override bool CanRead
         {
@@ -121,7 +123,18 @@ namespace Soft64
         {
             Int64 byteCount = stream.Length;
             Int32 startKey = (Int32)stream.BasePosition >> 16;
+            Int32 endKey = startKey + (Int32)stream.Length >> 16;
+            Int32 sliceCount = 1 + (endKey - startKey);
 
+            logger.Debug($"Mapping {sliceCount} slices of {stream} to physical N64 memory -> {stream.BasePosition:X8}");
+
+            for (Int32 i = startKey; i < endKey; i++)
+            {
+                if (m_SectionMap[i] != null)
+                    throw new InvalidOperationException("Overlay error has occurred!");
+
+                m_SectionMap[i] = stream;
+            }
         }
 
         private void Access(Action<Stream,byte[],int,int> op, 
