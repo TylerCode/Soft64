@@ -47,6 +47,7 @@ namespace Soft64.TestUnits
                 stream.Write(testData, 0, testData.Length);
             }
 
+            stream.Position = position;
             Int32 readLength = stream.Read(read, 0, read.Length);
 
             Assert.True(readLength == read.Length, $"Test read length doesn't match test data length for test {testName}");
