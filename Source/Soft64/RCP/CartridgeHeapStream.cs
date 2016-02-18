@@ -17,7 +17,6 @@ namespace Soft64.RCP
 
         protected override void Allocate(int size)
         {
-            SetPointer(IntPtr.Zero);
         }
 
         public override int Read(byte[] buffer, int offset, int count)

@@ -6,29 +6,25 @@ using System.Threading.Tasks;
 
 namespace Soft64
 {
-    public unsafe abstract class MemoryMappedRegister32 : SmartRegister<UInt32>
+    public abstract class MemoryMappedRegister32 : SmartRegister<UInt32>
     {
-        private UInt32 * m_BasePointer;
+        private Int32 m_Offset;
+        private RegistersMemorySection m_Section;
 
-        internal event Action WriteNotification;
-
-        protected MemoryMappedRegister32(IntPtr memoryPointer, Int32 memoryOffset) : base()
+        protected MemoryMappedRegister32(RegistersMemorySection section, Int32 offset) : base()
         {
-            m_BasePointer = (UInt32 *)IntPtr.Add(memoryPointer, memoryOffset).ToPointer();
+            m_Section = section;
+            m_Offset = offset;
         }
 
-        protected override uint InternalRegister
+        protected unsafe override uint ReadRegister()
         {
-            get
-            {
-               return *m_BasePointer;
-            }
+            return *(UInt32*)m_Section.GetPointer(false, m_Offset);
+        }
 
-            set
-            {
-                *m_BasePointer = value;
-                WriteNotification?.Invoke();
-            }
+        protected unsafe override void WriteRegister(uint value)
+        {
+            *(UInt32*)m_Section.GetPointer(true, m_Offset) = value;
         }
     }
 }

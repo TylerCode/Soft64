@@ -13,16 +13,23 @@ namespace Soft64
         [ThreadStatic]
         private Int64 m_Position;
         private Int64 m_BaseAddress;
+        private Int64 m_SectionSize;
         private IntPtr m_Pointer;
         private Byte* m_RawMemPointer;
         private Int32 m_HeapSize;
         private Boolean m_Disposed;
-        private HeapAccessMode m_Mode;
         private GCHandle m_PinnedBufferHandle;
         private Byte[] m_Buffer;
 
-        public MemorySection(Int32 heapSize, Int64 baseAddress)
+
+        public MemorySection (Int32 heapSize, Int64 baseAddress) : this(heapSize, heapSize, baseAddress)
         {
+
+        }
+
+        public MemorySection(Int64 mappedSize, Int32 heapSize, Int64 baseAddress)
+        {
+            m_SectionSize = mappedSize;
             m_BaseAddress = baseAddress;
             m_HeapSize = heapSize;
             Allocate(heapSize);
@@ -37,19 +44,7 @@ namespace Soft64
             m_PinnedBufferHandle = GCHandle.Alloc(m_Buffer, GCHandleType.Pinned);
 
             /* Setup the pointers */
-            SetPointer(m_PinnedBufferHandle.AddrOfPinnedObject());
-        }
-
-        protected void SetPointer(IntPtr p)
-        {
-            m_Pointer = p;
-            m_RawMemPointer = (Byte*)m_Pointer.ToPointer();
-        }
-
-        public HeapAccessMode AccessMode
-        {
-            get { return m_Mode; }
-            set { m_Mode = value; }
+            m_Pointer = m_PinnedBufferHandle.AddrOfPinnedObject();
         }
 
         public Boolean IsDisposed
@@ -85,7 +80,7 @@ namespace Soft64
         {
             get
             {
-                return m_HeapSize;
+                return m_SectionSize;
             }
         }
 
@@ -112,14 +107,12 @@ namespace Soft64
             {
                 Int32 givenCount = count;
 
-                m_Mode = HeapAccessMode.Read;
-
                 /* Check for possible memory violations */
                 Check(BasePosition, buffer, ref offset, ref count);
 
                 try
                 {
-                    Byte* ptr = GetPointer();
+                    Byte* ptr =(Byte *)GetPointer(false, (Int32)Position);
                     for (Int32 i = 0; i < count; i++)
                     {
                         buffer[i + offset] = *(ptr + i);
@@ -137,25 +130,31 @@ namespace Soft64
         private void Check(Int64 baseOffset, byte[] buffer, ref int offset, ref int count)
         {
             Int64 sectionPos = m_Position - baseOffset;
+            Int64 sectionHeapSize = (Int64)m_HeapSize;
 
-            if ((Int32)sectionPos >= m_HeapSize)
+            /* If position is outside the heap size, don't do any more IO */
+            if (sectionPos >= m_HeapSize)
+            {
                 count = 0;
+            }
             else
             {
-                /* Crop the count if we need too, to avoid pointer violations */
-                if (((Int32)sectionPos + count) >= m_HeapSize)
+                /* Truncate */
+                Int64 lastPos = sectionPos + count;
+                if (lastPos >= m_HeapSize)
                 {
-                    count = Math.Min(0, count -= (m_HeapSize + ((Int32)sectionPos + count)) - m_HeapSize);
+                    count -= (Int32)(lastPos - m_HeapSize);
                 }
             }
 
+            /* Check offset and count arguments are valid for the buffer */
             if (offset >= buffer.Length || (offset + (count - 1)) >= buffer.Length)
                 throw new ArgumentOutOfRangeException();
         }
 
-        private unsafe Byte * GetPointer()
+        public virtual IntPtr GetPointer(bool write, Int32 offset)
         {
-            return (Byte*)(m_RawMemPointer + (Int32)m_Position);
+            return IntPtr.Add(m_Pointer, offset);
         }
 
         public override long Seek(long offset, SeekOrigin origin)
@@ -172,14 +171,12 @@ namespace Soft64
         {
             unsafe
             {
-                m_Mode = HeapAccessMode.Write;
-
                 /* Check for possible memory violations */
                 Check(BasePosition, buffer, ref offset, ref count);
 
                 try
                 {
-                    Byte* ptr = GetPointer();
+                    Byte* ptr = (Byte*)GetPointer(true, (Int32)Position);
                     for (Int32 i = 0; i < count; i++)
                     {
                         *(ptr + i) = buffer[i + offset];
@@ -205,26 +202,15 @@ namespace Soft64
 
                 /* Unpin the buffer */
                 m_PinnedBufferHandle.Free();
-                SetPointer(IntPtr.Zero);
+                m_Pointer = IntPtr.Zero;
 
                 m_Disposed = true;
             }
-        }
-
-        internal IntPtr HeapPointer
-        {
-            get { return m_Pointer; }
         }
 
         public Int64 BasePosition
         {
             get { return m_BaseAddress; }
         }
-    }
-
-    public enum HeapAccessMode : int
-    {
-        Read,
-        Write
     }
 }

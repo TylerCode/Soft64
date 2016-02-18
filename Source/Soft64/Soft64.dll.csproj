@@ -197,6 +197,7 @@
     <Compile Include="RCP\RspMemory.cs" />
     <Compile Include="RegionType.cs" />
     <Compile Include="PI\RomChecksum.cs" />
+    <Compile Include="RegistersMemorySection.cs" />
     <Compile Include="SmartRegister.cs" />
     <Compile Include="SoftBootManager.cs" />
     <Compile Include="SychronizedStream.cs" />
