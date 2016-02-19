@@ -212,5 +212,21 @@ namespace Soft64
         {
             get { return m_BaseAddress; }
         }
+
+        public unsafe Byte MemReadByte(Int32 offset) => *(Byte*)GetPointer(false, offset);
+
+        public unsafe UInt16 MemReadU16(Int32 offset) => *(UInt16*)GetPointer(false, offset);
+
+        public unsafe UInt32 MemReadU32(Int32 offset) => *(UInt32*)GetPointer(false, offset);
+
+        public unsafe UInt64 MemReadU64(Int32 offset) => *(UInt64*)GetPointer(false, offset);
+
+        public unsafe void MemWrite(Int32 offset, Byte value) => *(Byte*)GetPointer(true, offset) = value;
+
+        public unsafe void MemWrite(Int32 offset, UInt16 value) => *(UInt16*)GetPointer(true, offset) = value;
+
+        public unsafe void MemWrite(Int32 offset, UInt32 value) => *(UInt32*)GetPointer(true, offset) = value;
+
+        public unsafe void MemWrite(Int32 offset, UInt64 value) => *(UInt64*)GetPointer(true, offset) = value;
     }
 }

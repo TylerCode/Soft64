@@ -74,11 +74,12 @@ namespace Soft64
                     /* PI Setup */
                     var pi = Machine.Current.Memory.PI;
                     PiBusSpeedConfig config = Cartridge.Current.RomImage.BusConfig;
-                    pi.Domain1Latency = (UInt32)config.DeviceLatency;
-                    pi.Domain1PageSize = (UInt32)config.PageSize;
-                    pi.Domain1PulseWidth = (UInt32)config.PulseWidth;
-                    pi.Domain1Release = (UInt32)config.ReleaseTime;
-                    pi.Status = 0;
+                    pi.Domain1Latency = config.DeviceLatency;
+                    pi.Domain1PageSize = config.PageSize;
+                    pi.Domain1PulseWidth = config.PulseWidth;
+                    pi.Domain1Release = config.ReleaseTime;
+                    pi.Status.Data = 0;
+                    pi.Status.RegisterValue = 0;
 
 
 

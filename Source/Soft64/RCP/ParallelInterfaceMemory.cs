@@ -5,44 +5,41 @@ namespace Soft64.RCP
     // TODO: Implement register change thread-safe latch system
     public class ParallelInterfaceMemory : RegistersMemorySection
     {
-        /* RCP Interface references */
-        private RcpInterfacePi m_RcpInterfacePI;
-
-        private _R1 m_DramAddressReg;
-        private _R2 m_CartAddressReg;
-
+        private R5 m_StatusReg;
         
-
         public ParallelInterfaceMemory() : base(0x10000, 0x35, 0x04600000)
         {
-            m_DramAddressReg = new _R1(this, 4 * 0);
-            m_CartAddressReg = new _R2(this, 4 * 1);
-
+            m_StatusReg = new R5(this, 4);
         }
 
-        private class _R1 : MemoryMappedRegister32
+        /// <summary>
+        /// Starting RDRAM address 
+        /// </summary>
+        public Int64 DramAddress
         {
-            public unsafe _R1(RegistersMemorySection s, Int32 o) : base(s, o)
-            {
-            }
-            public UInt32 Address
-            {
-                get { return RegisterValue; }
-                set { RegisterValue = value; }
-            }
-
+            get { return MemReadU32(0) & 0xFFFFFF; }
+            set { MemWrite(0, (UInt32)(value & 0xFFFFFF)); }
         }
 
-        private class _R2 : MemoryMappedRegister32
+        /// <summary>
+        /// Starting AD16 address
+        /// </summary>
+        public Int64 CartAddress
         {
-            public unsafe _R2(RegistersMemorySection s, Int32 o) : base(s, o)
-            {
-            }
-            public UInt32 Address
-            {
-                get { return RegisterValue; }
-                set { RegisterValue = value; }
-            }
+            get { return MemReadU32(1) & 0xFFFFFF; }
+            set { MemWrite(1, (UInt32)(value & 0xFFFFFF)); }
+        }
+
+        public Int32 ReadLength
+        {
+            get { return (Int32)(MemReadU32(2) & 0xFFFFFF); }
+            set { MemWrite(2, (UInt32)(value & 0xFFFFFF)); }
+        }
+
+        public Int32 WriteLength
+        {
+            get { return (Int32)(MemReadU32(2) & 0xFFFFFF); }
+            set { MemWrite(3, (UInt32)(value & 0xFFFFFF)); }
         }
 
         [RegisterField("R0", 1, 0, typeof(Boolean))]
@@ -50,27 +47,64 @@ namespace Soft64.RCP
         [RegisterField("R1", 1, 2, typeof(Boolean))]
         [RegisterField("W0", 1, 0, typeof(Boolean))]
         [RegisterField("W1", 1, 1, typeof(Boolean))]
-        private class _R3 : MemoryMappedRegister32
+        public class R5 : MemoryMappedRegister32
         {
-            public unsafe _R3(RegistersMemorySection s, Int32 o) : base(s, o)
-            {
-            }
+            protected internal R5(RegistersMemorySection s, Int32 o) : base(s, o) { }
             public Boolean IsDmaBusy => AutoRegisterProps.GetR0();
             public Boolean IsIOBusy => AutoRegisterProps.GetR1();
             public Boolean IsError => AutoRegisterProps.GetR2();
+            public Boolean Reset { set { AutoRegisterProps.SetW0(value); } }
+            public Boolean Clear { set { AutoRegisterProps.SetW1(value); } }
         }
 
-        public uint Domain1Latency { get; internal set; }
-        public uint Domain1PageSize { get; internal set; }
-        public uint Domain1PulseWidth { get; internal set; }
-        public uint Domain1Release { get; internal set; }
-        public int Status { get; internal set; }
-    }
+        public R5 Status => m_StatusReg;
 
-    public interface RcpInterfacePi
-    {
-        Boolean IsDmaBusy { get; }
-        Boolean IsIOBusy { get; }
-        Boolean IsError { get; }
+        public Byte Domain1Latency
+        {
+            get { return MemReadByte(6); }
+            set { MemWrite(6, value); }
+        }
+
+        public Byte Domain1PageSize
+        {
+            get { return MemReadByte(7); }
+            set { MemWrite(7, value); }
+        }
+
+        public Byte Domain1PulseWidth
+        {
+            get { return MemReadByte(8); }
+            set { MemWrite(8, value); }
+        }
+
+        public Byte Domain1Release
+        {
+            get { return MemReadByte(9); }
+            set { MemWrite(9, value); }
+        }
+
+        public Byte Domain2Latency
+        {
+            get { return MemReadByte(10); }
+            set { MemWrite(10, value); }
+        }
+
+        public Byte Domain2PageSize
+        {
+            get { return MemReadByte(11); }
+            set { MemWrite(11, value); }
+        }
+
+        public Byte Domain2PulseWidth
+        {
+            get { return MemReadByte(12); }
+            set { MemWrite(12, value); }
+        }
+
+        public Byte Domain2Release
+        {
+            get { return MemReadByte(13); }
+            set { MemWrite(13, value); }
+        }
     }
 }

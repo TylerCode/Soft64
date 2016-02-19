@@ -17,14 +17,30 @@ namespace Soft64
             m_Offset = offset;
         }
 
+        private IntPtr GetReadPointer()
+        {
+            return m_Section.GetPointer(false, m_Offset * 4);
+        }
+
+        private IntPtr GetWritePointer()
+        {
+            return m_Section.GetPointer(true, m_Offset * 4);
+        }
+
         protected unsafe override uint ReadRegister()
         {
-            return *(UInt32*)m_Section.GetPointer(false, m_Offset);
+            return *(UInt32*)GetReadPointer();
         }
 
         protected unsafe override void WriteRegister(uint value)
         {
-            *(UInt32*)m_Section.GetPointer(true, m_Offset) = value;
+            *(UInt32*)GetWritePointer() = value;
+        }
+
+        internal unsafe UInt32 Data
+        {
+            get { return *(UInt32*)GetWritePointer(); }
+            set { *(UInt32*)GetReadPointer() = value; }
         }
     }
 }

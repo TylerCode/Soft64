@@ -23,12 +23,12 @@ namespace Soft64.PI
 {
     public sealed class PiBusSpeedConfig
     {
-        private Int32 m_Latency;
-        private Int32 m_PulseWidth;
-        private Int32 m_PageSize;
-        private Int32 m_ReleaseTime;
+        private Byte m_Latency;
+        private Byte m_PulseWidth;
+        private Byte m_PageSize;
+        private Byte m_ReleaseTime;
 
-        public PiBusSpeedConfig(Int32 latency, Int32 pulseWidth, Int32 pageSize, Int32 releaseTime)
+        public PiBusSpeedConfig(Byte latency, Byte pulseWidth, Byte pageSize, Byte releaseTime)
         {
             m_Latency = latency;
             m_PulseWidth = pulseWidth;
@@ -36,13 +36,13 @@ namespace Soft64.PI
             m_ReleaseTime = releaseTime;
         }
 
-        public Int32 DeviceLatency { get { return m_Latency; } }
+        public Byte DeviceLatency { get { return m_Latency; } }
 
-        public Int32 PulseWidth { get { return m_PulseWidth; } }
+        public Byte PulseWidth { get { return m_PulseWidth; } }
 
-        public Int32 PageSize { get { return m_PageSize; } }
+        public Byte PageSize { get { return m_PageSize; } }
 
-        public Int32 ReleaseTime { get { return m_ReleaseTime; } }
+        public Byte ReleaseTime { get { return m_ReleaseTime; } }
 
         public Int64 Config
         {
