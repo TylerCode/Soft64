@@ -130,6 +130,7 @@
     <Compile Include="MipsR4300\InstructionReader.cs" />
     <Compile Include="MipsR4300\MipsSnapshot.cs" />
     <Compile Include="N64MemRegions.cs" />
+    <Compile Include="RCP\MipsInterfaceMemory.cs" />
     <Compile Include="RCP\ParallelInterface.cs" />
     <Compile Include="RCP\ParallelInterfaceMemory.cs" />
     <Compile Include="RCP\RcpInterfaceMemory.cs" />

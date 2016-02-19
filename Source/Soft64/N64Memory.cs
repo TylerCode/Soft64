@@ -17,6 +17,7 @@ namespace Soft64
         private MemorySection m_RDRam;
         //private RspMemory m_RspMemory;
         private MemorySection m_PifMemory;
+        private ParallelInterfaceMemory m_PIMem;
         private CartridgeHeapStream m_CartMemory;
         private MemorySection[] m_SectionMap;
         [ThreadStatic]
@@ -84,6 +85,7 @@ namespace Soft64
             m_SectionMap = new MemorySection[0x10000];
             m_RDRam = new MemorySection(0x100000, 0x00000000);
             m_PifMemory = new MemorySection(0x800, 0x1FC00000);
+            m_PIMem = new ParallelInterfaceMemory();
             //m_RspMemory = new RspMemory();
 
             if (m_CartMemory != null)
@@ -93,6 +95,7 @@ namespace Soft64
 
             /* Setup the region hashtable */
             AddStream(m_RDRam);
+            AddStream(m_PIMem);
             //AddStream(m_RspMemory.SPRam);
             //AddStream(m_RspMemory.RegMemoryStream);
             AddStream(m_PifMemory);
