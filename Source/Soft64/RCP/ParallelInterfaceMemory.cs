@@ -47,7 +47,7 @@ namespace Soft64.RCP
         [RegisterField("R1", 1, 2, typeof(Boolean))]
         [RegisterField("W0", 1, 0, typeof(Boolean))]
         [RegisterField("W1", 1, 1, typeof(Boolean))]
-        public class R5 : MemoryMappedRegister32
+        public sealed class R5 : MemoryMappedRegister32
         {
             protected internal R5(RegistersMemorySection s, Int32 o) : base(s, o) { }
             public Boolean IsDmaBusy => AutoRegisterProps.GetR0();

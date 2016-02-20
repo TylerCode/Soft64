@@ -37,9 +37,36 @@ namespace Soft64
             *(UInt32*)GetWritePointer() = value;
         }
 
-        internal unsafe UInt32 Data
+        /// <summary>
+        /// Access data that is written to the master that owns the register
+        /// </summary>
+        public unsafe UInt32 DataToMaster
         {
             get { return *(UInt32*)GetWritePointer(); }
+            set { *(UInt32*)GetWritePointer() = value; }
+        }
+
+        /// <summary>
+        /// Access data that is shared between master and slave
+        /// Read: Read the default data from the read buffer
+        /// Write: Write the data to both read and write buffer
+        /// </summary>
+        public unsafe UInt32 DataShared
+        {
+            get { return DataToSlave; }
+            set
+            {
+                DataToSlave = value;
+                DataToMaster = value;
+            }
+        }
+
+        /// <summary>
+        /// Access data that is written to the slave that doesn't own the register
+        /// </summary>
+        public unsafe UInt32 DataToSlave
+        {
+            get { return *(UInt32*)GetReadPointer(); }
             set { *(UInt32*)GetReadPointer() = value; }
         }
     }

@@ -78,12 +78,11 @@ namespace Soft64
                     pi.Domain1PageSize = config.PageSize;
                     pi.Domain1PulseWidth = config.PulseWidth;
                     pi.Domain1Release = config.ReleaseTime;
-                    pi.Status.Data = 0;
-                    pi.Status.RegisterValue = 0;
+                    pi.Status.DataShared = 0;
 
 
 
-                    /* sp_register.sp_status_reg = 1;
+                    /* TODO: sp_register.sp_status_reg = 1;
                         rsp_register.rsp_pc = 0;
 
                         ai_register.ai_dram_addr = 0;

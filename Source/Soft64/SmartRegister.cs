@@ -19,13 +19,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Dynamic;
-using System.Collections;
-using System.Linq.Expressions;
-using System.Reflection;
+using Fasterflect;
 
 namespace Soft64
 {
@@ -71,28 +66,28 @@ namespace Soft64
         where T : struct
     {
         private T m_Register;
-        private IEnumerable<RegisterFieldAttribute> m_MapDefinitions;
         private ExpandoObject m_DynamicObject;
 
         protected SmartRegister()
         {
-            m_MapDefinitions = GetType().GetCustomAttributes(typeof(RegisterFieldAttribute), true).OfType<RegisterFieldAttribute>();
             m_DynamicObject = new ExpandoObject();
             BuildProps();
         }
 
         private void BuildProps()
         {
-           foreach (var def in m_MapDefinitions)
+           var fields = GetType().Attributes<RegisterFieldAttribute>();
+
+           foreach (var def in fields)
            {
-               Func<dynamic> getter;
-               Action<dynamic> setter;
+               Func<ValueType> getter;
+               Action<ValueType> setter;
                Type fieldType = Type.GetTypeFromHandle(def.FieldType);
                dynamic mask = ((UInt64)Math.Pow(2, def.FieldSize) - 1) << def.FieldOffset;
 
                getter = () =>
                {
-                   dynamic value = Activator.CreateInstance(fieldType);
+                   dynamic value = fieldType.CreateInstance();
                    dynamic maskedRegValue = ReadRegister();
                    maskedRegValue &= (T)mask;
                    maskedRegValue >>= def.FieldOffset;
@@ -101,7 +96,7 @@ namespace Soft64
 
                setter = (v) =>
                {
-                   dynamic newValue = Convert.ToUInt64(v);
+                   dynamic newValue = (UInt64)(v);
                    newValue <<= def.FieldOffset;
 
                    dynamic maskedRegValue = ReadRegister();

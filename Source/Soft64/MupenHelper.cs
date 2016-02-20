@@ -591,82 +591,82 @@ namespace Soft64
         public const UInt32 MI_INTR_DP = 32;
 
 
-        public static Boolean MipsInterface_UpdateInitMode(RcpInterfaceMemory mi, UInt32 write)
+        public static Boolean MipsInterface_UpdateInitMode(MipsInterfaceMemory mi, UInt32 write)
         {
             Boolean clearDp = false;
 
             /* Set Init Length */
-            mi.Mode &= ~0x7FU;
-            mi.Mode |= write & 0x7F;
+            mi.InitModeReg.DataShared &= ~0x7FU;
+            mi.InitModeReg.DataShared |= write & 0x7F;
 
             /* Clear / Set Init Mode */
-            if ((write & 0x80U) != 0) mi.Mode &= ~0x80U;
-            if ((write & 0x100U) != 0) mi.Mode |= 0x80;
+            if ((write & 0x80U) != 0) mi.InitModeReg.DataToMaster &= ~0x80U;
+            if ((write & 0x100U) != 0) mi.InitModeReg.DataToMaster |= 0x80;
 
             /* Clear / Set EBus Test Mode */
-            if ((write & 0x200) != 0) mi.Mode &= ~0x100U;
-            if ((write & 0x400) != 0) mi.Mode |= 0x100;
+            if ((write & 0x200) != 0) mi.InitModeReg.DataToMaster &= ~0x100U;
+            if ((write & 0x400) != 0) mi.InitModeReg.DataToMaster |= 0x100;
 
             /* Clear DP Intrrupt */
-            if ((write & 0x800) != 0) clearDp = true;
+            if ((write & 0x800) != 0) mi.InitModeReg.ClearDPInterrupt = clearDp = true;
 
             /* Clear / Set RDRAM Reg Mode */
-            if ((write & 0x1000) != 0) mi.Mode &= ~0x200U;
-            if ((write & 0x2000) != 0) mi.Mode |= 0x200;
+            if ((write & 0x1000) != 0) mi.InitModeReg.DataToMaster &= ~0x200U;
+            if ((write & 0x2000) != 0) mi.InitModeReg.DataToMaster |= 0x200;
 
             return clearDp;
         }
 
-        public static void MipsInterface_UpdateInterruptMask(RcpInterfaceMemory mi, UInt32 write)
+        public static void MipsInterface_UpdateInterruptMask(MipsInterfaceMemory mi, UInt32 write)
         {
             /* Clear / Set SP Mask */
-            if ((write & 0x1) != 0) mi.InterruptMask &= ~0x1U;
-            if ((write & 0x2) != 0) mi.InterruptMask |= 0x1;
+            if ((write & 0x1) != 0) mi.IntrMaskReg.DataToMaster &= ~0x1U;
+            if ((write & 0x2) != 0) mi.IntrMaskReg.DataToMaster |= 0x1;
 
             /* Clear / Set SI Mask */
-            if ((write & 0x4) != 0) mi.InterruptMask &= ~0x2U;
-            if ((write & 0x8) != 0) mi.InterruptMask |= 0x2;
+            if ((write & 0x4) != 0) mi.IntrMaskReg.DataToMaster &= ~0x2U;
+            if ((write & 0x8) != 0) mi.IntrMaskReg.DataToMaster |= 0x2;
 
             /* Clear / Set AI Mask */
-            if ((write & 0x10) != 0) mi.InterruptMask &= ~0x4U;
-            if ((write & 0x20) != 0) mi.InterruptMask |= 0x4;
+            if ((write & 0x10) != 0) mi.IntrMaskReg.DataToMaster &= ~0x4U;
+            if ((write & 0x20) != 0) mi.IntrMaskReg.DataToMaster |= 0x4;
 
             /* Clear / Set VI Mask */
-            if ((write & 0x40) != 0) mi.InterruptMask &= ~0x8U;
-            if ((write & 0x80) != 0) mi.InterruptMask |= 0x8;
+            if ((write & 0x40) != 0) mi.IntrMaskReg.DataToMaster &= ~0x8U;
+            if ((write & 0x80) != 0) mi.IntrMaskReg.DataToMaster |= 0x8;
 
             /* Clear / Set PI Mask */
-            if ((write & 0x100) != 0) mi.InterruptMask &= ~0x10U;
-            if ((write & 0x200) != 0) mi.InterruptMask |= 0x10;
+            if ((write & 0x100) != 0) mi.IntrMaskReg.DataToMaster &= ~0x10U;
+            if ((write & 0x200) != 0) mi.IntrMaskReg.DataToMaster |= 0x10;
 
             /* Clear / Set DP Mask */
-            if ((write & 0x400) != 0) mi.InterruptMask &= ~0x20U;
-            if ((write & 0x800) != 0) mi.InterruptMask |= 0x20;
+            if ((write & 0x400) != 0) mi.IntrMaskReg.DataToMaster &= ~0x20U;
+            if ((write & 0x800) != 0) mi.IntrMaskReg.DataToMaster |= 0x20;
         }
 
-        public static void MipsInterface_RaiseRcpException(RcpInterfaceMemory mi, UInt32 intr)
+        public static void MipsInterface_RaiseRcpException(MipsInterfaceMemory mi, UInt32 intr)
         {
-            mi.Interrupts |= intr;
+            mi.IntrReg.DataToSlave |= intr;
 
-            if ((mi.Interrupts & mi.InterruptMask) == mi.InterruptMask)
+            if ((mi.IntrReg.DataToSlave & mi.IntrMaskReg.DataToSlave) == mi.IntrMaskReg.DataToSlave)
             {
                 RaiseMaskableInterrupt(0x400);
             }
         }
 
-        public static void MipsInterface_SignalRcpInterrupt(RcpInterfaceMemory mi, UInt32 intr)
+        public static void MipsInterface_SignalRcpInterrupt(MipsInterfaceMemory mi, UInt32 intr)
         {
-            mi.Interrupts |= intr;
+            mi.IntrReg.DataToSlave |= intr;
             CheckInterrupt();
         }
 
-        public static void MipsInterface_ClearRcpInterrupt(RcpInterfaceMemory mi, UInt32 intr)
+        public static void MipsInterface_ClearRcpInterrupt(MipsInterfaceMemory mi, UInt32 intr)
         {
-            mi.Interrupts &= ~intr;
+            mi.IntrReg.DataToSlave &= ~intr;
             CheckInterrupt();
         }
 
-        public static void MipsInterface_RegWrite(RcpInterfaceMemory mi, Int32 address, UInt32 value, UInt32 mask)
+        public static void MipsInterface_RegWrite(MipsInterfaceMemory mi, Int32 address, UInt32 value, UInt32 mask)
         {
             var reg = (mi_registers)address;
 
