@@ -12,16 +12,6 @@ namespace Soft64.TestUnits
     public class MemoryTests
     {
         [Fact]
-        public void RspMemoryTests()
-        {
-            //var rspMem = new RspMemory();
-            //var writer = new BinaryWriter(rspMem.RegMemoryStream);
-            //var reader = new BinaryReader(rspMem.RegMemoryStream);
-            //writer.Write(0xBEAU);
-            //Assert.Equal(0xBEAU, rspMem.RegMemoryAddress.Address);
-        }
-
-        [Fact]
         public void MachineMemoryTests()
         {
             /* Create an instance of the machine memory system */
@@ -35,6 +25,13 @@ namespace Soft64.TestUnits
 
             /* RDRAM read/write test */
             StreamTest("RDRAM Read/Write Test", new Byte[] { 0xD, 0xE, 0xA, 0xD }, true, 0, memory);
+
+            /* RSP Register tests */
+            var rspRegMem = memory.RspRegisters;
+            var writer = new BinaryWriter(rspRegMem);
+            var reader = new BinaryReader(rspRegMem);
+            writer.Write(0xBEAU);
+            Assert.Equal(0xBEAU, rspRegMem.MemoryAddressReg.Address);
         }
 
         private void StreamTest(String testName, Byte[] testData, Boolean writeTest, Int64 position, Stream stream)

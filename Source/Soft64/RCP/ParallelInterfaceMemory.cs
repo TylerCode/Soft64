@@ -44,7 +44,7 @@ namespace Soft64.RCP
 
         [RegisterField("R0", 1, 0, typeof(Boolean))]
         [RegisterField("R1", 1, 1, typeof(Boolean))]
-        [RegisterField("R1", 1, 2, typeof(Boolean))]
+        [RegisterField("R2", 1, 2, typeof(Boolean))]
         [RegisterField("W0", 1, 0, typeof(Boolean))]
         [RegisterField("W1", 1, 1, typeof(Boolean))]
         public sealed class R5 : MemoryMappedRegister32

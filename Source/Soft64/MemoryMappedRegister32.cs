@@ -41,7 +41,10 @@ namespace Soft64
 
         protected unsafe override uint ReadRegister(Int32 offset)
         {
-            return *(UInt32*)GetReadPointer();
+            if (!m_Shared && (m_SharedStop < 0 && offset >= m_SharedStop))
+                return *(UInt32*)GetReadPointer();
+            else
+                return *(UInt32*)GetWritePointer();
         }
 
         protected unsafe override void WriteRegister(uint value, Int32 offset)
@@ -49,8 +52,11 @@ namespace Soft64
             if (!m_Shared && (m_SharedStop < 0 && offset >= m_SharedStop))
                 *(UInt32*)GetWritePointer() = value;
             else
+            {
                 *(UInt32*)GetReadPointer() = value;
-        }
+                *(UInt32*)GetWritePointer() = value;
+            }
+            }
 
         /// <summary>
         /// Access data that is written to the master that owns the register
