@@ -94,8 +94,8 @@ namespace Soft64
 
                     /* MI Setup */
                     var mi = Machine.Current.Memory.MI;
-                    mi.Version = 0x02020102;
-                    mi.Interrupts &= ~(0x10U | 0x8U | 0x4U | 0x1U);
+                    mi.VersionReg.DataToMaster = 0x02020102;
+                    mi.VersionReg.DataToSlave &= ~(0x10U | 0x8U | 0x4U | 0x1U);
 
                     logger.Debug("PIF HLE: Copying cartridge bootrom into DMEM + 0x40");
                     Machine.Current.Memory.Position = N64MemRegions.SPDMem.ToRegionAddress() + 0x40;

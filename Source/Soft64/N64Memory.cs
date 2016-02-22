@@ -15,11 +15,13 @@ namespace Soft64
     public class N64Memory : Stream
     {
         private MemorySection m_RDRam;
-        //private RspMemory m_RspMemory;
+        private MemorySection m_RspMemory;
+        private RspRegisterMemory m_RspRegisterMemory;
         private MemorySection m_PifMemory;
         private ParallelInterfaceMemory m_PIMem;
         private CartridgeHeapStream m_CartMemory;
         private MemorySection[] m_SectionMap;
+        private MipsInterfaceMemory m_MiIntefaceMemory;
         [ThreadStatic]
         private Int64 m_Position;
         private Boolean m_Disposed;
@@ -86,7 +88,9 @@ namespace Soft64
             m_RDRam = new MemorySection(0x100000, 0x00000000);
             m_PifMemory = new MemorySection(0x800, 0x1FC00000);
             m_PIMem = new ParallelInterfaceMemory();
-            //m_RspMemory = new RspMemory();
+            m_RspMemory = new MemorySection(0x2000, 0x04000000);
+            m_RspRegisterMemory = new RspRegisterMemory();
+            m_MiIntefaceMemory = new MipsInterfaceMemory();
 
             if (m_CartMemory != null)
             {
@@ -96,8 +100,8 @@ namespace Soft64
             /* Setup the region hashtable */
             AddStream(m_RDRam);
             AddStream(m_PIMem);
-            //AddStream(m_RspMemory.SPRam);
-            //AddStream(m_RspMemory.RegMemoryStream);
+            AddStream(m_RspMemory);
+            AddStream(m_RspRegisterMemory);
             AddStream(m_PifMemory);
         }
 
@@ -213,13 +217,17 @@ namespace Soft64
             }
         }
 
-        //public RspMemory Rsp => m_RspMemory;
+        public MemorySection RspMemory => m_RspMemory;
+
+        public RspRegisterMemory RspRegisters => m_RspRegisterMemory;
 
         public MemorySection Ram => m_RDRam;
 
-        public RcpInterfaceMemory MI { get; internal set; }
+        public MipsInterfaceMemory MI => m_MiIntefaceMemory;
 
-        public ParallelInterfaceMemory PI { get; internal set; }
+        public MemorySection PifMemory => m_PifMemory;
+
+        public ParallelInterfaceMemory PI => m_PIMem;
 
         internal void SetCartridgeSource(Cartridge cart)
         {

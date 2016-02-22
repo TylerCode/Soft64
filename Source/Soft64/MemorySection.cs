@@ -213,6 +213,8 @@ namespace Soft64
             get { return m_BaseAddress; }
         }
 
+        public unsafe Boolean MemReadBool(Int32 offset) => *(Boolean*)GetPointer(false, offset);
+
         public unsafe Byte MemReadByte(Int32 offset) => *(Byte*)GetPointer(false, offset);
 
         public unsafe UInt16 MemReadU16(Int32 offset) => *(UInt16*)GetPointer(false, offset);
@@ -220,6 +222,8 @@ namespace Soft64
         public unsafe UInt32 MemReadU32(Int32 offset) => *(UInt32*)GetPointer(false, offset);
 
         public unsafe UInt64 MemReadU64(Int32 offset) => *(UInt64*)GetPointer(false, offset);
+
+        public unsafe void MemWrite(Int32 offset, Boolean value) => *(Boolean*)GetPointer(true, offset) = value;
 
         public unsafe void MemWrite(Int32 offset, Byte value) => *(Byte*)GetPointer(true, offset) = value;
 

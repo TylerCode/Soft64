@@ -137,7 +137,6 @@
     <Compile Include="RCP\MipsInterfaceMemory.cs" />
     <Compile Include="RCP\ParallelInterface.cs" />
     <Compile Include="RCP\ParallelInterfaceMemory.cs" />
-    <Compile Include="RCP\RcpInterfaceMemory.cs" />
     <Compile Include="RCP\RspConstants.cs" />
     <Compile Include="DiskDrive.cs" />
     <Compile Include="FormatVerifyFlag.cs" />
@@ -199,7 +198,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RCP\RcpException.cs" />
     <Compile Include="RCPProcessor.cs" />
-    <Compile Include="RCP\RspMemory.cs" />
+    <Compile Include="RCP\RspRegisterMemory.cs" />
     <Compile Include="RegionType.cs" />
     <Compile Include="PI\RomChecksum.cs" />
     <Compile Include="RegistersMemorySection.cs" />

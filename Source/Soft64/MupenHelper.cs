@@ -540,8 +540,8 @@ namespace Soft64
             set { m_Core.State.CP0Regs.ErrorEPC = value; }
         }
 
-        private static UInt64 MI_INTR_REG => Machine.Current.Memory.MI.Interrupts;
-        private static UInt64 MI_INTR_MASK_REG => Machine.Current.Memory.MI.InterruptMask;
+        private static UInt64 MI_INTR_REG => Machine.Current.Memory.MI.IntrReg.RegisterValue;
+        private static UInt64 MI_INTR_MASK_REG => Machine.Current.Memory.MI.IntrMaskReg.RegisterValue;
 
         private class InterruptEvent
         {
