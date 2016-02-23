@@ -15,105 +15,66 @@ namespace Soft64.TestUnits
         [Fact]
         public void NtscPif6101()
         {
-            TestBootSequence(MockUpCartridge(RegionType.NTSC, CICKeyType.CIC_X101));
+            TestBootSequence(Common.MockUpCartridge(RegionType.NTSC, CICKeyType.CIC_X101));
         }
 
         [Fact]
         public void NtscPif6102()
         {
-            TestBootSequence(MockUpCartridge(RegionType.NTSC, CICKeyType.CIC_X102));
+            TestBootSequence(Common.MockUpCartridge(RegionType.NTSC, CICKeyType.CIC_X102));
         }
 
         [Fact]
         public void NtscPif6103()
         {
-            TestBootSequence(MockUpCartridge(RegionType.NTSC, CICKeyType.CIC_X103));
+            TestBootSequence(Common.MockUpCartridge(RegionType.NTSC, CICKeyType.CIC_X103));
         }
 
         [Fact]
         public void NtscPif6105()
         {
-            TestBootSequence(MockUpCartridge(RegionType.NTSC, CICKeyType.CIC_X105));
+            TestBootSequence(Common.MockUpCartridge(RegionType.NTSC, CICKeyType.CIC_X105));
         }
 
         [Fact]
         public void NtscPif6106()
         {
-            TestBootSequence(MockUpCartridge(RegionType.NTSC, CICKeyType.CIC_X106));
+            TestBootSequence(Common.MockUpCartridge(RegionType.NTSC, CICKeyType.CIC_X106));
         }
 
         [Fact]
         public void PalPif6101()
         {
-            TestBootSequence(MockUpCartridge(RegionType.PAL, CICKeyType.CIC_X101));
+            TestBootSequence(Common.MockUpCartridge(RegionType.PAL, CICKeyType.CIC_X101));
         }
 
         [Fact]
         public void PalPif6102()
         {
-            TestBootSequence(MockUpCartridge(RegionType.PAL, CICKeyType.CIC_X102));
+            TestBootSequence(Common.MockUpCartridge(RegionType.PAL, CICKeyType.CIC_X102));
         }
 
         [Fact]
         public void PalPif6103()
         {
-            TestBootSequence(MockUpCartridge(RegionType.PAL, CICKeyType.CIC_X103));
+            TestBootSequence(Common.MockUpCartridge(RegionType.PAL, CICKeyType.CIC_X103));
         }
 
         [Fact]
         public void PalPif6105()
         {
-            TestBootSequence(MockUpCartridge(RegionType.PAL, CICKeyType.CIC_X105));
+            TestBootSequence(Common.MockUpCartridge(RegionType.PAL, CICKeyType.CIC_X105));
         }
 
         [Fact]
         public void PalPif6106()
         {
-            TestBootSequence(MockUpCartridge(RegionType.PAL, CICKeyType.CIC_X106));
-        }
-
-        private Cartridge MockUpCartridge(RegionType region, CICKeyType cic)
-        {
-            var mockedCart = new Mock<Cartridge>();
-            var mockedCartRom = new Mock<ICartRom>();
-            var mockedBootRom = new Mock<IBootRom>();
-            GameSerial serial = new GameSerial(new Byte[] { 0x00, 00, 00, 00, 00, 00, 00, 00 });
-
-            MemoryStream stream = new MemoryStream();
-
-            for (Int32 i = 0; i < (1024 ^ 2); i++)
-                stream.WriteByte(0);
-
-            mockedBootRom.Setup<CICKeyType>(x => x.CIC).Returns(cic);
-            mockedBootRom.Setup<Int32>(x => x.BootChecksum).Returns(0x00);
-
-            mockedCartRom.Setup<PiBusSpeedConfig>(x => x.BusConfig).Returns(new PiBusSpeedConfig(0x80, 0x37, 0x12, 0x40));
-            mockedCartRom.Setup<String>(x => x.Name).Returns("MockedCartridge");
-            mockedCartRom.Setup<Int32>(x => x.Clockrate).Returns(60);
-            mockedCartRom.Setup<Int64>(x => x.EntryPoint).Returns(0x80000000);
-            mockedCartRom.Setup<GameSerial>(x => x.Serial).Returns(serial);
-            mockedCartRom.Setup<Int32>(x => x.CRC1).Returns(0x00);
-            mockedCartRom.Setup<Int32>(x => x.CRC2).Returns(0x00);
-            mockedCartRom.Setup<Boolean>(x => x.IsHeaderOnly).Returns(false);
-            mockedCartRom.Setup<IBootRom>(x => x.BootRomInformation).Returns(mockedBootRom.Object);
-            mockedCartRom.Setup<RegionType>(x => x.Region).Returns(region);
-            mockedCartRom.Setup<Stream>(x => x.RomStream).Returns(stream);
-
-            mockedCart.SetupProperty<Boolean>(c => c.IsOpened, true);
-            mockedCart.Setup<Stream>(c => c.PiCartridgeStream).Returns(stream);
-            mockedCart.Setup<ICartRom>(c => c.RomImage).Returns(mockedCartRom.Object);
-
-            return mockedCart.Object;
+            TestBootSequence(Common.MockUpCartridge(RegionType.PAL, CICKeyType.CIC_X106));
         }
 
         private void TestBootSequence(Cartridge cart)
         {
-            Machine machine = new Machine();
-            machine.SystemBootMode = BootMode.HLE_IPL_OLD;
-            machine.CartridgeInsert(cart);
-            MipsDebugger debugger = new MipsDebugger();
-            debugger.StartDebugging();
-            debugger.Step();
+            Machine machine = Common.MachineFactory.Create(BootMode.HLE_IPL_OLD, cart, true);
 
             ExecutionState state = machine.DeviceCPU.State;
 

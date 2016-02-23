@@ -56,10 +56,6 @@
     <Compile Include="AssemblyInfo.fs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Dynamitey">
-      <HintPath>..\packages\Dynamitey.1.0.2.0\lib\net40\Dynamitey.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="FSCL.Compiler">
       <HintPath>..\packages\FSCL.Compiler.2.0.1\lib\net45\FSCL.Compiler.dll</HintPath>
       <Private>True</Private>
@@ -106,10 +102,6 @@
     </Reference>
     <Reference Include="FSharp.Core">
       <HintPath>..\packages\FSharp.Core.4.0.0.1\lib\net40\FSharp.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="FSharp.Interop.Dynamic">
-      <HintPath>..\packages\FSharp.Interop.Dynamic.3.0.0.0\lib\portable-net45+sl50+win\FSharp.Interop.Dynamic.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="mscorlib" />
