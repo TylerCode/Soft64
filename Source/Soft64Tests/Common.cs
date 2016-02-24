@@ -8,8 +8,10 @@ using Soft64.PI;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
+using Xunit.Sdk;
 
 public static class Common
 {
@@ -70,13 +72,20 @@ public static class Common
         }
     }
 
-    public static Logger InitNLog()
+    public static Logger InitNLog(String testName)
     {
+        String logFilePath = $"{Environment.CurrentDirectory}\\logs\\testTrace.txt";
+
+        /* Insert a new line in the log */
+        var writer = File.AppendText(logFilePath);
+        writer.WriteLine();
+        writer.Close();
+
         var config = new LoggingConfiguration();
         FileTarget target = new FileTarget();
-        target.Layout = "${level}${logger}${message}";
+        target.Layout = "${logger} :: [${level}] ${message}";
         target.CreateDirs = true;
-        target.FileName = $"{Environment.CurrentDirectory}\\logs\\testTrace.txt";
+        target.FileName = logFilePath;
         target.KeepFileOpen = false;
         target.DeleteOldFileOnStartup = false;
         target.Encoding = Encoding.ASCII;
@@ -84,8 +93,23 @@ public static class Common
         config.LoggingRules.Add(emuLogRule);
         LogManager.Configuration = config;
 
-        var logger = LogManager.GetLogger("Test");
-        logger.Trace("\n\n---------- Running test -------------");
+        var logger = LogManager.GetLogger(testName);
+        logger.Trace("---------- Test Started -------------");
         return logger;
+    }
+}
+
+public sealed class LoggedEnabledTestAttribute : BeforeAfterTestAttribute
+{
+    private static Logger logger;
+
+    public override void Before(MethodInfo methodUnderTest)
+    {
+        logger = Common.InitNLog(methodUnderTest.Name);
+    }
+
+    public override void After(MethodInfo methodUnderTest)
+    {
+        logger.Trace("---------- Test Ended ---------------");
     }
 }

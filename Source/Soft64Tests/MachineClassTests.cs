@@ -20,10 +20,9 @@ namespace Soft64.TestUnits
         }
 
         [Fact]
+        [LoggedEnabledTestAttribute]
         public void MachineBootTest()
         {
-            var logger = Common.InitNLog();
-
             /* Test basic machine boot to check for errors */
             Machine machine = 
                 Common.MachineFactory.Create(
