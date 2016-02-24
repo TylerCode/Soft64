@@ -11,6 +11,7 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading.Tasks;
 using Xunit.Sdk;
 
 public static class Common
@@ -54,19 +55,23 @@ public static class Common
         public static Machine Create(BootMode mode = BootMode.HLE_IPL, Cartridge cart = null, Boolean breakAtDebug = false)
         {
             Machine machine = new Machine();
-            machine.SystemBootMode = mode;
 
-            if (cart != null)
+            Task.Run(() =>
             {
-                machine.CartridgeInsert(cart);
-            }
-            
-            if (breakAtDebug)
-            {
-                MipsDebugger debugger = new MipsDebugger();
-                debugger.StartDebugging();
-                debugger.Step();
-            }
+                machine.SystemBootMode = mode;
+
+                if (cart != null)
+                {
+                    machine.CartridgeInsert(cart);
+                }
+
+                if (breakAtDebug)
+                {
+                    MipsDebugger debugger = new MipsDebugger();
+                    debugger.StartDebugging();
+                    debugger.Step();
+                }
+            });
 
             return machine;
         }

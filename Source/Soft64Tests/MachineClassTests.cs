@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -29,10 +30,10 @@ namespace Soft64.TestUnits
                     cart:Common.MockUpCartridge(RegionType.NTSC, CICKeyType.CIC_X102), 
                     breakAtDebug:true);
 
-            
+            while (!machine.IsRunning)
+                Thread.Sleep(200);
 
             /* Make sure the machine is in run state and CPU is pointing first program position */
-            Assert.Equal(true, machine.IsRunning);
             Assert.Equal(0xA4000040, machine.DeviceCPU.State.PC);
         }
     }
