@@ -24,7 +24,5 @@ namespace Soft64.PI
         int BootChecksum { get; }
 
         Soft64.CICKeyType CIC { get; }
-
-        void CopyCode(System.IO.Stream dest);
     }
 }

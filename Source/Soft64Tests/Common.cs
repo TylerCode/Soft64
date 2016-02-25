@@ -11,6 +11,7 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Xunit.Sdk;
 
@@ -68,10 +69,18 @@ public static class Common
                 if (breakAtDebug)
                 {
                     MipsDebugger debugger = new MipsDebugger();
+                    debugger.Attach();
                     debugger.StartDebugging();
                     debugger.Step();
                 }
             });
+
+            if (breakAtDebug)
+            {
+                /* Wait for the machine to boot and then break execution */
+                while (!machine.IsPaused)
+                    Thread.Sleep(200);
+            }
 
             return machine;
         }
@@ -104,7 +113,7 @@ public static class Common
     }
 }
 
-public sealed class LoggedEnabledTestAttribute : BeforeAfterTestAttribute
+public sealed class LogEnabledTestAttribute : BeforeAfterTestAttribute
 {
     private static Logger logger;
 

@@ -130,12 +130,12 @@ namespace Soft64
         {
             Int64 byteCount = stream.Length;
             Int32 startKey = (Int32)stream.BasePosition >> 16;
-            Int32 endKey = startKey + (Int32)stream.Length >> 16;
+            Int32 endKey = startKey + ((Int32)stream.Length >> 16);
             Int32 sliceCount = 1 + (endKey - startKey);
 
             logger.Debug($"Mapping {sliceCount} slices of {stream} to physical N64 memory -> {stream.BasePosition:X8}");
 
-            for (Int32 i = startKey; i < endKey; i++)
+            for (Int32 i = startKey; i <= endKey; i++)
             {
                 if (m_SectionMap[i] != null)
                     throw new InvalidOperationException("Overlay error has occurred!");

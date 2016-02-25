@@ -21,7 +21,7 @@ namespace Soft64.TestUnits
         }
 
         [Fact]
-        [LoggedEnabledTestAttribute]
+        [LogEnabledTest]
         public void MachineBootTest()
         {
             /* Test basic machine boot to check for errors */
@@ -30,11 +30,8 @@ namespace Soft64.TestUnits
                     cart:Common.MockUpCartridge(RegionType.NTSC, CICKeyType.CIC_X102), 
                     breakAtDebug:true);
 
-            while (!machine.IsRunning)
-                Thread.Sleep(200);
-
             /* Make sure the machine is in run state and CPU is pointing first program position */
-            Assert.Equal(0xA4000040, machine.DeviceCPU.State.PC);
+            Assert.Equal(0xA4000040 + 4, machine.DeviceCPU.State.PC);
         }
     }
 }

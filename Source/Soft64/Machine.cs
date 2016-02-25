@@ -180,35 +180,60 @@ namespace Soft64
             try
             {
                 /* Hardware Init */
+                Memory.Initialize();
+
+                /* A/D CPU <-> RCP Bus Connection Hack */
+                /* TODO: We are only use a simple IO stream to connect the CPU to physical memory */
+                DeviceCPU.SysAdBus = Memory;
+
                 DevicePIF.Initialize();
                 DeviceRCP.Initialize();
                 DeviceCPU.Initialize();
 
-                logger.Trace("** Starting emulation core **");
+                logger.Info("##### Starting emulation core");
                 OnMachineEventNotification(MachineEventType.PreBooted);
 
-                logger.Trace("Booting firmware: " + SystemBootMode.GetFriendlyName());
+                logger.Debug("Executing N64 firmware: " + SystemBootMode.GetFriendlyName());
                 SoftBootManager.SetupExecutionState(SystemBootMode);
 
                 /* Initialize core comparing */
                 if (Machine.Current.MipsCompareEngine != null)
                 {
-                    Machine.Current.MipsCompareEngine.Init();
+                    logger.Trace("Mips compare engine found");
 
-                    Task.Factory.StartNew(
-                        Machine.Current.MipsCompareEngine.Run,
-                        new CancellationToken(),
-                        TaskCreationOptions.LongRunning,
-                        TaskScheduler.Default);
+                    try
+                    {
+                        Machine.Current.MipsCompareEngine.Init();
+                        logger.Trace("Initialized mips compare engine");
 
-                    Thread.Sleep(500);
+                        Task.Factory.StartNew(
+                            Machine.Current.MipsCompareEngine.Run,
+                            new CancellationToken(),
+                            TaskCreationOptions.LongRunning,
+                            TaskScheduler.Default);
+
+                        logger.Trace($"Scheduled mips engine task on {TaskScheduler.Default.ToString()} scheduler");
+
+                        Thread.Sleep(500);
+                    }
+                    catch (Exception e)
+                    {
+                        logger.Error(e);
+                    }
+                }
+                else
+                {
+                    logger.Trace("Skipped mips compare engine");
                 }
 
                 m_Booted = true;
                 OnMachineEventNotification(MachineEventType.Booted);
+
+                logger.Info("#### Boot sucessful");
             }
             catch (Exception e)
             {
+                logger.Error(e);
                 throw new InvalidOperationException("An exception occuring during the boot process, see inner exception for details", e);
             }
         }
