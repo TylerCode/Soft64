@@ -151,7 +151,7 @@
         var bufferOffset = (this.selectedCell.y * this.gridWidth) + this.selectedCell.x;
         var oldValue = this.memoryBuffer[bufferOffset];
 
-        var byteValue = this.leftNibble ? (oldValue & 0xF) | (value << 4) : (oldValue | value);
+        var byteValue = this.leftNibble ? (oldValue & 0xF) | (value << 4) : ((oldValue & 0xF0) | value);
 
         if (!this.leftNibble)
             this.leftNibble = true;
