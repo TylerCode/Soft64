@@ -130,7 +130,7 @@ namespace Soft64
         {
             Int64 byteCount = stream.Length;
             Int32 startKey = (Int32)stream.BasePosition >> 16;
-            Int32 endKey = startKey + ((Int32)stream.Length >> 16);
+            Int32 endKey = startKey + ((Int32)(stream.Length - 1) >> 16);
             Int32 sliceCount = (endKey - startKey);
 
             logger.Debug($"Mapping {sliceCount + 1} slices of {stream} to physical N64 memory -> {stream.BasePosition:X8}");

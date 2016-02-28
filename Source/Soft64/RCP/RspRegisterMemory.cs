@@ -17,7 +17,7 @@ namespace Soft64.RCP
         public R4 StatusReg { get; private set; }
         public R9 IBistReg { get; private set; }
 
-        public RspRegisterMemory() : base(0xBFFFF, 0x40008, 0x04040000)
+        public RspRegisterMemory() : base(0xC0000, 0x40008, 0x04040000)
         {
             MemoryAddressReg = new R0(this, 0);
             ReadLengthReg = new R2R3(this, 2);
