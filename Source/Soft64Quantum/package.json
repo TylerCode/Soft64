@@ -2,10 +2,21 @@
   "name": "soft64-quantum",
   "version": "1.0.0",
   "description": "Electron based frontend for Soft64 emulator",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Bryan Perris",
-  "license": "GPL-3.0"
+  "license": "GPL-3.0",
+  "devDependencies": {
+    "coffee": "^3.2.1",
+    "electron-prebuilt": "^0.37.8",
+    "grunt": "^1.0.1",
+    "grunt-asar2": "^1.0.0",
+    "grunt-mkdir": "^1.0.0",
+    "grunt-remove": "^0.1.0",
+    "grunt-typescript": "^0.8.0",
+    "typescript": "^1.8.10"
+  },
+  "dependencies": {}
 }
