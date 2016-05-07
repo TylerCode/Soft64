@@ -12,7 +12,7 @@ module.exports = (grunt) ->
         options:
           sourceMap: true
         files:
-          'build/main.js' : ['src/**/*.js']
+          'build/Soft64/main.js' : ['src/**/*.js']
 
     mkdir:
       all:
@@ -21,10 +21,26 @@ module.exports = (grunt) ->
     remove:
       dirList: ['build']
 
+    asar:
+      all:
+        files:
+          'build/Soft64/resources/app.asar': ['build/main.js', 'src/index.html']
+          'build/Soft64/resources/app_modules.asar': ['node_modules/']
+    copy:
+      all:
+        files: [
+          {
+            expand: true
+            cwd: 'node_modules/electron-prebuilt/dist'
+            src: [ '**' ]
+            dest: 'build/Soft64/'
+          }]
+
   grunt.loadNpmTasks('grunt-mkdir');
   grunt.loadNpmTasks('grunt-remove');
-  #grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-asar2');
+  grunt.loadNpmTasks('grunt-contrib-copy');
 
   # Default task.
-  grunt.registerTask 'default', ['remove', 'mkdir', 'uglify']
+  grunt.registerTask 'default', ['remove', 'mkdir', 'copy', 'uglify', 'asar']
