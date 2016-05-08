@@ -1,7 +1,9 @@
 os = require('os');
 path = require('path');
+expandHomeDir = require('expand-home-dir')
 electron_bin = path.resolve('./build/Soft64' + '-' + os.platform() + '-' + os.arch());
 app_bin = path.resolve('../../Binary');
+app_linux = expandHomeDir('~/.local/share/applications');
 
 module.exports = (grunt) ->
   grunt.initConfig
@@ -15,7 +17,8 @@ module.exports = (grunt) ->
             cwd: electron_bin
             src: [ '**' ]
             dest: app_bin
-          }]
+          },
+        ]
 
     clean:
       options:
@@ -30,7 +33,7 @@ module.exports = (grunt) ->
           arch      : os.arch()
           dir       : 'src'
           out       : 'build'
-          #icon      : './test/app/recursos/icon'
+          icon      : 'Soft64.png'
           name      : 'Soft64'
           version   : '0.36.7'
           overwrite : true

@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Name=Soft64
+GenericName=Soft64
+Comment=Soft64 Emulator
+Exec=./Soft64
+Icon=icon.png
+Type=Application
+Terminal=false
+Categories=Games;Emulators;
