@@ -1,45 +1,46 @@
+os = require('os');
+
 module.exports = (grunt) ->
   grunt.initConfig
     pkg: grunt.file.readJSON('package.json')
-    # concat:
-    #   options:
-    #     sourceMap: true
-    #   dist:
-    #     src: ['src/**/*.js']
-    #     dest: 'build/main.js'
-    uglify:
-      my_target:
-        options:
-          sourceMap: true
-        files:
-          'build/main.js' : ['src/**/*.js']
 
-    # mkdir:
-    #   all:
+    # uglify:
+    #   my_target:
     #     options:
-    #       create: ['build']
+    #       sourceMap: true
+    #     files:
+    #       'build/app/main.js' : ['src/**/*.js']
+
+    # copy:
+    #   all:
+    #     files: [
+    #       {
+    #         expand: true
+    #         src: [ '*.html' ]
+    #         dest: 'build/app'
+    #       }]
+
     clean:
       folder: 'build'
 
-    asar:
-      all:
-        files:
-          'build/Soft64/resources/app.asar': ['build/main.js', 'src/index.html']
-          'build/Soft64/resources/app_modules.asar': ['node_modules/']
-    copy:
-      all:
-        files: [
-          {
-            expand: true
-            cwd: 'node_modules/electron-prebuilt/dist'
-            src: [ '**' ]
-            dest: 'build/Soft64/'
-          }]
+    'electron-packager':
+      build:
+        options:
+          platform  : os.platform()
+          arch      : os.arch()
+          dir       : 'src'
+          out       : 'build'
+          #icon      : './test/app/recursos/icon'
+          name      : 'Soft64'
+          version   : '0.36.7'
+          overwrite : true
+          asar : true
 
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-asar2');
   grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-electron-packager');
 
   # Default task.
-  grunt.registerTask 'default', ['clean', 'copy', 'uglify', 'asar']
+  grunt.registerTask 'default', ['clean', 'electron-packager']

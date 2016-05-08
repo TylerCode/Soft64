@@ -1,0 +1,15 @@
+{
+  "name": "soft64-quantum",
+  "version": "1.0.0",
+  "description": "Soft64 electron based frontend",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Bryan Perris",
+  "license": "GPL-3.0",
+  "dependencies": {},
+  "devDependencies": {
+    "electron-prebuilt": "^0.37.8"
+  }
+}
