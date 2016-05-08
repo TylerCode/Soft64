@@ -6,7 +6,7 @@
   "author": "Bryan Perris",
   "license": "GPL-3.0",
   "scripts": {
-    "start": "../../Binary/Soft64"
+    "start": "node start.js"
   },
   "devDependencies": {
     "coffee": "^3.2.1",
