@@ -5,15 +5,15 @@
   "main": "src/index.js",
   "author": "Bryan Perris",
   "license": "GPL-3.0",
-  "scripts":
-  {
-    "start": "build/Soft64*/Soft64"
+  "scripts": {
+    "start": "../../Binary/Soft64"
   },
   "devDependencies": {
     "coffee": "^3.2.1",
     "grunt": "^1.0.1",
+    "grunt-chmod": "^1.1.1",
     "grunt-contrib-clean": "^1.0.0",
-    "grunt-contrib-uglify": "^1.0.1",
+    "grunt-contrib-copy": "^1.0.0",
     "grunt-electron-packager": "0.0.7"
   },
   "dependencies": {}

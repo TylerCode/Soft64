@@ -1,27 +1,27 @@
 os = require('os');
+path = require('path');
+electron_bin = path.resolve('./build/Soft64' + '-' + os.platform() + '-' + os.arch());
+app_bin = path.resolve('../../Binary');
 
 module.exports = (grunt) ->
   grunt.initConfig
     pkg: grunt.file.readJSON('package.json')
 
-    # uglify:
-    #   my_target:
-    #     options:
-    #       sourceMap: true
-    #     files:
-    #       'build/app/main.js' : ['src/**/*.js']
-
-    # copy:
-    #   all:
-    #     files: [
-    #       {
-    #         expand: true
-    #         src: [ '*.html' ]
-    #         dest: 'build/app'
-    #       }]
+    copy:
+      deploy:
+        files: [
+          {
+            expand: true
+            cwd: electron_bin
+            src: [ '**' ]
+            dest: app_bin
+          }]
 
     clean:
-      folder: 'build'
+      options:
+        force: true
+      build: 'build'
+      deploy: app_bin
 
     'electron-packager':
       build:
@@ -36,11 +36,17 @@ module.exports = (grunt) ->
           overwrite : true
           asar : true
 
+    chmod:
+      options:
+        mode: '+x'
+      deploy:
+        src: app_bin + '/Soft64'
+
   grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-asar2');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-electron-packager');
+  grunt.loadNpmTasks('grunt-chmod');
 
-  # Default task.
-  grunt.registerTask 'default', ['clean', 'electron-packager']
+  grunt.registerTask 'build', ['clean:build', 'electron-packager']
+  grunt.registerTask 'deploy', ['clean:deploy', 'copy:deploy', 'chmod:deploy']
+  grunt.registerTask 'default', ['build', 'deploy']
