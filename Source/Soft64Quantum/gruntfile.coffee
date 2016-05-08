@@ -12,14 +12,14 @@ module.exports = (grunt) ->
         options:
           sourceMap: true
         files:
-          'build/Soft64/main.js' : ['src/**/*.js']
+          'build/main.js' : ['src/**/*.js']
 
-    mkdir:
-      all:
-        options:
-          create: ['build']
-    remove:
-      dirList: ['build']
+    # mkdir:
+    #   all:
+    #     options:
+    #       create: ['build']
+    clean:
+      folder: 'build'
 
     asar:
       all:
@@ -36,11 +36,10 @@ module.exports = (grunt) ->
             dest: 'build/Soft64/'
           }]
 
-  grunt.loadNpmTasks('grunt-mkdir');
-  grunt.loadNpmTasks('grunt-remove');
+  grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-asar2');
   grunt.loadNpmTasks('grunt-contrib-copy');
 
   # Default task.
-  grunt.registerTask 'default', ['remove', 'mkdir', 'copy', 'uglify', 'asar']
+  grunt.registerTask 'default', ['clean', 'copy', 'uglify', 'asar']
