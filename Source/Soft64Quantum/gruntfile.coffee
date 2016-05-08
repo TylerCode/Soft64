@@ -31,9 +31,10 @@ module.exports = (grunt) ->
         options:
           platform  : os.platform()
           arch      : os.arch()
-          dir       : 'src'
+          dir       : './'
           out       : 'build'
           icon      : 'Soft64.png'
+          ignore    : 'bower.json'
           name      : 'Soft64'
           version   : '0.36.7'
           overwrite : true

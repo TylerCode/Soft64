@@ -1,1 +1,0 @@
-This project is a UI for Soft64 based on Electron UI framework.

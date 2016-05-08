@@ -1,9 +1,0 @@
-{
-  "name": "soft64-quantum",
-  "version": "1.0.0",
-  "description": "Electron based front-end for Soft64",
-  "main": "app.js",
-  "author": "Bryan Perris",
-  "license": "GPL-3.0",
-  "dependencies": {}
-}
