@@ -17,8 +17,5 @@
     "grunt-contrib-copy": "^1.0.0",
     "grunt-electron-packager": "0.0.7"
   },
-  "dependencies": {
-    "electron-prebuilt": "^0.37.8",
-    "react": "^15.0.2"
-  }
+  "dependencies": {}
 }

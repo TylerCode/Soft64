@@ -31,10 +31,10 @@ module.exports = (grunt) ->
         options:
           platform  : os.platform()
           arch      : os.arch()
-          dir       : './'
+          dir       : './app'
           out       : 'build'
           icon      : 'Soft64.png'
-          ignore    : '(start.js|grunt|.desktop|node_modules/[^react|A-z0-9]*)'
+          ignore    : ''
           name      : 'Soft64'
           version   : '0.36.7'
           overwrite : true
