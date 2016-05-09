@@ -3,13 +3,14 @@ path = require('path');
 expandHomeDir = require('expand-home-dir')
 electron_bin = path.resolve('./build/Soft64' + '-' + os.platform() + '-' + os.arch());
 app_bin = path.resolve('../../Binary');
-app_linux = expandHomeDir('~/.local/share/applications');
 
 module.exports = (grunt) ->
   grunt.initConfig
     pkg: grunt.file.readJSON('package.json')
 
     copy:
+      build:
+        files: { 'src':'Soft64.png', 'dest':electron_bin }
       deploy:
         files: [
           {
@@ -46,11 +47,21 @@ module.exports = (grunt) ->
       deploy:
         src: app_bin + '/Soft64'
 
+    auto_install:
+        local: {}
+        subdir:
+          options:
+            cwd: 'app'
+            stdout: true
+            stderr: true
+            failOnError: true
+
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-electron-packager');
   grunt.loadNpmTasks('grunt-chmod');
+  grunt.loadNpmTasks('grunt-auto-install');
 
-  grunt.registerTask 'build', ['clean:build', 'electron-packager']
+  grunt.registerTask 'build', ['auto_install', 'clean:build', 'copy:build', 'electron-packager']
   grunt.registerTask 'deploy', ['clean:deploy', 'copy:deploy', 'chmod:deploy']
   grunt.registerTask 'default', ['build', 'deploy']
