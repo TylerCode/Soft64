@@ -34,7 +34,7 @@ module.exports = (grunt) ->
           dir       : './'
           out       : 'build'
           icon      : 'Soft64.png'
-          ignore    : 'bower.json'
+          ignore    : '(start.js|grunt|.desktop|node_modules/[^react|A-z0-9]*)'
           name      : 'Soft64'
           version   : '0.36.7'
           overwrite : true

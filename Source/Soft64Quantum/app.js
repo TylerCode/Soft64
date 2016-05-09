@@ -1,7 +1,7 @@
 "use strict";
 
 const electron = require('electron');
-const reactDOM = require('react');
+//const reactDOM = require('react');
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 let mainWindow
@@ -29,7 +29,7 @@ app.on('activate', function () {
   }
 })
 
-ReactDOM.render(
-  <h1>Hello, world!</h1>,
-  document.getElementById('example')
-);
+// ReactDOM.render(
+//   <h1>Hello, world!</h1>,
+//   document.getElementById('example')
+// );
