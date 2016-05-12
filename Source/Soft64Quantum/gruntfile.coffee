@@ -8,9 +8,20 @@ module.exports = (grunt) ->
   grunt.initConfig
     pkg: grunt.file.readJSON('package.json')
 
+    babel:
+      build:
+        options:
+          sourceMap: true;
+          presets: ['babel-preset-es2015']
+        files: [
+            'app/js/app.js': 'es6/app.js'
+          ]
+
     copy:
       build:
-        files: { 'src':'Soft64.png', 'dest':electron_bin }
+        files: [
+          {'src': 'Soft64.png', 'dest': electron_bin}
+        ]
       deploy:
         files: [
           {
@@ -24,7 +35,7 @@ module.exports = (grunt) ->
     clean:
       options:
         force: true
-      build: 'build'
+      build: ['build', 'app/js']
       deploy: app_bin
 
     'electron-packager':
@@ -61,7 +72,8 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks('grunt-electron-packager');
   grunt.loadNpmTasks('grunt-chmod');
   grunt.loadNpmTasks('grunt-auto-install');
+  grunt.loadNpmTasks('grunt-babel');
 
-  grunt.registerTask 'build', ['auto_install', 'clean:build', 'copy:build', 'electron-packager']
+  grunt.registerTask 'build', ['auto_install', 'clean:build', 'copy:build', 'babel:build', 'electron-packager']
   grunt.registerTask 'deploy', ['clean:deploy', 'copy:deploy', 'chmod:deploy']
   grunt.registerTask 'default', ['build', 'deploy']
