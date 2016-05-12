@@ -12,9 +12,10 @@ module.exports = (grunt) ->
       build:
         options:
           sourceMap: true;
-          presets: ['babel-preset-es2015']
+          presets: ['babel-preset-es2015', 'babel-preset-react']
         files: [
-            'app/js/app.js': 'es6/app.js'
+              'app/js/app.js': 'es6/app.js'
+            , 'app/js/render.js' : 'es6/render.js'
           ]
 
     copy:
@@ -43,6 +44,7 @@ module.exports = (grunt) ->
         options:
           platform  : os.platform()
           arch      : os.arch()
+          cwd       : "./"
           dir       : './app'
           out       : 'build'
           icon      : 'Soft64.png'
