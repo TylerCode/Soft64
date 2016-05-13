@@ -1,8 +1,21 @@
 os = require('os');
+fs = require('fs');
 path = require('path');
 expandHomeDir = require('expand-home-dir')
-electron_bin = path.resolve('./build/Soft64' + '-' + os.platform() + '-' + os.arch());
-app_bin = path.resolve('../../Binary');
+src = path.resolve('Source/Soft64Quantum');
+electron_bin = path.resolve(src, 'Soft64-' + os.platform() + '-' + os.arch());
+app_dir = path.resolve(src, 'app');
+app_bin = path.resolve('Binary');
+js_bin = path.resolve(app_dir, 'js');
+js_src = path.resolve(src, 'es6');
+js_files = fs.readdirSync(js_src);
+js_files_babel = {};
+
+i = 0
+while i < js_files.length
+  file = js_files[i]
+  js_files_babel[path.resolve(js_bin, file)] = path.resolve(js_src, file)
+  i++
 
 module.exports = (grunt) ->
   grunt.initConfig
@@ -13,10 +26,7 @@ module.exports = (grunt) ->
         options:
           sourceMap: true;
           presets: ['babel-preset-es2015', 'babel-preset-react']
-        files: [
-              'app/js/app.js': 'es6/app.js'
-            , 'app/js/render.js' : 'es6/render.js'
-          ]
+        files: js_files_babel
 
     copy:
       build:
@@ -36,7 +46,7 @@ module.exports = (grunt) ->
     clean:
       options:
         force: true
-      build: ['build', 'app/js']
+      build: [electron_bin, js_bin]
       deploy: app_bin
 
     'electron-packager':
@@ -44,11 +54,9 @@ module.exports = (grunt) ->
         options:
           platform  : os.platform()
           arch      : os.arch()
-          cwd       : "./"
-          dir       : './app'
-          out       : 'build'
+          dir       : path.resolve(src, 'app')
+          out       : src
           icon      : 'Soft64.png'
-          ignore    : ''
           name      : 'Soft64'
           version   : '0.36.7'
           overwrite : true
@@ -64,7 +72,7 @@ module.exports = (grunt) ->
         local: {}
         subdir:
           options:
-            cwd: 'app'
+            cwd: app_dir
             stdout: true
             stderr: true
             failOnError: true

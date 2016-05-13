@@ -1,12 +1,12 @@
 Binary
+Source/Soft64Quantum/Soft64-*
+Source/Soft64Quantum/app/js
 
 # HTML5 Stuff
 *.es5.js
 *.es5.min.js
 MainStyles.css
 *.min.css
-
-Source/Soft64Quantum/app/js
 
 # User-specific files
 *.suo
