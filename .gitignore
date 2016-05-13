@@ -6,6 +6,8 @@ Binary
 MainStyles.css
 *.min.css
 
+Source/Soft64Quantum/app/js
+
 # User-specific files
 *.suo
 *.user
