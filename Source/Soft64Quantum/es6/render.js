@@ -1,62 +1,53 @@
+import Remote from 'remote';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import {Tabs, Tab} from 'material-ui/Tabs';
+import RaisedButton from 'material-ui/RaisedButton'
 import Slider from 'material-ui/Slider';
+const mainWindow = Remote.getCurrentWindow();
 
+/* This is a needed hack plugin for material-ui */
 injectTapEventPlugin();
 
-const styles = {
-  headline: {
-    fontSize: 24,
-    paddingTop: 16,
-    marginBottom: 12,
-    fontWeight: 400,
-  },
+/* Define some temp style stuff, later be moved into a css file */
+const style = {
+  margin: 12,
 };
 
-function handleActive(tab) {
-  alert(`A tab with this route property ${tab.props.route} was activated.`);
+const muiTheme = getMuiTheme();
+
+
+function toggleDevTools() {
+  Remote.getCurrentWebContents().toggleDevTools();
 }
 
-const TabsExampleSimple = () => (
-   <MuiThemeProvider muiTheme={getMuiTheme()}>
+/* Define the main template for the whole app page */
+const MainPage = () => (
+  <MuiThemeProvider muiTheme={muiTheme}>
     <Tabs>
-      <Tab label="Item One" >
+      <Tab label="Start">
         <div>
-          <h2 style={styles.headline}>Tab One</h2>
-          <p>
-            This is an example tab.
-          </p>
-          <p>
-            You can put any sort of HTML or react component in here. It even keeps the component state!
-          </p>
-          <Slider name="slider0" defaultValue={0.5} />
+          <RaisedButton onClick={toggleDevTools} label="DevTools" primary={true} style={style} />
+          <RaisedButton label="Load" primary={true} style={style} />
+          <RaisedButton label='Run' primary={true} style={style} />
+          <RaisedButton label='Pause' secondary={true} style={style} />
+          <RaisedButton label='Stop' secondary={true} style={style} />
         </div>
       </Tab>
-      <Tab label="Item Two" >
-        <div>
-          <h2 style={styles.headline}>Tab Two</h2>
-          <p>
-            This is another example tab.
-          </p>
-        </div>
+      <Tab label='Settings'>
       </Tab>
-      <Tab
-        label="onActive"
-        route="/home"
-        onActive={handleActive}>
-        <div>
-          <h2 style={styles.headline}>Tab Three</h2>
-          <p>
-            This is a third example tab.
-          </p>
-        </div>
+      <Tab label='Debugger'>
       </Tab>
     </Tabs>
   </MuiThemeProvider>
 );
 
-ReactDOM.render(React.createElement(TabsExampleSimple), document.getElementById('example'));
+/* Render the HTML to the body */
+ReactDOM.render(
+  React.createElement(MainPage),
+  document.getElementById('appbody')
+);
