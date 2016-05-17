@@ -1,53 +1,14 @@
-import Remote from 'remote';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
-import {Tabs, Tab} from 'material-ui/Tabs';
-import RaisedButton from 'material-ui/RaisedButton'
-import Slider from 'material-ui/Slider';
-const mainWindow = Remote.getCurrentWindow();
+import Main from './Main'; // Our custom react component
 
-/* This is a needed hack plugin for material-ui */
+//Needed for onTouchTap
+//Can go away when react 1.0 release
+//Check this repo:
+//https://github.com/zilverline/react-tap-event-plugin
 injectTapEventPlugin();
 
-/* Define some temp style stuff, later be moved into a css file */
-const style = {
-  margin: 12,
-};
-
-const muiTheme = getMuiTheme();
-
-
-function toggleDevTools() {
-  Remote.getCurrentWebContents().toggleDevTools();
-}
-
-/* Define the main template for the whole app page */
-const MainPage = () => (
-  <MuiThemeProvider muiTheme={muiTheme}>
-    <Tabs>
-      <Tab label="Start">
-        <div>
-          <RaisedButton onClick={toggleDevTools} label="DevTools" primary={true} style={style} />
-          <RaisedButton label="Load" primary={true} style={style} />
-          <RaisedButton label='Run' primary={true} style={style} />
-          <RaisedButton label='Pause' secondary={true} style={style} />
-          <RaisedButton label='Stop' secondary={true} style={style} />
-        </div>
-      </Tab>
-      <Tab label='Settings'>
-      </Tab>
-      <Tab label='Debugger'>
-      </Tab>
-    </Tabs>
-  </MuiThemeProvider>
-);
-
-/* Render the HTML to the body */
-ReactDOM.render(
-  React.createElement(MainPage),
-  document.getElementById('appbody')
-);
+// Render the main app react component into the app div.
+// For more details see: https://facebook.github.io/react/docs/top-level-api.html#react.render
+ReactDOM.render(<Main />, document.getElementById('appbody'));
