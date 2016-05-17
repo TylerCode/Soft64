@@ -1,1 +1,0 @@
-Add a basic console frontend to just use core comparing feature, rather than supporting it within the UI.
