@@ -28,7 +28,7 @@ class Main extends React.Component {
     return (<MuiThemeProvider muiTheme={muiTheme}>
       <Tabs>
         <Tab label="Start">
-          <div style={{'background-color': muiTheme.palette.canvasColor}}>
+          <div style={{'backgroundColor': muiTheme.palette.canvasColor}}>
             <RaisedButton onClick={toggleDevTools} label="DevTools" primary={true} style={buttonStyle} />
             <RaisedButton label="Load" primary={true} style={buttonStyle} />
             <RaisedButton label='Run' primary={true} style={buttonStyle} />
