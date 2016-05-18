@@ -11,7 +11,7 @@ import Slider from 'material-ui/Slider';
 const mainWindow = Remote.getCurrentWindow();
 
 /* Define some temp style stuff, later be moved into a css file */
-const style = {
+const buttonStyle = {
   margin: 12,
 };
 
@@ -28,12 +28,12 @@ class Main extends React.Component {
     return (<MuiThemeProvider muiTheme={muiTheme}>
       <Tabs>
         <Tab label="Start">
-          <div>
-            <RaisedButton onClick={toggleDevTools} label="DevTools" primary={true} style={style} />
-            <RaisedButton label="Load" primary={true} style={style} />
-            <RaisedButton label='Run' primary={true} style={style} />
-            <RaisedButton label='Pause' secondary={true} style={style} />
-            <RaisedButton label='Stop' secondary={true} style={style} />
+          <div style={{'background-color': muiTheme.palette.canvasColor}}>
+            <RaisedButton onClick={toggleDevTools} label="DevTools" primary={true} style={buttonStyle} />
+            <RaisedButton label="Load" primary={true} style={buttonStyle} />
+            <RaisedButton label='Run' primary={true} style={buttonStyle} />
+            <RaisedButton label='Pause' secondary={true} style={buttonStyle} />
+            <RaisedButton label='Stop' secondary={true} style={buttonStyle} />
           </div>
         </Tab>
         <Tab label='Settings'>
