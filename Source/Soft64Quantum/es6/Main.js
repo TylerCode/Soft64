@@ -1,10 +1,6 @@
 import Remote from 'remote';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
-import injectTapEventPlugin from 'react-tap-event-plugin';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import RaisedButton from 'material-ui/RaisedButton'
 import Slider from 'material-ui/Slider';
@@ -15,9 +11,6 @@ const buttonStyle = {
   margin: 12,
 };
 
-const muiTheme = getMuiTheme(darkBaseTheme);
-
-
 function toggleDevTools() {
   Remote.getCurrentWebContents().toggleDevTools();
 }
@@ -25,10 +18,10 @@ function toggleDevTools() {
 /* Define the main template for the whole app page */
 class Main extends React.Component {
   render() {
-    return (<MuiThemeProvider muiTheme={muiTheme}>
+    return (
       <Tabs>
         <Tab label="Start">
-          <div style={{'backgroundColor': muiTheme.palette.canvasColor}}>
+          <div>
             <RaisedButton onClick={toggleDevTools} label="DevTools" primary={true} style={buttonStyle} />
             <RaisedButton label="Load" primary={true} style={buttonStyle} />
             <RaisedButton label='Run' primary={true} style={buttonStyle} />
@@ -40,8 +33,7 @@ class Main extends React.Component {
         </Tab>
         <Tab label='Debugger'>
         </Tab>
-      </Tabs>
-    </MuiThemeProvider>);
+      </Tabs>);
   }
 }
 

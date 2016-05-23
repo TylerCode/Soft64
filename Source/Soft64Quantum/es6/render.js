@@ -1,9 +1,15 @@
+var jquery = require(__dirname + '/../jquery-1.12.3.min.js');
 import React from 'react';
 import ReactDOM from 'react-dom';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import Main from './Main'; // Our custom react component
 import fs from 'fs';
 import path from 'path';
+import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
+const muiTheme = getMuiTheme(darkBaseTheme);
 
 /* Scan and load css files */
 console.log('scanning css');
@@ -20,7 +26,8 @@ while (i < cssFiles.length) {
   i++;
 }
 
-
+const bgColor = muiTheme.palette.canvasColor.toString() + ' !important';
+$('body').css('background-color', bgColor);
 
 
 //Needed for onTouchTap
@@ -31,4 +38,5 @@ injectTapEventPlugin();
 
 // Render the main app react component into the app div.
 // For more details see: https://facebook.github.io/react/docs/top-level-api.html#react.render
-ReactDOM.render(<Main />, document.getElementById('appbody'));
+ReactDOM.render(
+  <MuiThemeProvider muiTheme={muiTheme}><Main /></MuiThemeProvider>, document.getElementById('appbody'));
