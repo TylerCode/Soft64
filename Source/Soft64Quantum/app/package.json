@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "electron-prebuilt": "^0.37.8",
+    "jquery": "^2.2.4",
     "material-ui": "^0.15.0",
     "react": "^15.0.2",
     "react-dom": "^15.0.2",
