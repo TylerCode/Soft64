@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "electron-edge": "^5.0.3-pre0",
     "electron-prebuilt": "^0.37.8",
     "jquery": "^2.2.4",
     "material-ui": "^0.15.0",
