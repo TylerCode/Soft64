@@ -1,12 +1,6 @@
 
 Project Website: http://bryanperris.github.io/Soft64-Bryan/
 
-# Progress #
-Soft64 is working on to switch to the electron UI framework for cross-platform availability and make use of modern web design for a clean and dynamic graphical user interface.
-
-# How to build #
-- WIP: Working on providing universal simple command line scripts to build and deploy the emulator
-
 # About this Project #
 This is a free-time project I have fun working on while learning modern desktop application design.  I like to take apart machines and learn how they work, I want to build a professional like emulator for N64 game console with an interactive debugger and user-friendly emulator interface.  There is a lot of things I like to do in this emulator, to make it a full application of various things like teaching the user how N64 works just based on the tools built-in.
 
