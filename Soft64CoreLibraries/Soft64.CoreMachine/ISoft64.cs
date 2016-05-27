@@ -17,25 +17,8 @@ namespace Soft64.CoreMachine
     public interface ISoft64
     {
         /// <summary>
-        /// Start up the emulator core on the current thread calling this method
+        /// Start up the emulator core and begin emulator execution
         /// </summary>
-        void Run();
-
-        /// <summary>
-        /// Start up the emulator core in an asynchronous matter.
-        /// </summary>
-        void RunAsync();
-    }
-
-    public interface ISoft64Result
-    {
-
-    }
-
-    public interface ISoft64Error
-    {
-        String Message { get; }
-        Int32 Code { get; }
-
+        void Start();
     }
 }
