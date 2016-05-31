@@ -31,7 +31,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ISoft64.cs" />
+    <Compile Include="CoreDefinitions.cs" />
     <Compile Include="MachineException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

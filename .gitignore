@@ -1,7 +1,4 @@
-Binary
-Source/Soft64Quantum/Soft64-*
-Source/Soft64Quantum/app/js
-Source/Soft64Quantum/app/css
+Soft64*/soft64-cli/app
 
 # HTML5 Stuff
 *.es5.js
