@@ -1,3 +1,5 @@
+// jshint esversion:6
+
 import repl from 'repl';
 import colors from 'colors';
 import edge from 'edge';
@@ -33,4 +35,4 @@ context.start = function () {
 
 context.exit = function () {
   process.exit(0);
-}
+};

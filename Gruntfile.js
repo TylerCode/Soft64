@@ -84,6 +84,28 @@ module.exports = function (grunt) {
             src: ["**"],
             dest: dir_bin}
         ]
+      },
+      "cli-deploy": {
+        files: [
+          {
+            expand: true,
+            cwd: projects.cli.dir_app,
+            src: ["**"],
+            dest: path.join(dir_bin, "cli")
+          },
+          {
+            expand: true,
+            cwd: projects.cli.dir_module,
+            src: ["node_modules/**/*"],
+            dest: path.join(dir_bin, "cli")
+          },
+          {
+            expand: true,
+            cwd: projects.cli.dir_module,
+            src: ["package.json"],
+            dest: path.join(dir_bin, "cli")
+          }
+        ]
       }
     },
 
@@ -96,7 +118,8 @@ module.exports = function (grunt) {
         projects.quantum.dir_electron,
         path.join(projects.quantum.dir_app, 'js'),
         path.join(projects.quantum.dir_app, 'css')],
-      "bin": dir_bin
+      "bin": dir_bin,
+      "cli-build": projects.cli.dir_app
     },
 
     /* Electron packager grunt plugin */
@@ -110,7 +133,8 @@ module.exports = function (grunt) {
           icon: 'Soft64.png',
           name: "Soft64",
           overwrite: true,
-          asar: true
+          asar: true,
+          version: "0.37.8"
         }
       }
     },
@@ -127,13 +151,27 @@ module.exports = function (grunt) {
 
     /* auto npm update grunt plugin */
     auto_install: {
-      local: {},
-      subdir: {
-        options: {
-          cwd: projects.quantum.dir_app,
-          stdout: true,
-          stderr: true,
-          failOnError: true
+      quantum:
+      {
+        local: {},
+        subdir: {
+          options: {
+            cwd: projects.quantum.dir_app,
+            stdout: true,
+            stderr: true,
+            failOnError: true
+          }
+        }
+      },
+      cli: {
+        local: {},
+        subdir: {
+          options: {
+            cwd: projects.cli.dir_app,
+            stdout: true,
+            stderr: true,
+            failOnError: true
+          }
         }
       }
     },
@@ -155,14 +193,17 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-less');
 
   /* Quantum based tasks */
-  grunt.registerTask('quantum-build', ['auto_install', 'clean:quantum-build', 'copy:quantum-build', 'babel:quantum', 'less:build', 'electron-packager']);
+  grunt.registerTask('quantum-build', ['auto_install:quantum', 'clean:quantum-build', 'copy:quantum-build', 'babel:quantum', 'less:build', 'electron-packager']);
   grunt.registerTask('quantum-deploy', ['copy:quantum-deploy', 'chmod:deploy']);
   grunt.registerTask('quantum', ['quantum-build', 'quantum-deploy']);
 
   /* CLI based tasks */
+  grunt.registerTask('cli-build', ['auto_install:cli', 'clean:cli-build', 'babel:cli']);
+  grunt.registerTask('cli-deploy', ['copy:cli-deploy']);
+  grunt.registerTask('cli', ['cli-build', 'cli-deploy']);
 
   /* general tasks */
   grunt.registerTask('clean-bin', ['clean:bin']);
 
-  grunt.registerTask('default', ['clean-bin', 'quantum']);
+  grunt.registerTask('default', ['clean-bin', 'quantum', 'cli']);
 };
