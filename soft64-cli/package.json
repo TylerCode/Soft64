@@ -1,0 +1,14 @@
+{
+  "name": "soft64-cli",
+  "version": "0.0.0",
+  "description": "soft64-cli",
+  "main": "app/app.js",
+  "author": {
+    "name": "Bryan",
+    "email": ""
+  },
+  "dependencies": {
+    "colors": "^1.1.2",
+    "edge": "^5.0.0"
+  },
+}

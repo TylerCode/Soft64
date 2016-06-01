@@ -1,4 +1,5 @@
-Soft64*/soft64-cli/app
+soft64-cli/app
+node_modules
 
 # HTML5 Stuff
 *.es5.js
