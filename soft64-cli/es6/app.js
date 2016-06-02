@@ -2,7 +2,7 @@
 
 import repl from 'repl';
 import colors from 'colors';
-import edge from 'edge';
+//import edge from 'edge';
 import util from 'util';
 
 console.log("Soft64 Emulator REPL CLI 1.0".magenta);
