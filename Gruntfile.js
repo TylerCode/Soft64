@@ -187,13 +187,7 @@ module.exports = function (grunt) {
             src: projects.cs.sln,
             options: {
                 projectConfiguration: csBuildType,
-                 targets: 'Build',
-                 version: 12,
-                 maxCpuCount: 4,
-                buildParameters: {
-                    WarningLevel: 2
-                },
-                nodeReuse:false,
+                version: 12,
                 verbosity: 'quiet'
             }
         }
