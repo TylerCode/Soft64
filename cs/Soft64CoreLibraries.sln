@@ -5,8 +5,6 @@ VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Soft64.CoreMachine", "Soft64.CoreMachine\Soft64.CoreMachine.csproj", "{0FADD615-3AE6-421A-B995-5F3B3356DBE1}"
 EndProject
-Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "soft64-cli", "soft64-cli\soft64-cli.njsproj", "{3BF8AA55-865D-459A-905D-F1AD40DFE0FD}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AE53AFDB-02F9-4A27-8C63-AEDAF1188AAF}"
 	ProjectSection(SolutionItems) = preProject
 		TodoList.txt = TodoList.txt
@@ -22,10 +20,6 @@ Global
 		{0FADD615-3AE6-421A-B995-5F3B3356DBE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0FADD615-3AE6-421A-B995-5F3B3356DBE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0FADD615-3AE6-421A-B995-5F3B3356DBE1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3BF8AA55-865D-459A-905D-F1AD40DFE0FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3BF8AA55-865D-459A-905D-F1AD40DFE0FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3BF8AA55-865D-459A-905D-F1AD40DFE0FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3BF8AA55-865D-459A-905D-F1AD40DFE0FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
