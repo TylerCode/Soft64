@@ -6,7 +6,8 @@
   "author": "Bryan Perris",
   "license": "GPL-3.0",
   "scripts": {
-    "start": "node start.js",
+    "start": "node ./Soft64/cli/app.js",
+    "start-ui": "node start.js",
     "build": "grunt"
   },
   "devDependencies": {
