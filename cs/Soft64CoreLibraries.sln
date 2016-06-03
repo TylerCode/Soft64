@@ -1,0 +1,53 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AE53AFDB-02F9-4A27-8C63-AEDAF1188AAF}"
+	ProjectSection(SolutionItems) = preProject
+		TodoList.txt = TodoList.txt
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Soft64", "Soft64\Soft64.csproj", "{53C4A7FF-FCC7-4AE8-A085-E28A2E34258E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{53C4A7FF-FCC7-4AE8-A085-E28A2E34258E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53C4A7FF-FCC7-4AE8-A085-E28A2E34258E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53C4A7FF-FCC7-4AE8-A085-E28A2E34258E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{53C4A7FF-FCC7-4AE8-A085-E28A2E34258E}.Debug|x64.Build.0 = Debug|Any CPU
+		{53C4A7FF-FCC7-4AE8-A085-E28A2E34258E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53C4A7FF-FCC7-4AE8-A085-E28A2E34258E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53C4A7FF-FCC7-4AE8-A085-E28A2E34258E}.Release|x64.ActiveCfg = Release|Any CPU
+		{53C4A7FF-FCC7-4AE8-A085-E28A2E34258E}.Release|x64.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		Policies = $0
+		$0.StandardHeader = $1
+		$1.Text = @ \n ${FileName}\n \n Author:\n      ${AuthorName} <${AuthorEmail}>\n\n Copyright (c) ${Year} ${CopyrightHolder}\n\n This program is free software: you can redistribute it and/or modify\n it under the terms of the GNU General Public License as published by\n the Free Software Foundation, either version 3 of the License, or\n (at your option) any later version.\n\n This program is distributed in the hope that it will be useful,\n but WITHOUT ANY WARRANTY; without even the implied warranty of\n MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n GNU General Public License for more details.\n\n You should have received a copy of the GNU General Public License\n along with this program.  If not, see <http://www.gnu.org/licenses/>.
+		$1.IncludeInNewFiles = True
+		$0.NameConventionPolicy = $2
+		$2.Rules = $3
+		$3.NamingRule = $4
+		$4.AffectedEntity = None
+		$4.VisibilityMask = VisibilityMask
+		$4.NamingStyle = None
+		$4.IncludeInstanceMembers = True
+		$4.IncludeStaticEntities = True
+		$0.DotNetNamingPolicy = $5
+		$5.DirectoryNamespaceAssociation = None
+		$5.ResourceNamePolicy = FileFormatDefault
+		outputpath = ..\Soft64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

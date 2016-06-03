@@ -1,7 +1,10 @@
-Binary
-Source/Soft64Quantum/Soft64-*
-Source/Soft64Quantum/app/js
-Source/Soft64Quantum/app/css
+soft64-cli/app
+node_modules
+/Soft64
+soft64-quantum/app/js
+soft64-quantum/app/css
+soft64-quantum/Soft64-*
+.directory
 
 # HTML5 Stuff
 *.es5.js
@@ -217,3 +220,4 @@ FakesAssemblies/
 GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
+soft64-quantum/export

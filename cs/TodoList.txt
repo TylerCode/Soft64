@@ -1,0 +1,5 @@
+- Electron based UI with devtron for Soft64
+- Use Node 4.x with all Node projects
+- Write the emulator core in C# with .NET 4.5
+- Design a API that supports a REPL based interface with the node cli project
+- Useing Edge and Electron edge to invoke managed code
