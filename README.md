@@ -1,5 +1,5 @@
 # Soft64
-Emulator
+N64 Emulator written in C# and Javascript.
 
 # Requirements
  * Node.JS 4.x
@@ -9,7 +9,7 @@ Emulator
     * node-gyp
 
  * Mono 4.x  or Microsoft .NET 4.5 (CoreCLR not tested or supported yet)
- * Mono/.NET development tools
+ * Mono/.NET development tools (eg. MonoDevelop or VisualStudio)
  
 # Instructions to build and run
  * Clone the git source
