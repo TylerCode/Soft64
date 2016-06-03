@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{53C4A7FF-FCC7-4AE8-A085-E28A2E34258E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Soft64</RootNamespace>
+    <AssemblyName>Soft64</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Soft64</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Externalconsole>true</Externalconsole>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>6</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\Soft64</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Externalconsole>true</Externalconsole>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>6</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="NLog">
+      <HintPath>..\packages\NLog.4.3.4\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="Fasterflect">
+      <HintPath>..\packages\fasterflect.2.1.3\lib\net40\Fasterflect.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VirtualCartridge.cs" />
+    <Compile Include="SychronizedStream.cs" />
+    <Compile Include="SoftBootManager.cs" />
+    <Compile Include="SmartRegister.cs" />
+    <Compile Include="RomFormat.cs" />
+    <Compile Include="RegistersMemorySection.cs" />
+    <Compile Include="RegionType.cs" />
+    <Compile Include="RcpProcessor.cs" />
+    <Compile Include="PMemMirrorStream.cs" />
+    <Compile Include="N64MemRegions.cs" />
+    <Compile Include="N64Memory.cs" />
+    <Compile Include="MupenHelper.cs" />
+    <Compile Include="MemorySection.cs" />
+    <Compile Include="MemoryMappedRegister32.cs" />
+    <Compile Include="MachineException.cs" />
+    <Compile Include="MachineEventType.cs" />
+    <Compile Include="MachineEvent.cs" />
+    <Compile Include="Machine.cs" />
+    <Compile Include="GameSerial.cs" />
+    <Compile Include="FormatVerifyFlag.cs" />
+    <Compile Include="DiskDrive.cs" />
+    <Compile Include="CPUProcessor.cs" />
+    <Compile Include="CICKeyType.cs" />
+    <Compile Include="CartridgeInfo.cs" />
+    <Compile Include="Cartridge.cs" />
+    <Compile Include="BootSnapReader.cs" />
+    <Compile Include="RCP\CartridgeChangedEventArgs.cs" />
+    <Compile Include="RCP\CartridgeHeapStream.cs" />
+    <Compile Include="RCP\MipsInterfaceMemory.cs" />
+    <Compile Include="RCP\ParallelInterface.cs" />
+    <Compile Include="RCP\ParallelInterfaceMemory.cs" />
+    <Compile Include="RCP\RcpException.cs" />
+    <Compile Include="RCP\RspConstants.cs" />
+    <Compile Include="RCP\RspRegisterMemory.cs" />
+    <Compile Include="PIF\PIFModule.cs" />
+    <Compile Include="PI\BootRom.cs" />
+    <Compile Include="PI\CICKey.cs" />
+    <Compile Include="PI\CartRom.cs" />
+    <Compile Include="PI\FlashMemory.cs" />
+    <Compile Include="PI\IBootRom.cs" />
+    <Compile Include="PI\ICartRom.cs" />
+    <Compile Include="PI\PiBusSpeedConfig.cs" />
+    <Compile Include="PI\RomChecksum.cs" />
+    <Compile Include="PI\_RomBlockStream.cs" />
+    <Compile Include="MipsR4300\ADBusMapStream.cs" />
+    <Compile Include="MipsR4300\CP0Registers.cs" />
+    <Compile Include="MipsR4300\CauseRegister.cs" />
+    <Compile Include="MipsR4300\CoreClock.cs" />
+    <Compile Include="MipsR4300\DataFormat.cs" />
+    <Compile Include="MipsR4300\ExecutionComparer.cs" />
+    <Compile Include="MipsR4300\ExecutionEngine.cs" />
+    <Compile Include="MipsR4300\ExecutionState.cs" />
+    <Compile Include="MipsR4300\FPUEntity.cs" />
+    <Compile Include="MipsR4300\FPUExceptionType.cs" />
+    <Compile Include="MipsR4300\FPUHardware.cs" />
+    <Compile Include="MipsR4300\Fcr32Register.cs" />
+    <Compile Include="MipsR4300\FpuRegisters.cs" />
+    <Compile Include="MipsR4300\GPRRegisters.cs" />
+    <Compile Include="MipsR4300\IMipsCompareEngine.cs" />
+    <Compile Include="MipsR4300\InstructionReader.cs" />
+    <Compile Include="MipsR4300\Interpreter.cs" />
+    <Compile Include="MipsR4300\InterpreterExtensions.cs" />
+    <Compile Include="MipsR4300\Interpreter_ALU.cs" />
+    <Compile Include="MipsR4300\Interpreter_Branch.cs" />
+    <Compile Include="MipsR4300\Interpreter_CP0.cs" />
+    <Compile Include="MipsR4300\Interpreter_FPU.cs" />
+    <Compile Include="MipsR4300\Interpreter_Load.cs" />
+    <Compile Include="MipsR4300\Interpreter_Main.cs" />
+    <Compile Include="MipsR4300\Interpreter_Store.cs" />
+    <Compile Include="MipsR4300\Interpreter_TLB.cs" />
+    <Compile Include="MipsR4300\InterruptScheduler.cs" />
+    <Compile Include="MipsR4300\MipsDataManipulator.cs" />
+    <Compile Include="MipsR4300\MipsInstruction.cs" />
+    <Compile Include="MipsR4300\MipsR4300Core.cs" />
+    <Compile Include="MipsR4300\MipsSnapshot.cs" />
+    <Compile Include="MipsR4300\OpcodeHookAttribute.cs" />
+    <Compile Include="MipsR4300\PageCoherencyMode.cs" />
+    <Compile Include="MipsR4300\PageFrameNumber.cs" />
+    <Compile Include="MipsR4300\PageSize.cs" />
+    <Compile Include="MipsR4300\RingMode.cs" />
+    <Compile Include="MipsR4300\SignExtensionsHelper.cs" />
+    <Compile Include="MipsR4300\StatusRegister.cs" />
+    <Compile Include="MipsR4300\TLBCache.cs" />
+    <Compile Include="MipsR4300\TLBCacheChangeEventArgs.cs" />
+    <Compile Include="MipsR4300\TLBEntry.cs" />
+    <Compile Include="MipsR4300\TLBEntryInfo.cs" />
+    <Compile Include="MipsR4300\TLBException.cs" />
+    <Compile Include="MipsR4300\TLBExceptionType.cs" />
+    <Compile Include="MipsR4300\TLBMapStream.cs" />
+    <Compile Include="MipsR4300\VMemStream.cs" />
+    <Compile Include="MipsR4300\VirtualPageNumber2.cs" />
+    <Compile Include="MipsR4300\WordSize.cs" />
+    <Compile Include="MipsR4300\Debugging\DebugInstructionReader.cs" />
+    <Compile Include="MipsR4300\Debugging\DisassembledInstruction.cs" />
+    <Compile Include="MipsR4300\Debugging\Disassembler.cs" />
+    <Compile Include="MipsR4300\Debugging\IOMonitor.cs" />
+    <Compile Include="MipsR4300\Debugging\MipsDebugger.cs" />
+    <Compile Include="MipsR4300\Debugging\OperandDictionary.cs" />
+    <Compile Include="MipsR4300\Debugging\VMemViewStream.cs" />
+    <Compile Include="MipsR4300\Debugging\Dog\Branch.cs" />
+    <Compile Include="MipsR4300\Debugging\Dog\CodeDog.cs" />
+    <Compile Include="MipsR4300\Debugging\Dog\DmaSniffer.cs" />
+    <Compile Include="IO\BlockStream.cs" />
+    <Compile Include="IO\ByteSwapStream.cs" />
+    <Compile Include="IO\UnifiedStream.cs" />
+    <Compile Include="IO\_IORequest.cs" />
+    <Compile Include="IO\_IOTransfer.cs" />
+    <Compile Include="IO\_SafeUnifiedStream.cs" />
+    <Compile Include="IO\_StreamIOCompiler.cs" />
+    <Compile Include="IO\_StreamIOInterpreter.cs" />
+    <Compile Include="IO\_StreamLUT.cs" />
+    <Compile Include="IO\_StreamQuery.cs" />
+    <Compile Include="Engines\CoreTaskScheduler.cs" />
+    <Compile Include="Engines\EmulatorEngine.cs" />
+    <Compile Include="Engines\SimpleEngine.cs" />
+    <Compile Include="Engines\SingleCoreScheduler.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="Engines\N64EmuExecutionLoop.txt" />
+  </ItemGroup>
+</Project>
