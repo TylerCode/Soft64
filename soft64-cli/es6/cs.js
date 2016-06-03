@@ -6,8 +6,7 @@ class cs {
   init() {
       var f = edge.func(function () {
       /*
-        #r "System.dll"
-        #r "System.Reflection.dll"
+        #r "mscorlib.dll"
 
         using System;
         using System.Reflection;
