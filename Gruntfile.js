@@ -217,5 +217,6 @@ module.exports = function (grunt) {
   /* general tasks */
   grunt.registerTask('clean-bin', ['clean:bin']);
 
-  grunt.registerTask('default', ['clean-bin', 'cs', 'cli', 'quantum']);
+  grunt.registerTask('simple', ['clean-bin', 'cs', 'cli']);
+  grunt.registerTask('default', ['simple', 'quantum']);
 };

@@ -2,8 +2,8 @@
 
 import repl from 'repl';
 import colors from 'colors';
-//import edge from 'edge';
 import util from 'util';
+import cs from './cs';
 
 console.log("Soft64 Emulator REPL CLI 1.0".magenta);
 
@@ -28,9 +28,8 @@ var context = repl.start({
 context.help = help;
 
 context.start = function () {
-  console.log("Start emulator");
-
-  return "Success";
+  var x = new cs();
+  x.init();
 };
 
 context.exit = function () {
