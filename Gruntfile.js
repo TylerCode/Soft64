@@ -42,13 +42,14 @@ function Projects () {
   this.quantum = {};
   this.quantum.dir_module = 'soft64-quantum';
   this.quantum.dir_app = path.join(this.quantum.dir_module, 'app');
+  this.quantum.dir_export = path.join(this.quantum.dir_module, 'export');
   this.quantum.dir_electron = path.join(this.quantum.dir_module, 'Soft64-' + platform);
-  this.quantum.es6 = mkList_es6(this.quantum.dir_module, path.join(this.quantum.dir_app, 'js'));
-  this.quantum.less = mkList_Less(this.quantum.dir_module, path.join(this.quantum.dir_app, 'css'));
+  this.quantum.es6 = mkList_es6(this.quantum.dir_module, path.join(this.quantum.dir_export, 'js'));
+  this.quantum.less = mkList_Less(this.quantum.dir_module, path.join(this.quantum.dir_export, 'css'));
   this.cli = {};
   this.cli.dir_module = 'soft64-cli';
-  this.cli.dir_app = path.join(this.cli.dir_module, 'app');
-  this.cli.es6 = mkList_es6(this.cli.dir_module, path.join(this.cli.dir_app));
+  this.cli.dir_bin = path.join(dir_bin, 'cli');
+  this.cli.es6 = mkList_es6(this.cli.dir_module, this.cli.dir_bin);
   this.cs = {};
   this.cs.dir_module = 'cs';
   this.cs.sln = path.join(this.cs.dir_module, 'Soft64CoreLibraries.sln');
@@ -82,7 +83,12 @@ module.exports = function (grunt) {
     copy: {
       "quantum-build": {
         files: [
-          {'src': 'Soft64.png', 'dest': projects.quantum.dir_electron }
+          {
+            expand: true,
+            cwd: projects.quantum.dir_app,
+            src: ["**"],
+            dest: projects.quantum.dir_export
+          }
         ]
       },
       "quantum-deploy": {
@@ -98,15 +104,9 @@ module.exports = function (grunt) {
         files: [
           {
             expand: true,
-            cwd: projects.cli.dir_app,
-            src: ["**"],
-            dest: path.join(dir_bin, "cli")
-          },
-          {
-            expand: true,
             cwd: projects.cli.dir_module,
             src: ["package.json"],
-            dest: path.join(dir_bin, "cli")
+            dest: projects.cli.dir_bin
           }
         ]
       }
@@ -119,10 +119,8 @@ module.exports = function (grunt) {
       },
       "quantum-build": [
         projects.quantum.dir_electron,
-        path.join(projects.quantum.dir_app, 'js'),
-        path.join(projects.quantum.dir_app, 'css')],
-      "bin": dir_bin,
-      "cli-build": projects.cli.dir_app
+        projects.quantum.dir_export],
+      "bin": dir_bin
     },
 
     /* Electron packager grunt plugin */
@@ -131,9 +129,9 @@ module.exports = function (grunt) {
         options: {
           platform: os.platform(),
           arch: os.arch(),
-          dir: projects.quantum.dir_app,
+          dir: projects.quantum.dir_export,
           out: projects.quantum.dir_module,
-          icon: 'Soft64.png',
+          icon: 'Soft64.ico',
           name: "Soft64",
           overwrite: true,
           asar: true,
@@ -156,7 +154,7 @@ module.exports = function (grunt) {
     auto_install: {
       quantum: {
         options: {
-            cwd: projects.quantum.dir_app,
+            cwd: projects.quantum.dir_export,
             stdout: true,
             stderr: true,
             failOnError: true,
@@ -165,7 +163,7 @@ module.exports = function (grunt) {
       },
       cli: {
         options: {
-          cwd: path.join(dir_bin, 'cli'),
+          cwd: projects.cli.dir_bin,
           stdout: true,
           stderr: true,
           failOnError: true,
@@ -204,12 +202,12 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-msbuild');
 
   /* Quantum based tasks */
-  grunt.registerTask('quantum-build', ['auto_install:quantum', 'clean:quantum-build', 'copy:quantum-build', 'babel:quantum', 'less:build', 'electron-packager']);
+  grunt.registerTask('quantum-build', ['clean:quantum-build', 'copy:quantum-build', 'auto_install:quantum', 'babel:quantum', 'less:build', 'electron-packager']);
   grunt.registerTask('quantum-deploy', ['copy:quantum-deploy', 'chmod:deploy']);
   grunt.registerTask('quantum', ['quantum-build', 'quantum-deploy']);
 
   /* CLI based tasks */
-  grunt.registerTask('cli-build', ['clean:cli-build', 'babel:cli']);
+  grunt.registerTask('cli-build', ['babel:cli']);
   grunt.registerTask('cli-deploy', ['copy:cli-deploy', 'auto_install:cli']);
   grunt.registerTask('cli', ['cli-build', 'cli-deploy']);
 

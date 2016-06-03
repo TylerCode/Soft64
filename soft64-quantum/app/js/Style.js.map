@@ -1,1 +1,0 @@
-{"version":3,"sources":["../../es6/Style.js"],"names":[],"mappings":";;;;;;IAEM,K,GACJ,iBAAc;AAAA;;AACZ,OAAK,WAAL,GAAmB;AACjB,YAAQ;AADS,GAAnB;AAGD,C;;AAGH,OAAO,OAAP,GAAiB,IAAI,KAAJ,EAAjB","file":"Style.js","sourcesContent":["// jshint esversion:6\n\nclass Style {\n  constructor() {\n    this.buttonStyle = {\n      margin: 12\n    };\n  }\n}\n\nmodule.exports = new Style();\n"]}
