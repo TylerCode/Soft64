@@ -190,6 +190,14 @@ module.exports = function (grunt) {
             }
         }
     },
+
+    /* nuget grunt plugin */
+    nugetrestore: {
+  		restore: {
+  			src: 'cs/Soft64/packages.config',
+  			dest: 'cs/packages/'
+  		}
+  	}
   });
 
   grunt.loadNpmTasks('grunt-contrib-clean');
@@ -200,6 +208,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-babel');
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-msbuild');
+  grunt.loadNpmTasks('grunt-nuget');
 
   /* Quantum based tasks */
   grunt.registerTask('quantum-build', ['clean:quantum-build', 'copy:quantum-build', 'auto_install:quantum', 'babel:quantum', 'less:build', 'electron-packager']);
@@ -212,7 +221,7 @@ module.exports = function (grunt) {
   grunt.registerTask('cli', ['cli-build', 'cli-deploy']);
 
   /* CS tasks */
-  grunt.registerTask('cs', ['msbuild:dev']);
+  grunt.registerTask('cs', ['nugetrestore:restore', 'msbuild:dev']);
 
   /* general tasks */
   grunt.registerTask('clean-bin', ['clean:bin']);
