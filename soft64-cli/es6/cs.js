@@ -18,7 +18,7 @@ class cs {
           public async Task<Object> Invoke(Object input)
           {
             Assembly coreAssembly = Assembly.LoadFrom("Soft64/Soft64.CoreMachine.dll");
-           return String.Format("Result of load: {0}", coreAssembly != null);
+           return String.Format("Result of load: {0}", coreAssembly.ToString());
           }
         }
       */
