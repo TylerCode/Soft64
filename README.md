@@ -1,6 +1,10 @@
 # Soft64
 N64 Emulator written in C# and Javascript.
 
+# Status
+UPDATE June, 19th, 2018: This is kept here for references but I do not plan to keep working on Soft64.  This doesn't mean
+I am ditching N64 emulation but this project was premature and a hassle to work with.  My next goal is to achieve a baseline in my own time, then in the future, whatever project I put up here or with an existing one like Soft64, I can expect something works but interest in developers for support and the UI stuff.  I do agree with some .NET Core 3 blog comments, that the C# universe is very weak when it comes to cross-platform UI, so for now I am focused on writing code doesn't involve any UI.
+
 # Requirements
  * Node.JS 4.x
   * Global packages
